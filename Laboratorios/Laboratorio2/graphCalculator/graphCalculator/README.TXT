@@ -1,12 +1,11 @@
 ------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all he/she needs to know. The comments should usually include at least:
+On this lab we made a graphs calculator with some basic operations such 
+as joins, intersections and more. 
 ------------------------------------------------------------------------
 
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS:
-USER INSTRUCTIONS:
+PROJECT TITLE: GraphCalculator
+PURPOSE OF PROJECT: Make a GraphCalculator
+VERSION or DATE: 4/03/25
+HOW TO START THIS PROJECT: See the lab02.docx
+AUTHORS: Edgar Daniel Ruiz Patiño, Juan Esteban Sánchez García
+
