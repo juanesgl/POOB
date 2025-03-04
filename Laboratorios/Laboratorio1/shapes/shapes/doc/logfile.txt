@@ -1,6 +1,6 @@
 Class documentation
 <---- javadoc command: ---->
-C:\Program Files\BlueJ\jdk\bin\javadoc.exe
+D:\Program Files\BlueJ\jdk\bin\javadoc.exe
 -author
 -version
 -nodeprecated
@@ -13,30 +13,19 @@ C:\Program Files\BlueJ\jdk\bin\javadoc.exe
 -source
 21
 -classpath
-C:\Program Files\BlueJ\lib\bluejcore.jar;C:\Program Files\BlueJ\lib\javafx-base-21.0.3-win.jar;C:\Program Files\BlueJ\lib\javafx-controls-21.0.3-win.jar;C:\Program Files\BlueJ\lib\javafx-fxml-21.0.3-win.jar;C:\Program Files\BlueJ\lib\javafx-graphics-21.0.3-win.jar;C:\Program Files\BlueJ\lib\javafx-media-21.0.3-win.jar;C:\Program Files\BlueJ\lib\javafx-swing-21.0.3-win.jar;C:\Program Files\BlueJ\lib\javafx-web-21.0.3-win.jar;C:\Program Files\BlueJ\lib\junit-4.12.jar;C:\Program Files\BlueJ\lib\junit-jupiter-5.5.2.jar;C:\Program Files\BlueJ\lib\junit-jupiter-api-5.5.2.jar;C:\Program Files\BlueJ\lib\junit-jupiter-engine-5.5.2.jar;C:\Program Files\BlueJ\lib\junit-jupiter-params-5.5.2.jar;C:\Program Files\BlueJ\lib\junit-platform-commons-1.5.2.jar;C:\Program Files\BlueJ\lib\junit-platform-engine-1.5.2.jar;C:\Program Files\BlueJ\lib\junit-platform-launcher-1.5.2.jar;C:\Program Files\BlueJ\lib\junit-platform-suite-api-1.5.2.jar;C:\Program Files\BlueJ\lib\junit-vintage-engine-5.5.2.jar;C:\Program Files\BlueJ\lib\hamcrest-core-1.3.jar;C:\Program Files\BlueJ\lib\opentest4j-1.2.0.jar;C:\Program Files\BlueJ\lib\lang-stride.jar;C:\Program Files\BlueJ\lib\javafx\javafx.base.jar;C:\Program Files\BlueJ\lib\javafx\javafx.controls.jar;C:\Program Files\BlueJ\lib\javafx\javafx.fxml.jar;C:\Program Files\BlueJ\lib\javafx\javafx.graphics.jar;C:\Program Files\BlueJ\lib\javafx\javafx.media.jar;C:\Program Files\BlueJ\lib\javafx\javafx.properties.jar;C:\Program Files\BlueJ\lib\javafx\javafx.swing.jar;C:\Program Files\BlueJ\lib\javafx\javafx.web.jar;C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes
+D:\Program Files\BlueJ\lib\bluejcore.jar;D:\Program Files\BlueJ\lib\javafx-base-21.0.3-win.jar;D:\Program Files\BlueJ\lib\javafx-controls-21.0.3-win.jar;D:\Program Files\BlueJ\lib\javafx-fxml-21.0.3-win.jar;D:\Program Files\BlueJ\lib\javafx-graphics-21.0.3-win.jar;D:\Program Files\BlueJ\lib\javafx-media-21.0.3-win.jar;D:\Program Files\BlueJ\lib\javafx-swing-21.0.3-win.jar;D:\Program Files\BlueJ\lib\javafx-web-21.0.3-win.jar;D:\Program Files\BlueJ\lib\junit-4.12.jar;D:\Program Files\BlueJ\lib\junit-jupiter-5.5.2.jar;D:\Program Files\BlueJ\lib\junit-jupiter-api-5.5.2.jar;D:\Program Files\BlueJ\lib\junit-jupiter-engine-5.5.2.jar;D:\Program Files\BlueJ\lib\junit-jupiter-params-5.5.2.jar;D:\Program Files\BlueJ\lib\junit-platform-commons-1.5.2.jar;D:\Program Files\BlueJ\lib\junit-platform-engine-1.5.2.jar;D:\Program Files\BlueJ\lib\junit-platform-launcher-1.5.2.jar;D:\Program Files\BlueJ\lib\junit-platform-suite-api-1.5.2.jar;D:\Program Files\BlueJ\lib\junit-vintage-engine-5.5.2.jar;D:\Program Files\BlueJ\lib\hamcrest-core-1.3.jar;D:\Program Files\BlueJ\lib\opentest4j-1.2.0.jar;D:\Program Files\BlueJ\lib\lang-stride.jar;D:\Program Files\BlueJ\lib\javafx\javafx.base.jar;D:\Program Files\BlueJ\lib\javafx\javafx.controls.jar;D:\Program Files\BlueJ\lib\javafx\javafx.fxml.jar;D:\Program Files\BlueJ\lib\javafx\javafx.graphics.jar;D:\Program Files\BlueJ\lib\javafx\javafx.media.jar;D:\Program Files\BlueJ\lib\javafx\javafx.properties.jar;D:\Program Files\BlueJ\lib\javafx\javafx.swing.jar;D:\Program Files\BlueJ\lib\javafx\javafx.web.jar;D:\Todo\Universidad\2025-1\POOB\Laboratorio\LAB 1\Ruiz-Sanchez (2)\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes
 -d
-C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc
+D:\Todo\Universidad\2025-1\POOB\Laboratorio\LAB 1\Ruiz-Sanchez (2)\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc
 -encoding
 UTF-8
 -charset
 UTF-8
-C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\Triangle.java
+D:\Todo\Universidad\2025-1\POOB\Laboratorio\LAB 1\Ruiz-Sanchez (2)\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\Pit.java
 <---- end of javadoc command ---->
-Loading source file C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\Triangle.java...
+Loading source file D:\Todo\Universidad\2025-1\POOB\Laboratorio\LAB 1\Ruiz-Sanchez (2)\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\Pit.java...
 Constructing Javadoc information...
 Standard Doclet version 21.0.4+7-LTS
 Building tree for all the packages and classes...
-Generating C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc\Triangle.html...
-C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\Triangle.java:140: warning: @param argument "newWidht" is not a parameter name.
-     * @param newWidht the new width in pixels. newWidht must be >=0.
-       ^
-C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\Triangle.java:152: warning: @param argument "color" is not a parameter name.
-     * @param color the new color. Valid colors are "red", "yellow", "blue", "green",
-       ^
-C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\Triangle.java:184: warning: @param argument "just" is not a parameter name.
-     * @param just to search the area of the triangle based on the height and width. 
-       ^
-Generating C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc\package-summary.html...
-Generating C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc\constant-values.html...
-Generating C:\Users\jksan\Downloads\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc\index.html...
-3 warnings
+Generating D:\Todo\Universidad\2025-1\POOB\Laboratorio\LAB 1\Ruiz-Sanchez (2)\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc\Pit.html...
+Generating D:\Todo\Universidad\2025-1\POOB\Laboratorio\LAB 1\Ruiz-Sanchez (2)\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc\package-summary.html...
+Generating D:\Todo\Universidad\2025-1\POOB\Laboratorio\LAB 1\Ruiz-Sanchez (2)\Ruiz-Sanchez\Ruiz-Sanchez\shapes\shapes\doc\index.html...

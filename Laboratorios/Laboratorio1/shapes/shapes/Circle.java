@@ -20,11 +20,12 @@ public class Circle{
     
 
     public Circle(){
-        diameter = 30;
-        xPosition = 20;
+        diameter = 90;
+        xPosition = 70;
         yPosition = 15;
         color = "blue";
         isVisible = false;
+       
     }
 
 
@@ -46,6 +47,7 @@ public class Circle{
             canvas.draw(this, color, 
                 new Ellipse2D.Double(xPosition, yPosition, 
                 diameter, diameter));
+            //canvas.drawString(String.valueOf(3), xPosition + diameter / 2 - 5, yPosition + diameter / 2 + 5);
             canvas.wait(10);
         }
     }
@@ -164,6 +166,7 @@ public class Circle{
         color = newColor;
         draw();
     }
+    
 
 
 
