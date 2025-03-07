@@ -1,16 +1,22 @@
 #BlueJ class context
 comment0.target=Demon
-comment0.text=\r\n\ The\ Demon\ sits\ on\ the\ center\ wall\ and\ can\ allow\ particles\ to\ pass\ through.\r\n\ \r\n\ It\ is\ represented\ as\ a\ small\ gray\ square\ and\ stays\ on\ the\ middle\ wall.\r\n\ \r\n\ @author\ Edgar\ Daniel\ Ruiz\ Pati\u00F1o\r\n\ @author\ Juan\ Esteban\ S\u00E1nchez\ Garc\u00EDa\r\n\ @version\ 1.0\ (Cycle\ 1)\r\n
+comment0.text=\r\n\ La\ clase\ Demon\ representa\ al\ "demonio"\ que\ se\ encuentra\ en\ la\ pared\ central\ del\ contenedor.\r\n\ Puede\ abrir\ y\ cerrar\ una\ puerta\ para\ permitir\ el\ paso\ de\ part\u00EDculas\ entre\ c\u00E1maras.\r\n\ \r\n\ Atributos\:\r\n\ -\ `y`\:\ La\ posici\u00F3n\ vertical\ del\ demonio.\r\n\ -\ `shape`\:\ Representaci\u00F3n\ gr\u00E1fica\ del\ demonio.\r\n\ -\ `isVisible`\:\ Indica\ si\ el\ demonio\ es\ visible\ en\ pantalla.\r\n\ -\ `gateOpen`\:\ Indica\ si\ la\ puerta\ del\ demonio\ est\u00E1\ abierta.\r\n\ \r\n\ M\u00E9todos\:\r\n\ -\ `makeVisible()`\:\ Hace\ visible\ al\ demonio.\r\n\ -\ `makeInvisible()`\:\ Hace\ invisible\ al\ demonio.\r\n\ -\ `getY()`\:\ Devuelve\ la\ posici\u00F3n\ vertical\ del\ demonio.\r\n\ -\ `setGateOpen(boolean\ state)`\:\ Abre\ o\ cierra\ la\ puerta\ del\ demonio.\r\n\ -\ `isGateOpen()`\:\ Indica\ si\ la\ puerta\ est\u00E1\ abierta.\r\n\ @author\ Edgar\ Daniel\ Ruiz\ Pati\u00F1o\r\n\ @author\ Juan\ Esteban\ S\u00E1nchez\ Garc\u00EDa\r\n\ @version\ 1\ (Cycle\ 1)\r\n
 comment1.params=d\ w
 comment1.target=Demon(int,\ int)
-comment1.text=\r\n\ Creates\ a\ Demon\ at\ the\ specified\ vertical\ position.\r\n\ The\ Demon\ is\ always\ placed\ on\ the\ middle\ dividing\ line.\r\n\ \r\n\ @param\ d\ The\ y-coordinate\ where\ the\ demon\ is\ positioned.\r\n\ @param\ w\ The\ width\ of\ a\ single\ chamber\ (so\ the\ middle\ is\ at\ x\ \=\ w).\r\n
+comment1.text=\r\n\ Constructor\ de\ la\ clase\ Demon.\r\n\ \r\n\ @param\ d\ La\ posici\u00F3n\ vertical\ donde\ se\ colocar\u00E1\ el\ demonio.\r\n\ @param\ w\ La\ anchura\ de\ una\ c\u00E1mara\ (se\ usa\ para\ posicionarlo\ en\ la\ pared\ central).\r\n
 comment2.params=
-comment2.target=void\ addDemon()
-comment2.text=\r\n\ Adds\ the\ demon\ to\ the\ container\ (makes\ it\ visible).\r\n
+comment2.target=void\ makeVisible()
+comment2.text=\r\n\ Hace\ visible\ al\ demonio\ en\ la\ interfaz\ gr\u00E1fica.\r\n
 comment3.params=
-comment3.target=void\ delDemon()
-comment3.text=\r\n\ Removes\ the\ demon\ from\ the\ container\ (makes\ it\ invisible).\r\n
+comment3.target=void\ makeInvisible()
+comment3.text=\r\n\ Hace\ invisible\ al\ demonio\ en\ la\ interfaz\ gr\u00E1fica.\r\n
 comment4.params=
 comment4.target=int\ getY()
-comment4.text=\r\n\ Gets\ the\ Y-coordinate\ of\ the\ demon.\r\n\ \r\n\ @return\ The\ demon's\ vertical\ position.\r\n
-numComments=5
+comment4.text=\r\n\ Obtiene\ la\ posici\u00F3n\ vertical\ del\ demonio.\r\n\ \r\n\ @return\ La\ coordenada\ Y\ del\ demonio.\r\n
+comment5.params=state
+comment5.target=void\ setGateOpen(boolean)
+comment5.text=\r\n\ Abre\ o\ cierra\ la\ puerta\ del\ demonio,\ cambiando\ su\ color\ visual.\r\n\ \r\n\ @param\ state\ `true`\ para\ abrir\ la\ puerta,\ `false`\ para\ cerrarla.\r\n
+comment6.params=
+comment6.target=boolean\ isGateOpen()
+comment6.text=\r\n\ Indica\ si\ la\ puerta\ del\ demonio\ est\u00E1\ abierta\ o\ cerrada.\r\n\ \r\n\ @return\ `true`\ si\ la\ puerta\ est\u00E1\ abierta,\ `false`\ si\ est\u00E1\ cerrada.\r\n
+numComments=7

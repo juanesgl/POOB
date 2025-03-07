@@ -1,139 +1,150 @@
-import java.util.List;
-import java.util.ArrayList;
 
 /**
- * Simulation of the "Maxwell's Demons" problem from ICPC 2024 (Problem H).
- *
- * This simulator models a chamber divided into two sections where particles move, 
- * and a demon controls the passage between them. The visual representation 
- * includes two chambers, a central wall, and a surrounding border.
- * 
+ * La clase MaxwellContainer representa el contenedor en la simulación de Maxwell's Demon.
+ * Este contenedor almacena partículas y puede contener múltiples demonios que controlan el paso de partículas.
+ * También define las cámaras separadas por una pared central y múltiples agujeros que permiten el paso de partículas.
  * @author Edgar Daniel Ruiz Patiño
  * @author Juan Esteban Sánchez García
- * @version 1.1 (Cycle 2 - Added Particles)
+ * Versión: 1.1
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MaxwellContainer {
-    // Instance variables 
-    private int height;         
-    private int width;          
-
-    private Rectangle border;       
-    private Rectangle leftChamber;  
-    private Rectangle rightChamber; 
-    private Rectangle centralWall;  
-    private Demon demon;            
-    private boolean isVisible;      
-
-    private List<Particle> particles; 
+    private int width, height;
+    private List<Particle> particles;
+    private List<Hole> holes;
+    private List<Demon> demons;
+    private Rectangle border;
+    private Rectangle leftChamber;
+    private Rectangle rightChamber;
+    private Rectangle centralWall;
+    private boolean isVisible;
 
     /**
-     * Constructs a MaxwellContainer with a specified height and width.
-     * The container consists of two chambers separated by a center wall.
-     *
-     * @param h The height of the container.
-     * @param w The width of each chamber (total width is 2 * w).
+     * Constructor de MaxwellContainer.
+     * @param width Ancho de la cámara (el total será el doble).
+     * @param height Altura de la cámara.
      */
-    public MaxwellContainer(int h, int w) {
-        this.height = h;
-        this.width = 2 * w;
-        this.isVisible = false;
+    public MaxwellContainer(int width, int height) {
+        this.width = 2 * width;
+        this.height = height;
         this.particles = new ArrayList<>();
+        this.holes = new ArrayList<>();
+        this.demons = new ArrayList<>();
+        this.isVisible = false;
 
         border = new Rectangle();
-        border.changeSize(height + 4, width + 4);
+        border.changeSize(height + 4, this.width + 4);
         border.changeColor("black");
         border.moveHorizontal(-2);
         border.moveVertical(-2);
 
         leftChamber = new Rectangle();
-        leftChamber.changeSize(height, w);
+        leftChamber.changeSize(height, width);
         leftChamber.changeColor("white");
         leftChamber.moveHorizontal(0);
-        
+
         rightChamber = new Rectangle();
-        rightChamber.changeSize(height, w);
+        rightChamber.changeSize(height, width);
         rightChamber.changeColor("white");
-        rightChamber.moveHorizontal(w);
+        rightChamber.moveHorizontal(width);
 
         centralWall = new Rectangle();
         centralWall.changeSize(height, 1);
         centralWall.changeColor("gray");
-        centralWall.moveHorizontal(w - 1);
-
-        makeVisible();
+        centralWall.moveHorizontal(width - 1);
     }
 
     /**
-     * Adds a demon at a given height position (y-coordinate).
-     * The demon is placed on the center wall and cannot move horizontally.
-     * 
-     * @param d The y-coordinate where the demon should be placed.
+     * Agrega una partícula al contenedor.
+     * @param particle Partícula a agregar.
      */
-    public void addDemon(int d) {
-        if (demon == null) {
-            demon = new Demon(d, width / 2); 
-            demon.addDemon();
-        }
-    }
-
-    /**
-     * Removes the demon from the container.
-     */
-    public void delDemon() {
-        if (demon != null) {
-            demon.delDemon(); 
-            demon = null;
-        }
-    }
-
-    /**
-     * Adds a particle to the container.
-     * A particle must be placed in the correct chamber:
-     * - "red" particles must be in the left chamber.
-     * - "blue" particles must be in the right chamber.
-     * 
-     * @param color "red" (left chamber) or "blue" (right chamber).
-     * @param px Initial x-coordinate of the particle.
-     * @param py Initial y-coordinate of the particle.
-     * @param vx Velocity in the x direction.
-     * @param vy Velocity in the y direction.
-     */
-   
-       
-    public void addParticle(String color, int px, int py, int vx, int vy) {
-  
-    if ((color.equals("blue") && px < width / 2) || (color.equals("red") && px >= width / 2)) {
-        Particle p = new Particle(px, py, vx, vy, color);
-        particles.add(p);
-        System.out.println("✅ Added " + color + " particle at (" + px + ", " + py + ")");
-
+    public void addParticle(Particle particle) {
+        particles.add(particle);
         if (isVisible) {
-            p.makeVisible();
+            particle.makeVisible();
         }
-    } else {
-        System.out.println("❌ ERROR: Invalid " + color + " particle placement at (" + px + ", " + py + ")");
     }
-}
-
 
     /**
-     * Removes all particles of a given color from the container.
-     * 
-     * @param color The color of the particles to remove ("red" or "blue").
+     * Elimina una partícula del contenedor.
+     * @param particle Partícula a eliminar.
      */
-    public void delParticle(String color) {
-        particles.removeIf(p -> {
-            if (p.getColor().equals(color)) {
-                p.makeInvisible();
-                return true;
-            }
-            return false;
-        });
+    public void removeParticle(Particle particle) {
+        particles.remove(particle);
+        particle.makeInvisible();
     }
 
     /**
-     * Makes the container and all its elements visible.
+     * Agrega un agujero al contenedor.
+     * @param hole Agujero a agregar.
+     */
+    public void addHole(Hole hole) {
+        holes.add(hole);
+    }
+
+    /**
+     * Agrega un demonio al contenedor.
+     * @param demon Demonio a agregar.
+     */
+    public void addDemon(Demon demon) {
+        demons.add(demon);
+        if (isVisible) {
+            demon.makeVisible();
+        }
+    }
+
+    /**
+     * Elimina un demonio del contenedor.
+     * @param demon Demonio a eliminar.
+     */
+    public void deleteDemon(Demon demon) {
+        demons.remove(demon);
+        demon.makeInvisible();
+    }
+
+    /**
+     * Inicia la simulación.
+     */
+    public void start() {
+        System.out.println("Simulación iniciada");
+    }
+
+    /**
+     * Finaliza la simulación.
+     */
+    public void finish() {
+        System.out.println("Simulación finalizada");
+    }
+
+    /**
+     * Obtiene la lista de partículas.
+     * @return Lista de partículas.
+     */
+    public List<Particle> particles() {
+        return particles;
+    }
+
+    /**
+     * Obtiene la lista de demonios.
+     * @return Lista de demonios.
+     */
+    public List<Demon> demons() {
+        return demons;
+    }
+
+    /**
+     * Obtiene la lista de agujeros.
+     * @return Lista de agujeros.
+     */
+    public List<Hole> holes() {
+        return holes;
+    }
+
+    /**
+     * Hace visible el contenedor y sus elementos.
      */
     public void makeVisible() {
         if (!isVisible) {
@@ -141,6 +152,9 @@ public class MaxwellContainer {
             leftChamber.makeVisible();
             rightChamber.makeVisible();
             centralWall.makeVisible();
+            for (Demon d : demons) {
+                d.makeVisible();
+            }
             for (Particle p : particles) {
                 p.makeVisible();
             }
@@ -149,7 +163,7 @@ public class MaxwellContainer {
     }
 
     /**
-     * Makes the container and all its elements invisible.
+     * Hace invisible el contenedor y sus elementos.
      */
     public void makeInvisible() {
         if (isVisible) {
@@ -157,19 +171,23 @@ public class MaxwellContainer {
             leftChamber.makeInvisible();
             rightChamber.makeInvisible();
             centralWall.makeInvisible();
+            for (Demon d : demons) {
+                d.makeInvisible();
+            }
             for (Particle p : particles) {
                 p.makeInvisible();
             }
             isVisible = false;
         }
     }
-
     /**
-     * Returns true if the container is currently visible.
-     *
-     * @return true if the container is visible, false otherwise.
+     * Obtiene el estado
+     * 
+     * @return booleano de visible
      */
-    public boolean isVisible() {
-        return isVisible;
+    public boolean isVisible(){
+    return isVisible;
     }
+    
+    
 }

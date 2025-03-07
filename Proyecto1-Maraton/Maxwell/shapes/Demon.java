@@ -1,43 +1,55 @@
+
 /**
- * The Demon sits on the center wall and can allow particles to pass through.
+ * La clase Demon representa al "demonio" que se encuentra en la pared central del contenedor.
+ * Puede abrir y cerrar una puerta para permitir el paso de partículas entre cámaras.
  * 
- * It is represented as a small gray square and stays on the middle wall.
+ * Atributos:
+ * - `y`: La posición vertical del demonio.
+ * - `shape`: Representación gráfica del demonio.
+ * - `isVisible`: Indica si el demonio es visible en pantalla.
+ * - `gateOpen`: Indica si la puerta del demonio está abierta.
  * 
+ * Métodos:
+ * - `makeVisible()`: Hace visible al demonio.
+ * - `makeInvisible()`: Hace invisible al demonio.
+ * - `getY()`: Devuelve la posición vertical del demonio.
+ * - `setGateOpen(boolean state)`: Abre o cierra la puerta del demonio.
+ * - `isGateOpen()`: Indica si la puerta está abierta.
  * @author Edgar Daniel Ruiz Patiño
  * @author Juan Esteban Sánchez García
- * @version 1.0 (Cycle 1)
+ * @version 1 (Cycle 1)
  */
-    public class Demon {
-    private static final int DEMON_SIZE = 10;  // Fixed size for the demon
-    private int y;        // The y-coordinate (it moves only vertically)
+public class Demon {
+    private static final int DEMON_SIZE = 10;
+    private int y;
     private Rectangle shape;
     private boolean isVisible;
+    private boolean gateOpen;  
 
     /**
-     * Creates a Demon at the specified vertical position.
-     * The Demon is always placed on the middle dividing line.
+     * Constructor de la clase Demon.
      * 
-     * @param d The y-coordinate where the demon is positioned.
-     * @param w The width of a single chamber (so the middle is at x = w).
+     * @param d La posición vertical donde se colocará el demonio.
+     * @param w La anchura de una cámara (se usa para posicionarlo en la pared central).
      */
     public Demon(int d, int w) {
-    this.y = d;
-    this.isVisible = false;
+        this.y = d;
+        this.isVisible = false;
+        this.gateOpen = false;  
 
-    shape = new Rectangle();
-    shape.changeSize(10, 10);
-    shape.changeColor("darkgray");
+        shape = new Rectangle();
+        shape.changeSize(DEMON_SIZE, DEMON_SIZE);
+        shape.changeColor("darkgray");
 
-    // Place demon exactly in the middle wall
-    shape.moveHorizontal(w - 5);  // Always place at x = w
-    shape.moveVertical(d - 5);    // Center it at y = d
+        // Posicionamiento en la pared central
+        shape.moveHorizontal(w - (DEMON_SIZE / 2));
+        shape.moveVertical(d - (DEMON_SIZE / 2));
     }
 
-
     /**
-     * Adds the demon to the container (makes it visible).
+     * Hace visible al demonio en la interfaz gráfica.
      */
-    public void addDemon() {
+    public void makeVisible() {
         if (!isVisible) {
             shape.makeVisible();
             isVisible = true;
@@ -45,9 +57,9 @@
     }
 
     /**
-     * Removes the demon from the container (makes it invisible).
+     * Hace invisible al demonio en la interfaz gráfica.
      */
-    public void delDemon() {
+    public void makeInvisible() {
         if (isVisible) {
             shape.makeInvisible();
             isVisible = false;
@@ -55,11 +67,34 @@
     }
 
     /**
-     * Gets the Y-coordinate of the demon.
+     * Obtiene la posición vertical del demonio.
      * 
-     * @return The demon's vertical position.
+     * @return La coordenada Y del demonio.
      */
     public int getY() {
         return y;
+    }
+
+    /**
+     * Abre o cierra la puerta del demonio, cambiando su color visual.
+     * 
+     * @param state `true` para abrir la puerta, `false` para cerrarla.
+     */
+    public void setGateOpen(boolean state) {
+        this.gateOpen = state;
+        if (state) {
+            shape.changeColor("green");  // Verde indica que la puerta está abierta
+        } else {
+            shape.changeColor("darkgray");  // Gris indica que la puerta está cerrada
+        }
+    }
+
+    /**
+     * Indica si la puerta del demonio está abierta o cerrada.
+     * 
+     * @return `true` si la puerta está abierta, `false` si está cerrada.
+     */
+    public boolean isGateOpen() {
+        return gateOpen;
     }
 }

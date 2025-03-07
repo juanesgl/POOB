@@ -1,135 +1,126 @@
+import java.util.List;
+import java.util.ArrayList;
 /**
- * A Particle moves inside the chambers and can pass through the demon.
- * 
- * Each particle has:
- * - A position (`px`, `py`).
- * - A velocity (`vx`, `vy`).
- * - A specific color ("red" or "blue").
- * 
- * Particles move inside their respective chambers, reflecting off the walls.
- * 
+ * La clase Particle representa una partícula en la simulación de Maxwell's Demon.
+ * Cada partícula tiene una posición, velocidad, estado de visibilidad y representación gráfica.
+ * Puede moverse, verificar si está en la posición del demonio y cambiar de cámara.
  * @author Edgar Daniel Ruiz Patiño
  * @author Juan Esteban Sánchez García
  * @version 1 (Cycle 1)
  */
-public class Particle {
-    private int px, py;  // Position (x, y)
-    private int vx, vy;  // Velocity (x, y)
-    private String color; // "red" or "blue"
-    private Circle shape; // Visual representation of the particle
-    private boolean isVisible; // Tracks if the particle is visible
+public class Particle extends Circle {
+    private int pX, pY;  
+    private int vx, vy;  
+    private boolean isVisible; 
 
     /**
-     * Creates a particle at a given position with a velocity and color.
+     * Constructor de la clase Particle.
      * 
-     * @param px Initial x-coordinate of the particle.
-     * @param py Initial y-coordinate of the particle.
-     * @param vx Velocity in the x direction (movement per step).
-     * @param vy Velocity in the y direction (movement per step).
-     * @param color The color of the particle ("red" for right chamber, "blue" for left chamber).
+     * @param pX Posición inicial en el eje X.
+     * @param pY Posición inicial en el eje Y.
+     * @param vx Velocidad en la dirección X (movimiento por paso).
+     * @param vy Velocidad en la dirección Y (movimiento por paso).
+     * @param color Color de la partícula.
      */
-    public Particle(int px, int py, int vx, int vy, String color) {
-        this.px = px;
-        this.py = py;
+    public Particle(int pX, int pY, int vx, int vy, String color) {
+        super();
+        this.pX = pX;
+        this.pY = pY;
         this.vx = vx;
         this.vy = vy;
-        this.color = color;
         this.isVisible = false;
 
-        // Create the particle as a circle
-        shape = new Circle();
-        shape.changeSize(10); // Default size for particles
-        shape.changeColor(color);
-        shape.moveHorizontal(px);
-        shape.moveVertical(py);
+        
+        this.changeSize(10); 
+        this.changeColor("gray");
+        this.moveHorizontal(pX);
+        this.moveVertical(pY);
     }
 
     /**
-     * Makes the particle visible.
-     * If the particle is already visible, it does nothing.
-     */
-    public void makeVisible() {
-        if (!isVisible) {
-            shape.makeVisible();
-            isVisible = true;
-        }
-    }
-
-    /**
-     * Makes the particle invisible.
-     * If the particle is already invisible, it does nothing.
-     */
-    public void makeInvisible() {
-        if (isVisible) {
-            shape.makeInvisible();
-            isVisible = false;
-        }
-    }
-
-    /**
-     * Moves the particle based on its velocity.
-     * Updates both x and y coordinates.
-     */
-    public void move() {
-        px += vx;
-        py += vy;
-        shape.moveHorizontal(vx);
-        shape.moveVertical(vy);
-    }
-
-    /**
-     * Gets the current x-position of the particle.
+     * Verifica si la partícula está en la posición del demonio.
      * 
-     * @return The x-coordinate of the particle.
+     * @param demonX Coordenada X del demonio.
+     * @param demonY Coordenada Y del demonio.
+     * @return true si la partícula está en la posición del demonio, false en caso contrario.
+     */
+    public boolean isInDemon(int demonX, int demonY) {
+        return this.pX == demonX && this.pY == demonY;
+    }
+
+    /**
+     * Mueve la partícula a la otra cámara.
+     * Cambia la posición en X para reflejar el cambio de cámara.
+     */
+    public void moveToOtherChamber() {
+        this.pX = (this.pX < 250) ? this.pX + 250 : this.pX - 250;
+        this.moveHorizontal((this.pX < 250) ? 250 : -250);
+    }
+
+    /**
+     * Obtiene la posición X de la partícula.
+     * 
+     * @return Coordenada X de la partícula.
      */
     public int getX() {
-        return px;
+        return pX;
     }
 
     /**
-     * Gets the current y-position of the particle.
+     * Obtiene la posición Y de la partícula.
      * 
-     * @return The y-coordinate of the particle.
+     * @return Coordenada Y de la partícula.
      */
     public int getY() {
-        return py;
+        return pY;
     }
 
     /**
-     * Gets the velocity in the x direction.
+     * Obtiene la velocidad en la dirección X.
      * 
-     * @return The x velocity of the particle.
+     * @return Velocidad en X.
      */
     public int getVx() {
         return vx;
     }
 
     /**
-     * Gets the velocity in the y direction.
+     * Obtiene la velocidad en la dirección Y.
      * 
-     * @return The y velocity of the particle.
+     * @return Velocidad en Y.
      */
     public int getVy() {
         return vy;
     }
 
     /**
-     * Gets the particle's color.
+     * Establece una nueva velocidad para la partícula.
      * 
-     * @return The color of the particle ("red" or "blue").
-     */
-    public String getColor() {
-        return color;
-    }
-
-    /**
-     * Sets a new velocity for the particle.
-     * 
-     * @param newVx The new velocity in the x direction.
-     * @param newVy The new velocity in the y direction.
+     * @param newVx Nueva velocidad en la dirección X.
+     * @param newVy Nueva velocidad en la dirección Y.
      */
     public void setVelocity(int newVx, int newVy) {
         this.vx = newVx;
         this.vy = newVy;
+    }
+
+    /**
+     * Hace que la partícula sea visible.
+     */
+    public void makeVisible() {
+        if (!isVisible) {
+            super.makeVisible();
+            isVisible = true;
+        }
+    }
+
+    /**
+     * Hace que la partícula sea invisible.
+     */
+    public void makeInvisible() {
+        if (isVisible) {
+            super.makeInvisible();
+            isVisible = false;
+        }
     }
 }
