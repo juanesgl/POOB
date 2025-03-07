@@ -15,18 +15,18 @@ import java.util.*;
 
 public class MaxwellContainer {
     // Instance variables 
-    private int height;            
-    private int width;             
-    
-    private Rectangle border;      
-    private Rectangle leftChamber; 
+    private int height;
+    private int width;
+
+    private Rectangle border;
+    private Rectangle leftChamber;
     private Rectangle rightChamber;
-    private Rectangle centralWall; 
-    private boolean isVisible;     
+    private Rectangle centralWall;
+    private Demon demon;
+    private boolean isVisible;
 
     /**
      * Constructs a MaxwellContainer with specified height and width.
-     * The container consists of two chambers separated by a central wall.
      *
      * @param h The height of the container.
      * @param w The width of each chamber (total width is 2 * w).
@@ -34,11 +34,11 @@ public class MaxwellContainer {
     public MaxwellContainer(int h, int w) {
         this.height = h;
         this.width = 2 * w;
-        this.isVisible = false;  
+        this.isVisible = false;
 
         // Create black border around the container
         border = new Rectangle();
-        border.changeSize(height + 4, width + 4); 
+        border.changeSize(height + 4, width + 4);
         border.changeColor("black");
         border.moveHorizontal(-2);
         border.moveVertical(-2);
@@ -55,18 +55,40 @@ public class MaxwellContainer {
         rightChamber.changeColor("white");
         rightChamber.moveHorizontal(w);
 
-        // Create the central wall 
+        // Create the central wall
         centralWall = new Rectangle();
-        centralWall.changeSize(height, 2); 
+        centralWall.changeSize(height, 1);
         centralWall.changeColor("gray");
-        centralWall.moveHorizontal(w - 1); 
+        centralWall.moveHorizontal(w - 1);
 
-        makeVisible();  
+        makeVisible();
+    }
+
+    /**
+     * Adds a demon at the given height position d.
+     * 
+     * @param d The y-coordinate where the demon should be placed.
+     */
+    public void addDemon(int d) {
+    if (demon == null) {
+        demon = new Demon(d, width); 
+        demon.addDemon();
+        }
+    }
+
+
+    /**
+     * Removes the demon from the container.
+     */
+    public void delDemon() {
+        if (demon != null) {
+            demon.delDemon(); // Now handled inside the Demon class
+            demon = null;
+            }
     }
 
     /**
      * Makes the container visible.
-     * If already visible, does nothing.
      */
     public void makeVisible() {
         if (!isVisible) {
@@ -80,7 +102,6 @@ public class MaxwellContainer {
 
     /**
      * Makes the container invisible.
-     * If already invisible, does nothing.
      */
     public void makeInvisible() {
         if (isVisible) {
@@ -102,3 +123,4 @@ public class MaxwellContainer {
         return isVisible;
     }
 }
+

@@ -48,7 +48,7 @@ public class MaxwellContainerC1Test {
     @Test
     public void accordingRSShouldToggleVisibility() {
         container.makeVisible();
-        assertTrue(container.isVisible(), "The container should be visible after makeVisible().");
+       assertTrue(container.isVisible(), "The container should be visible after makeVisible().");
 
         container.makeInvisible();
         assertFalse(container.isVisible(), "The container should be invisible after makeInvisible().");

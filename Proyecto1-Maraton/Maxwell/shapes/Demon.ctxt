@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Demon
+comment0.text=\r\n\ The\ Demon\ sits\ on\ the\ center\ wall\ and\ can\ allow\ particles\ to\ pass\ through.\r\n\ \r\n\ It\ is\ represented\ as\ a\ small\ gray\ square\ and\ stays\ on\ the\ middle\ wall.\r\n\ \r\n\ @author\ Edgar\ Daniel\ Ruiz\ Pati\u00F1o\r\n\ @author\ Juan\ Esteban\ S\u00E1nchez\ Garc\u00EDa\r\n\ @version\ 1.0\ (Cycle\ 1)\r\n
+comment1.params=d\ w
+comment1.target=Demon(int,\ int)
+comment1.text=\r\n\ Creates\ a\ Demon\ at\ the\ specified\ vertical\ position.\r\n\ The\ Demon\ is\ always\ placed\ on\ the\ middle\ dividing\ line.\r\n\ \r\n\ @param\ d\ The\ y-coordinate\ where\ the\ demon\ is\ positioned.\r\n\ @param\ w\ The\ width\ of\ a\ single\ chamber\ (so\ the\ middle\ is\ at\ x\ \=\ w).\r\n
+comment2.params=
+comment2.target=void\ addDemon()
+comment2.text=\r\n\ Adds\ the\ demon\ to\ the\ container\ (makes\ it\ visible).\r\n
+comment3.params=
+comment3.target=void\ delDemon()
+comment3.text=\r\n\ Removes\ the\ demon\ from\ the\ container\ (makes\ it\ invisible).\r\n
+comment4.params=
+comment4.target=int\ getY()
+comment4.text=\r\n\ Gets\ the\ Y-coordinate\ of\ the\ demon.\r\n\ \r\n\ @return\ The\ demon's\ vertical\ position.\r\n
+numComments=5
