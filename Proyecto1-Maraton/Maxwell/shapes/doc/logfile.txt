@@ -20,114 +20,12 @@ C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\doc
 UTF-8
 -charset
 UTF-8
-C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\MaxwellContainerC1Test.java
+C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\Particle.java
 <---- end of javadoc command ---->
-Loading source file C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\MaxwellContainerC1Test.java...
+Loading source file C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\Particle.java...
 Constructing Javadoc information...
-warning: unknown enum constant Status.STABLE
-  reason: class file for org.apiguardian.api.API$Status not found
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
 Standard Doclet version 21.0.4+7-LTS
 Building tree for all the packages and classes...
-Generating C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\doc\MaxwellContainerC1Test.html...
+Generating C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\doc\Particle.html...
 Generating C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\doc\package-summary.html...
 Generating C:\UNIVERSIDAD-GIT\Proyectos\POOB-UNI\Proyecto1-Maraton\Maxwell\shapes\doc\index.html...
-100 warnings
