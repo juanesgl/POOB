@@ -15,14 +15,14 @@ import java.util.*;
 
 public class MaxwellContainer {
     // Instance variables 
-    private int height;            // Height of the container
-    private int width;             // Total width (2 * w)
+    private int height;            
+    private int width;             
     
-    private Rectangle border;      // Black border around the container
-    private Rectangle leftChamber; // Left chamber
-    private Rectangle rightChamber;// Right chamber
-    private Rectangle centralWall; // Gray central dividing wall
-    private boolean isVisible;     // Visibility status of the container
+    private Rectangle border;      
+    private Rectangle leftChamber; 
+    private Rectangle rightChamber;
+    private Rectangle centralWall; 
+    private boolean isVisible;     
 
     /**
      * Constructs a MaxwellContainer with specified height and width.
@@ -57,9 +57,9 @@ public class MaxwellContainer {
 
         // Create the central wall 
         centralWall = new Rectangle();
-        centralWall.changeSize(height, 2); // Thin rectangle as a line
+        centralWall.changeSize(height, 2); 
         centralWall.changeColor("gray");
-        centralWall.moveHorizontal(w - 1); // Centered at the middle
+        centralWall.moveHorizontal(w - 1); 
 
         makeVisible();  
     }
@@ -90,5 +90,15 @@ public class MaxwellContainer {
             centralWall.makeInvisible();
             isVisible = false;
         }
+    }
+    
+    
+    /**
+     * Returns true if the container is currently visible.
+     *
+     * @return true if the container is visible, false otherwise.
+     */
+    public boolean isVisible() {
+        return isVisible;
     }
 }
