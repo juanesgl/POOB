@@ -1,16 +1,15 @@
-
-/**
- * La clase MaxwellContainer representa el contenedor en la simulación de Maxwell's Demon.
- * Este contenedor almacena partículas y puede contener múltiples demonios que controlan el paso de partículas.
- * También define las cámaras separadas por una pared central y múltiples agujeros que permiten el paso de partículas.
- * @author Edgar Daniel Ruiz Patiño
- * @author Juan Esteban Sánchez García
- * Versión: 1.1
- */
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * La clase MaxwellContainer representa el contenedor en la simulación de Maxwell's Demon.
+ * Este contenedor almacena partículas, demonios y agujeros.
+ * Además, inicia la simulación de movimiento cuando se hace visible.
+ * 
+ * @author Edgar Daniel Ruiz Patiño
+ * @author Juan Esteban Sánchez García
+ * @version 1
+ */
 public class MaxwellContainer {
     private int width, height;
     private List<Particle> particles;
@@ -145,8 +144,11 @@ public class MaxwellContainer {
 
     /**
      * Hace visible el contenedor y sus elementos.
+     * Además, inicia el movimiento de las partículas por un tiempo determinado.
+     * 
+     * @param steps Número de iteraciones antes de detener la simulación.
      */
-    public void makeVisible() {
+    public void makeVisible(int steps) {
         if (!isVisible) {
             border.makeVisible();
             leftChamber.makeVisible();
@@ -159,8 +161,12 @@ public class MaxwellContainer {
                 p.makeVisible();
             }
             isVisible = true;
+    
+            // Start simulation with a time limit
+            runSimulation(steps);
         }
     }
+
 
     /**
      * Hace invisible el contenedor y sus elementos.
@@ -180,14 +186,31 @@ public class MaxwellContainer {
             isVisible = false;
         }
     }
+
     /**
-     * Obtiene el estado
-     * 
-     * @return booleano de visible
+     * Obtiene el estado de visibilidad.
+     * @return booleano que indica si el contenedor es visible.
      */
-    public boolean isVisible(){
-    return isVisible;
+    public boolean isVisible() {
+        return isVisible;
     }
-    
-    
+
+    /**
+     * Ejecuta la simulación de movimiento de partículas durante un tiempo determinado.
+     * 
+     * @param steps Número de iteraciones antes de detener la simulación.
+     */
+    private void runSimulation(int steps) {
+        for (int i = 0; i < steps; i++) { // Runs only for "steps" iterations
+            for (Particle p : particles) {
+                p.move(width, height);
+            }
+            try {
+                Thread.sleep(50); // Controls animation speed
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
