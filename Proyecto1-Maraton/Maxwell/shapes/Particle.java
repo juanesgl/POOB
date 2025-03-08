@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.JOptionPane; // Import for pop-up messages
 /**
  * La clase Particle representa una partícula en la simulación de Maxwell's Demon.
  * Cada partícula tiene una posición, velocidad y representación gráfica.
@@ -9,26 +10,61 @@ import java.util.ArrayList;
  * @author Juan Esteban Sánchez García
  * @version 1.1 (With Movement)
  */
+
+
+/**
+ * La clase Particle representa una partícula en la simulación de Maxwell's Demon.
+ * Se asegura que las partículas estén en su cámara correcta y se muevan dentro del tablero.
+ * 
+ * @author Edgar Daniel Ruiz Patiño
+ * @author Juan Esteban Sánchez García
+ * @version 1.4 (Placement + Movement)
+ */
 public class Particle extends Circle {
     private int pX, pY;
     private int vx, vy;
+    private String color;
     private boolean isVisible;
 
     /**
-     * Constructor de la clase Particle.
+     * Crea una nueva partícula asegurando que está dentro de los límites correctos.
      * 
      * @param pX Posición inicial en X.
      * @param pY Posición inicial en Y.
      * @param vx Velocidad en X.
      * @param vy Velocidad en Y.
-     * @param color Color de la partícula.
+     * @param color Color de la partícula ("red" o "blue").
+     * @param containerWidth Ancho total del contenedor.
+     * @param containerHeight Alto total del contenedor.
      */
-    public Particle(int pX, int pY, int vx, int vy, String color) {
+    public Particle(int pX, int pY, int vx, int vy, String color, int containerWidth, int containerHeight) {
         super();
+
+        int middleX = containerWidth / 2; // Divide chambers
+
+        // Validate color
+        if (!color.equals("red") && !color.equals("blue")) {
+            JOptionPane.showMessageDialog(null, "❌ ERROR: Particles must be 'red' or 'blue'. Given: " + color, "Invalid Color", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validate X position based on color
+        if ((color.equals("blue") && pX >= middleX) || (color.equals("red") && pX < middleX)) {
+            JOptionPane.showMessageDialog(null, "❌ ERROR: " + color + " particle is in the wrong chamber! X = " + pX, "Invalid Placement", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validate Y position
+        if (pY < 0 || pY >= containerHeight - 10) {
+            JOptionPane.showMessageDialog(null, "❌ ERROR: Particle out of bounds! Y = " + pY, "Invalid Y Position", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         this.pX = pX;
         this.pY = pY;
         this.vx = vx;
         this.vy = vy;
+        this.color = color;
         this.isVisible = false;
 
         this.changeSize(10);
@@ -38,28 +74,75 @@ public class Particle extends Circle {
     }
 
     /**
-     * Mueve la partícula y rebota en las paredes.
+     * Moves the particle within the container while ensuring no invalid movement.
      * 
-     * @param containerWidth Ancho del contenedor.
-     * @param containerHeight Alto del contenedor.
+     * @param containerWidth  The total width of the container.
+     * @param containerHeight The total height of the container.
      */
     public void move(int containerWidth, int containerHeight) {
-        pX += vx;
-        pY += vy;
-
-        // Rebote en las paredes superior e inferior
-        if (pY <= 0 || pY >= containerHeight - 10) {
+        int middleX = containerWidth / 2; // The center dividing line
+    
+        // Calculate next position BEFORE updating
+        int nextX = pX + vx;
+        int nextY = pY + vy;
+    
+        // Bounce off top & bottom walls
+        if (nextY <= 0 || nextY >= containerHeight - 10) {
             vy = -vy;
         }
-
-        // Rebote en las paredes izquierda y derecha (sin considerar la pared central aún)
-        if (pX <= 0 || pX >= containerWidth - 10) {
-            vx = -vx;
+    
+        // Prevent crossing the middle wall
+        if (color.equals("blue") && nextX >= middleX - 5) { // Blue can't cross right
+            vx = -Math.abs(vx); // Force it left
+            nextX = middleX - 6; // Adjust position to stay in the left chamber
         }
-
-        // Mueve la representación gráfica
+        if (color.equals("red") && nextX <= middleX + 5) { // Red can't cross left
+            vx = Math.abs(vx); // Force it right
+            nextX = middleX + 6; // Adjust position to stay in the right chamber
+        }
+    
+        // Prevent escaping through left & right borders
+        if (nextX <= 0) { // Left wall (blue chamber)
+            vx = Math.abs(vx); // Force it right
+            nextX = 1; // Prevent getting stuck
+        }
+        if (nextX >= containerWidth - 10) { // Right wall (red chamber)
+            vx = -Math.abs(vx); // Force it left
+            nextX = containerWidth - 11; // Prevent getting stuck
+        }
+    
+        // Update actual position AFTER all checks
+        pX = nextX;
+        pY = nextY;
+    
+        // Move graphical representation
         this.moveHorizontal(vx);
         this.moveVertical(vy);
+    }
+
+
+    /**
+     * Obtiene el color de la partícula.
+     * @return "red" o "blue".
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * Obtiene la posición X de la partícula.
+     * @return Coordenada X.
+     */
+    public int getX() {
+        return pX;
+    }
+
+    /**
+     * Obtiene la posición Y de la partícula.
+     * @return Coordenada Y.
+     */
+    public int getY() {
+        return pY;
     }
 
     /**
@@ -72,4 +155,5 @@ public class Particle extends Circle {
         }
     }
 }
+
 

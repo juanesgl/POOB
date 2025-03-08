@@ -141,6 +141,24 @@ public class MaxwellContainer {
     public List<Hole> holes() {
         return holes;
     }
+    
+    
+    /**
+     * Obtiene el ancho total del contenedor.
+     * @return Ancho total del contenedor.
+     */
+    public int getWidth() {
+        return width;
+    }
+    
+    /**
+     * Obtiene la altura total del contenedor.
+     * @return Altura total del contenedor.
+     */
+    public int getHeight() {
+        return height;
+    }    
+    
 
     /**
      * Hace visible el contenedor y sus elementos.
@@ -206,7 +224,7 @@ public class MaxwellContainer {
                 p.move(width, height);
             }
             try {
-                Thread.sleep(50); // Controls animation speed
+                Thread.sleep(10); // Controls animation speed
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
