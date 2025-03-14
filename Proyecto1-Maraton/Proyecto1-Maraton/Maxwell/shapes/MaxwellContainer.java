@@ -22,48 +22,40 @@ public class MaxwellContainer {
     private Rectangle centralWall;
     private boolean isVisible;
 
-    /**
- * Constructor de MaxwellContainer.
- * @param width Ancho de la cámara (el total será el doble).
- * @param height Altura de la cámara.
- */
-public MaxwellContainer(int width, int height) {
-    this.width = 2 * width; 
-    this.height = height;
-    this.particles = new ArrayList<>();
-    this.holes = new ArrayList<>();
-    this.demons = new ArrayList<>();
-    this.isVisible = false;
+        /**
+     * Constructor de MaxwellContainer.
+     * @param width Ancho de la cámara (el total será el doble).
+     * @param height Altura de la cámara.
+     */
+    public MaxwellContainer(int width, int height) {
+        this.width = 2 * width;
+        this.height = height;
+        this.particles = new ArrayList<>();
+        this.holes = new ArrayList<>();
+        this.demons = new ArrayList<>();
+        this.isVisible = false;
 
-    
-    border = new Rectangle();
-    border.changeSize(height + 4, this.width + 4);
-    border.changeColor("black");
-    border.moveHorizontal(5);  
-    border.moveVertical(5);    
+        border = new Rectangle();
+        border.changeSize(height + 4, this.width + 4);
+        border.changeColor("black");
+        border.moveHorizontal(-2);
+        border.moveVertical(-2);
 
-    
-    leftChamber = new Rectangle();
-    leftChamber.changeSize(height, width);
-    leftChamber.changeColor("white");
-    leftChamber.moveHorizontal(5);  
-    leftChamber.moveVertical(5);    
+        leftChamber = new Rectangle();
+        leftChamber.changeSize(height, width);
+        leftChamber.changeColor("white");
+        leftChamber.moveHorizontal(0);
 
-    
-    rightChamber = new Rectangle();
-    rightChamber.changeSize(height, width);
-    rightChamber.changeColor("white");
-    rightChamber.moveHorizontal(width + 5); 
-    rightChamber.moveVertical(5);           
+        rightChamber = new Rectangle();
+        rightChamber.changeSize(height, width);
+        rightChamber.changeColor("white");
+        rightChamber.moveHorizontal(width);
 
-    // Pared central
-    centralWall = new Rectangle();
-    centralWall.changeSize(height, 1);
-    centralWall.changeColor("gray");
-    centralWall.moveHorizontal(width + 5); 
-    centralWall.moveVertical(5);           
-}
-
+        centralWall = new Rectangle();
+        centralWall.changeSize(height, 1);
+        centralWall.changeColor("gray");
+        centralWall.moveHorizontal(width - 1);
+    }
 
     
     
