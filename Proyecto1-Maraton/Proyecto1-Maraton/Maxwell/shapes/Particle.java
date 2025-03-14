@@ -38,25 +38,25 @@ public class Particle extends Circle {
      * @param containerHeight Alto total del contenedor.
      */
     public Particle(int pX, int pY, int vx, int vy, String color, int containerWidth, int containerHeight) {
-        super();
+        super();//sirve para llamar al constructor de circle
 
-        int middleX = containerWidth / 2; // Divide chambers
+        int middleX = containerWidth / 2; 
 
-        // Validate color
+        
         if (!color.equals("red") && !color.equals("blue")) {
-            JOptionPane.showMessageDialog(null, "❌ ERROR: Particles must be 'red' or 'blue'. Given: " + color, "Invalid Color", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Las particulas deben ser rojas o azules");
             return;
         }
 
-        // Validate X position based on color
+        
         if ((color.equals("blue") && pX >= middleX) || (color.equals("red") && pX < middleX)) {
-            JOptionPane.showMessageDialog(null, "❌ ERROR: " + color + " particle is in the wrong chamber! X = " + pX, "Invalid Placement", JOptionPane.WARNING_MESSAGE);
+            System.out.println("La particula no va en esa camara");
             return;
         }
 
-        // Validate Y position
+        
         if (pY < 0 || pY >= containerHeight - 10) {
-            JOptionPane.showMessageDialog(null, "❌ ERROR: Particle out of bounds! Y = " + pY, "Invalid Y Position", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Las particulas no estan dentro del contenedor");
             return;
         }
 

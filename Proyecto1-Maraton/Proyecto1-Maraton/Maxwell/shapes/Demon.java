@@ -20,7 +20,7 @@
  * @version 1 (Cycle 1)
  */
 public class Demon {
-    private static final int DEMON_SIZE = 10;
+    private static final int DEMON_SIZE = 20;
     private int y;
     private Rectangle shape;
     private boolean isVisible;
@@ -85,7 +85,7 @@ public class Demon {
         if (state) {
             shape.changeColor("green");  // Verde indica que la puerta está abierta
         } else {
-            shape.changeColor("darkgray");  // Gris indica que la puerta está cerrada
+            shape.changeColor("black");  // Gris indica que la puerta está cerrada
         }
     }
 

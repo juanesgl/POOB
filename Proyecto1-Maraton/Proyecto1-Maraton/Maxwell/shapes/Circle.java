@@ -21,9 +21,9 @@ public class Circle{
 
     public Circle(){
         diameter = 30;
-        xPosition = 20;
-        yPosition = 15;
-        color = "blue";
+        xPosition = 0;
+        yPosition = 0;
+        color = "black";
         isVisible = false;
     }
 
@@ -161,7 +161,7 @@ public class Circle{
      * "magenta" and "black".
      */
     public void changeColor(String newColor){
-        color = newColor;
+        this.color = newColor;
         draw();
     }
 

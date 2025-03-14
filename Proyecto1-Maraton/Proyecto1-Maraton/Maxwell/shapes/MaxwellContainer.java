@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * La clase MaxwellContainer representa el contenedor en la simulación de Maxwell's Demon.
@@ -55,17 +56,91 @@ public class MaxwellContainer {
         centralWall.changeColor("gray");
         centralWall.moveHorizontal(width - 1);
     }
+    
+    
+       /**
+     * Agrega un demonio al contenedor.
+     * 
+     */
+    public void addDemon() {
+        Demon demon=new Demon(this.height/2,this.width/2);
+        demons.add(demon);
+        if (isVisible) {
+            demon.makeVisible();
+        }
+    }
 
     /**
-     * Agrega una partícula al contenedor.
-     * @param particle Partícula a agregar.
+     * Elimina un demonio del contenedor.
+     * Si la lista esta vacia sale mensaje de error
      */
-    public void addParticle(Particle particle) {
+    public void deleteDemon() {
+        if(!demons.isEmpty()){
+        Demon lastDemon=demons.get(demons.size()-1);
+        lastDemon.makeInvisible();
+        demons.remove(demons.size()-1);
+        }else{
+        System.out.println("No hay demonios para eliminar");
+        }
+    }
+    
+    /**
+     * Permite pasar particulas a traves del demon
+     */
+    public void openGate(){
+        Demon lastDemon=demons.get(demons.size()-1);
+        lastDemon.setGateOpen(true);
+    }
+    /**
+     * No permite pasar particulas a traves del demon
+     */
+    public void closeGate(){
+        Demon lastDemon=demons.get(demons.size()-1);
+        lastDemon.setGateOpen(false);
+    }
+
+    /**
+     * Agrega una nueva partícula al contenedor. 
+     * @param color Color de la partícula que se quiere crear("red" o "blue").
+     */
+   
+
+    public void addParticle(String color) {
+        Random rand = new Random();
+
+        int pX = 0; // Posición X inicial
+        int pY = rand.nextInt(height - 10); // Posición Y aleatoria dentro del rango vertical
+        int vx, vy;
+
+        // Generar la posición X dependiendo del color
+        if (color.equals("blue")) {
+            pX = width / 2 + 10 + rand.nextInt(width / 2 - 20); // Cámara derecha
+        } else if (color.equals("red")) {
+            pX = rand.nextInt(width / 2 - 10); // Cámara izquierda
+        } else {
+            System.out.println("Color inválido: " + color);
+            return; // Salir del método si el color no es válido
+        }   
+
+        // Generar velocidades aleatorias (-5 a 5, evitando 0)
+        do {
+            vx = rand.nextInt(11) - 5; // Velocidad en X entre -5 y 5
+        } while (vx == 0);
+
+        do {
+            vy = rand.nextInt(11) - 5; // Velocidad en Y entre -5 y 5
+        } while (vy == 0);
+
+        // Crear la partícula y agregarla al contenedor
+        Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
         particles.add(particle);
+
+        // Hacer visible la partícula si el contenedor ya lo es
         if (isVisible) {
             particle.makeVisible();
         }
     }
+
 
     /**
      * Elimina una partícula del contenedor.
@@ -84,26 +159,7 @@ public class MaxwellContainer {
         holes.add(hole);
     }
 
-    /**
-     * Agrega un demonio al contenedor.
-     * @param demon Demonio a agregar.
-     */
-    public void addDemon() {
-        Demon demon=new Demon(this.height/2,this.width/2);
-        demons.add(demon);
-        if (isVisible) {
-            demon.makeVisible();
-        }
-    }
-
-    /**
-     * Elimina un demonio del contenedor.
-     * @param demon Demonio a eliminar.
-     */
-    public void deleteDemon(Demon demon) {
-        demons.remove(demon);
-        demon.makeInvisible();
-    }
+ 
 
     /**
      * Inicia la simulación.
