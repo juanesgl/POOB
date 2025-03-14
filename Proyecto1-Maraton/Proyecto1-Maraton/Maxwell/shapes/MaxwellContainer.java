@@ -23,39 +23,48 @@ public class MaxwellContainer {
     private boolean isVisible;
 
     /**
-     * Constructor de MaxwellContainer.
-     * @param width Ancho de la cámara (el total será el doble).
-     * @param height Altura de la cámara.
-     */
-    public MaxwellContainer(int width, int height) {
-        this.width = 2 * width;
-        this.height = height;
-        this.particles = new ArrayList<>();
-        this.holes = new ArrayList<>();
-        this.demons = new ArrayList<>();
-        this.isVisible = false;
+ * Constructor de MaxwellContainer.
+ * @param width Ancho de la cámara (el total será el doble).
+ * @param height Altura de la cámara.
+ */
+public MaxwellContainer(int width, int height) {
+    this.width = 2 * width; 
+    this.height = height;
+    this.particles = new ArrayList<>();
+    this.holes = new ArrayList<>();
+    this.demons = new ArrayList<>();
+    this.isVisible = false;
 
-        border = new Rectangle();
-        border.changeSize(height + 4, this.width + 4);
-        border.changeColor("black");
-        border.moveHorizontal(-2);
-        border.moveVertical(-2);
+    
+    border = new Rectangle();
+    border.changeSize(height + 4, this.width + 4);
+    border.changeColor("black");
+    border.moveHorizontal(5);  
+    border.moveVertical(5);    
 
-        leftChamber = new Rectangle();
-        leftChamber.changeSize(height, width);
-        leftChamber.changeColor("white");
-        leftChamber.moveHorizontal(0);
+    
+    leftChamber = new Rectangle();
+    leftChamber.changeSize(height, width);
+    leftChamber.changeColor("white");
+    leftChamber.moveHorizontal(5);  
+    leftChamber.moveVertical(5);    
 
-        rightChamber = new Rectangle();
-        rightChamber.changeSize(height, width);
-        rightChamber.changeColor("white");
-        rightChamber.moveHorizontal(width);
+    
+    rightChamber = new Rectangle();
+    rightChamber.changeSize(height, width);
+    rightChamber.changeColor("white");
+    rightChamber.moveHorizontal(width + 5); 
+    rightChamber.moveVertical(5);           
 
-        centralWall = new Rectangle();
-        centralWall.changeSize(height, 1);
-        centralWall.changeColor("gray");
-        centralWall.moveHorizontal(width - 1);
-    }
+    // Pared central
+    centralWall = new Rectangle();
+    centralWall.changeSize(height, 1);
+    centralWall.changeColor("gray");
+    centralWall.moveHorizontal(width + 5); 
+    centralWall.moveVertical(5);           
+}
+
+
     
     
        /**
@@ -103,43 +112,40 @@ public class MaxwellContainer {
      * Agrega una nueva partícula al contenedor. 
      * @param color Color de la partícula que se quiere crear("red" o "blue").
      */
-   
+
 
     public void addParticle(String color) {
         Random rand = new Random();
 
-        int pX = 0; // Posición X inicial
-        int pY = rand.nextInt(height - 10); // Posición Y aleatoria dentro del rango vertical
+        int pX; 
+        int pY = rand.nextInt(height - 10); 
         int vx, vy;
 
-        // Generar la posición X dependiendo del color
-        if (color.equals("blue")) {
-            pX = width / 2 + 10 + rand.nextInt(width / 2 - 20); // Cámara derecha
-        } else if (color.equals("red")) {
-            pX = rand.nextInt(width / 2 - 10); // Cámara izquierda
+        if (color.equalsIgnoreCase("red")) {
+            pX = width / 2 + 10 + rand.nextInt(width / 2 - 20); 
+        } else if (color.equalsIgnoreCase("blue")) {
+            pX = rand.nextInt(width / 2 - 10);
         } else {
             System.out.println("Color inválido: " + color);
-            return; // Salir del método si el color no es válido
-        }   
+            return; 
+        }
 
-        // Generar velocidades aleatorias (-5 a 5, evitando 0)
         do {
-            vx = rand.nextInt(11) - 5; // Velocidad en X entre -5 y 5
+            vx = rand.nextInt(11) - 5; 
         } while (vx == 0);
 
         do {
-            vy = rand.nextInt(11) - 5; // Velocidad en Y entre -5 y 5
+            vy = rand.nextInt(11) - 5; 
         } while (vy == 0);
 
-        // Crear la partícula y agregarla al contenedor
         Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
         particles.add(particle);
 
-        // Hacer visible la partícula si el contenedor ya lo es
         if (isVisible) {
             particle.makeVisible();
         }
     }
+
 
 
     /**
