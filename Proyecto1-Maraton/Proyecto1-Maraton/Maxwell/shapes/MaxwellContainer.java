@@ -151,15 +151,32 @@ public class MaxwellContainer {
         particle.makeInvisible();
     }
 
+
+
     /**
-     * Agrega un agujero en una posición aleatoria dentro del contenedor.
+     * Agrega un agujero en una posición aleatoria dentro del contenedor con radio aleatorio.
      */
     public void addHole() {
-        Hole newHole = new Hole(width,height);
+        Random rand = new Random();
+        int middleX = width / 2;
+
+        int holeX, holeY;
+
+        // Ensure the hole does not appear on the middle wall
+        do {
+            holeX = rand.nextInt(width - 20) + 10;
+        } while (holeX >= middleX - 10 && holeX <= middleX + 10);
+
+        holeY = rand.nextInt(height - 20) + 10;
+
+        // Creates a hole with a random radius
+        Hole newHole = new Hole(holeX, holeY);
         holes.add(newHole);
-        if(isVisible){
+
+        if (isVisible) {
             newHole.makeVisible();
         }
+
     }
 
     /**
@@ -269,6 +286,15 @@ public class MaxwellContainer {
      */
     public boolean isVisible() {
         return isVisible;
+    }
+
+    /**
+     * Verifica si alguna partícula ha caído en un agujero y la elimina.
+     */
+    private void checkHoles() {
+        for (Hole h : holes) {
+            h.absorbs(particles);
+        }
     }
 
     /**

@@ -1,4 +1,6 @@
 import java.util.Random;
+import java.util.List;
+import java.util.Iterator;
 /**
  * La clase Hole representa un agujero en la simulación de Maxwell's Demon.
  * Un agujero permite el paso de partículas entre las dos cámaras.
@@ -76,11 +78,22 @@ public class Hole {
     public int getY() {
         return y;
     }
-    
-     /**
-     * Verifica si el Hole absorve la particula
+
+    /**
+     * Verifica si una partícula ha caído en el agujero y la elimina.
+     * @param particles Lista de partículas en el contenedor.
      */
-    public void absorbs() {
+    public void absorbs(List<Particle> particles) {
+        Iterator<Particle> iterator = particles.iterator();
+        while (iterator.hasNext()) {
+            Particle particle = iterator.next();
+            double distance = Math.sqrt(Math.pow(particle.getX() - x, 2) + Math.pow(particle.getY() - y, 2));
+
+            if (distance <= radius) {
+                particle.makeInvisible();
+                iterator.remove();
+            }
+        }
         
     }
 }
