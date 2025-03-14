@@ -6,7 +6,7 @@ import java.util.Random;
  * La clase MaxwellContainer representa el contenedor en la simulación de Maxwell's Demon.
  * Este contenedor almacena partículas, demonios y agujeros.
  * Además, inicia la simulación de movimiento cuando se hace visible.
- * 
+ *
  * @author Edgar Daniel Ruiz Patiño
  * @author Juan Esteban Sánchez García
  * @version 1
@@ -56,11 +56,11 @@ public class MaxwellContainer {
         centralWall.changeColor("gray");
         centralWall.moveHorizontal(width - 1);
     }
-    
-    
+
+
        /**
      * Agrega un demonio al contenedor.
-     * 
+     *
      */
     public void addDemon() {
         Demon demon=new Demon(this.height/2,this.width/2);
@@ -83,7 +83,7 @@ public class MaxwellContainer {
         System.out.println("No hay demonios para eliminar");
         }
     }
-    
+
     /**
      * Permite pasar particulas a traves del demon
      */
@@ -100,10 +100,10 @@ public class MaxwellContainer {
     }
 
     /**
-     * Agrega una nueva partícula al contenedor. 
+     * Agrega una nueva partícula al contenedor.
      * @param color Color de la partícula que se quiere crear("red" o "blue").
      */
-   
+
 
     public void addParticle(String color) {
         Random rand = new Random();
@@ -120,7 +120,7 @@ public class MaxwellContainer {
         } else {
             System.out.println("Color inválido: " + color);
             return; // Salir del método si el color no es válido
-        }   
+        }
 
         // Generar velocidades aleatorias (-5 a 5, evitando 0)
         do {
@@ -152,14 +152,15 @@ public class MaxwellContainer {
     }
 
     /**
-     * Agrega un agujero al contenedor.
-     * @param hole Agujero a agregar.
+     * Agrega un agujero en una posición aleatoria dentro del contenedor.
      */
-    public void addHole(Hole hole) {
-        holes.add(hole);
+    public void addHole() {
+        Hole newHole = new Hole(width,height);
+        holes.add(newHole);
+        if(isVisible){
+            newHole.makeVisible();
+        }
     }
-
- 
 
     /**
      * Inicia la simulación.
@@ -198,8 +199,8 @@ public class MaxwellContainer {
     public List<Hole> holes() {
         return holes;
     }
-    
-    
+
+
     /**
      * Obtiene el ancho total del contenedor.
      * @return Ancho total del contenedor.
@@ -207,20 +208,20 @@ public class MaxwellContainer {
     public int getWidth() {
         return width;
     }
-    
+
     /**
      * Obtiene la altura total del contenedor.
      * @return Altura total del contenedor.
      */
     public int getHeight() {
         return height;
-    }    
-    
+    }
+
 
     /**
      * Hace visible el contenedor y sus elementos.
      * Además, inicia el movimiento de las partículas por un tiempo determinado.
-     * 
+     *
      * @param steps Número de iteraciones antes de detener la simulación.
      */
     public void makeVisible(int steps) {
@@ -236,7 +237,7 @@ public class MaxwellContainer {
                 p.makeVisible();
             }
             isVisible = true;
-    
+
             // Start simulation with a time limit
             runSimulation(steps);
         }
@@ -272,7 +273,7 @@ public class MaxwellContainer {
 
     /**
      * Ejecuta la simulación de movimiento de partículas durante un tiempo determinado.
-     * 
+     *
      * @param steps Número de iteraciones antes de detener la simulación.
      */
     private void runSimulation(int steps) {
