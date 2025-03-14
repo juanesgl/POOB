@@ -88,7 +88,8 @@ public class MaxwellContainer {
      * Agrega un demonio al contenedor.
      * @param demon Demonio a agregar.
      */
-    public void addDemon(Demon demon) {
+    public void addDemon() {
+        Demon demon=new Demon(this.height/2,this.width/2);
         demons.add(demon);
         if (isVisible) {
             demon.makeVisible();
