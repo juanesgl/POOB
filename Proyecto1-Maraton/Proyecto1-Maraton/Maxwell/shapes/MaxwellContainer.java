@@ -38,8 +38,8 @@ public class MaxwellContainer {
         border = new Rectangle();
         border.changeSize(height + 4, this.width + 4);
         border.changeColor("black");
-        border.moveHorizontal(-2);
-        border.moveVertical(-2);
+        border.moveHorizontal(0);
+        border.moveVertical(0);
 
         leftChamber = new Rectangle();
         leftChamber.changeSize(height, width);
@@ -238,7 +238,14 @@ public class MaxwellContainer {
      */
     public void start() {
         System.out.println("Simulación iniciada");
+
+        // Ejecuta la simulación en un hilo separado
+        Thread simulationThread = new Thread(() -> {
+            runSimulation(500); // Puedes ajustar el número de pasos
+        });
+        simulationThread.start();
     }
+
 
     /**
      * Finaliza la simulación.
@@ -291,11 +298,8 @@ public class MaxwellContainer {
 
     /**
      * Hace visible el contenedor y sus elementos.
-     * Además, inicia el movimiento de las partículas por un tiempo determinado.
-     * 
-     * @param steps Número de iteraciones antes de detener la simulación.
      */
-    public void makeVisible(int steps) {
+    public void makeVisible() {
         if (!isVisible) {
             border.makeVisible();
             leftChamber.makeVisible();
@@ -308,9 +312,6 @@ public class MaxwellContainer {
                 p.makeVisible();
             }
             isVisible = true;
-    
-            // Start simulation with a time limit
-            runSimulation(steps);
         }
     }
 

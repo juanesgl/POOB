@@ -83,42 +83,46 @@ public class Particle extends Circle {
      * @param containerHeight The total height of the container.
      */
     public void move(int containerWidth, int containerHeight) {
-        int middleX = containerWidth / 2; // The center dividing line
-    
-        // Calculate next position BEFORE updating
+        int middleX = containerWidth / 2; 
+        int padding = 5;
+        
         int nextX = pX + vx;
         int nextY = pY + vy;
     
-        // Bounce off top & bottom walls
-        if (nextY <= 0 || nextY >= containerHeight - 10) {
+        
+        if (nextY <= padding  || nextY >= containerHeight - padding ) {
             vy = -vy;
         }
     
-        // Prevent crossing the middle wall
-        if (color.equals("blue") && nextX >= middleX - 5) { // Blue can't cross right
-            vx = -Math.abs(vx); // Force it left
-            nextX = middleX - 6; // Adjust position to stay in the left chamber
+        
+        if (color.equals("blue")) {
+        if (nextX <= padding) { // Rebote en el borde izquierdo
+            vx = Math.abs(vx); // Forzar movimiento hacia la derecha
+            nextX = padding + 1;
         }
-        if (color.equals("red") && nextX <= middleX + 5) { // Red can't cross left
-            vx = Math.abs(vx); // Force it right
-            nextX = middleX + 6; // Adjust position to stay in the right chamber
+        if (nextX >= middleX - padding) { // Rebote en la pared central
+            vx = -Math.abs(vx); // Forzar movimiento hacia la izquierda
+            nextX = middleX - padding - 1;
         }
-    
-        // Prevent escaping through left & right borders
-        if (nextX <= 0) { // Left wall (blue chamber)
-            vx = Math.abs(vx); // Force it right
-            nextX = 1; // Prevent getting stuck
         }
-        if (nextX >= containerWidth - 10) { // Right wall (red chamber)
-            vx = -Math.abs(vx); // Force it left
-            nextX = containerWidth - 11; // Prevent getting stuck
+       
+        
+        if (color.equals("red")) {
+        if (nextX <= middleX + padding) { // Rebote en la pared central
+            vx = Math.abs(vx); // Forzar movimiento hacia la derecha
+            nextX = middleX + padding + 1;
         }
-    
-        // Update actual position AFTER all checks
+        if (nextX >= containerWidth - padding) { // Rebote en el borde derecho
+            vx = -Math.abs(vx); // Forzar movimiento hacia la izquierda
+            nextX = containerWidth - padding - 1;
+        }
+        }
+        
+               
         pX = nextX;
         pY = nextY;
     
-        // Move graphical representation
+        
         this.moveHorizontal(vx);
         this.moveVertical(vy);
     }
