@@ -1,5 +1,9 @@
 #BlueJ package file
+<<<<<<< Updated upstream
 dependency1.from=Triangle
+=======
+dependency1.from=Circle
+>>>>>>> Stashed changes
 dependency1.to=Canvas
 dependency1.type=UsesDependency
 dependency10.from=MaxwellContainer
@@ -11,12 +15,17 @@ dependency11.type=UsesDependency
 dependency12.from=MaxwellContainer
 dependency12.to=Rectangle
 dependency12.type=UsesDependency
+<<<<<<< Updated upstream
 dependency2.from=Circle
+=======
+dependency2.from=Triangle
+>>>>>>> Stashed changes
 dependency2.to=Canvas
 dependency2.type=UsesDependency
 dependency3.from=MaxwellContainerC1Test
 dependency3.to=MaxwellContainer
 dependency3.type=UsesDependency
+<<<<<<< Updated upstream
 dependency4.from=Rectangle
 dependency4.to=Canvas
 dependency4.type=UsesDependency
@@ -31,10 +40,27 @@ dependency7.to=Particle
 dependency7.type=UsesDependency
 dependency8.from=Demon
 dependency8.to=Rectangle
+=======
+dependency4.from=MaxwellContainerC1Test
+dependency4.to=Particle
+dependency4.type=UsesDependency
+dependency5.from=Hole
+dependency5.to=Circle
+dependency5.type=UsesDependency
+dependency6.from=Hole
+dependency6.to=Particle
+dependency6.type=UsesDependency
+dependency7.from=Demon
+dependency7.to=Rectangle
+dependency7.type=UsesDependency
+dependency8.from=Rectangle
+dependency8.to=Canvas
+>>>>>>> Stashed changes
 dependency8.type=UsesDependency
 dependency9.from=MaxwellContainer
 dependency9.to=Particle
 dependency9.type=UsesDependency
+<<<<<<< Updated upstream
 editor.fx.0.height=1399
 editor.fx.0.width=1294
 editor.fx.0.x=1273
@@ -49,6 +75,22 @@ package.editor.x=0
 package.editor.y=0
 package.frame.height=1399
 package.frame.width=1294
+=======
+editor.fx.0.height=739
+editor.fx.0.width=816
+editor.fx.0.x=552
+editor.fx.0.y=114
+objectbench.height=214
+objectbench.width=826
+package.divider.horizontal=0.6001440922190202
+package.divider.vertical=0.7424242424242424
+package.editor.height=630
+package.editor.width=1281
+package.editor.x=121
+package.editor.y=164
+package.frame.height=958
+package.frame.width=1424
+>>>>>>> Stashed changes
 package.numDependencies=12
 package.numTargets=9
 package.showExtends=true
@@ -56,7 +98,7 @@ package.showUses=true
 project.charset=UTF-8
 readme.height=60
 readme.name=@README
-readme.width=48
+readme.width=49
 readme.x=10
 readme.y=10
 target1.height=70
