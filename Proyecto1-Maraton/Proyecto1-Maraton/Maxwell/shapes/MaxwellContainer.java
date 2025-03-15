@@ -101,10 +101,24 @@ public class MaxwellContainer {
     }
 
     /**
-     * Agrega una nueva partícula al contenedor. 
-     * @param color Color de la partícula que se quiere crear("red" o "blue").
+     * Agrega una nueva partícula al contenedor.
+     * La partícula se posiciona aleatoriamente dentro de los límites de la cámara correspondiente
+     * (azul en la izquierda y roja en la derecha). También se le asigna una velocidad aleatoria.
+     *
+     * @param color Color de la partícula a crear. Puede ser "red" o "blue".
+     *              - "red":Se crea en la mitad derecha del contenedor.
+     *              - "blue":Se crea en la mitad izquierda del contenedor.
+     *
+     * - La partícula debe estar dentro de su respectiva mitad.
+     * - Se evita colocarla demasiado cerca de los bordes con un margen de seguridad (`padding`).
+     * - La velocidad en `x` y `y` no puede ser 0, para asegurar movimiento.
+     *
+     * Funcionamiento:
+     * 1. Se genera una posición aleatoria `(pX, pY)` dentro de la región correcta según el color.
+     * 2. Se asigna una velocidad aleatoria `(vx, vy)`, asegurando que ninguna sea 0.
+     * 3. Se crea la partícula y se agrega a la lista de partículas.
+     * 4. Si la simulación es visible (`isVisible`), se hace visible la nueva partícula.
      */
-
 
     public void addParticle(String color) {
     Random rand = new Random();
@@ -151,9 +165,15 @@ public class MaxwellContainer {
      * Elimina una partícula del contenedor.
      * @param particle Partícula a eliminar.
      */
-    public void removeParticle(Particle particle) {
-        particles.remove(particle);
-        particle.makeInvisible();
+    public void removeParticle() {
+        if(!particles.isEmpty()){
+        Particle lastParticle=particles.get(particles.size()-1);
+        lastParticle.makeInvisible();
+        particles.remove(particles.size()-1);
+        }else{
+        System.out.println("No hay particulas para eliminar");
+        }
+        
     }
 
     public void addHole() {
