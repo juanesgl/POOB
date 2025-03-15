@@ -1,4 +1,6 @@
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 /**
  * La clase Demon representa al "demonio" que se encuentra en la pared central del contenedor.
  * Puede abrir y cerrar una puerta para permitir el paso de partículas entre cámaras.
@@ -8,14 +10,7 @@
  * - `shape`: Representación gráfica del demonio.
  * - `isVisible`: Indica si el demonio es visible en pantalla.
  * - `gateOpen`: Indica si la puerta del demonio está abierta.
- * 
- * Métodos:
- * - `makeVisible()`: Hace visible al demonio.
- * - `makeInvisible()`: Hace invisible al demonio.
- * - `getY()`: Devuelve la posición vertical del demonio.
- * - `setGateOpen(boolean state)`: Abre o cierra la puerta del demonio.
- * - `isGateOpen()`: Indica si la puerta está abierta.
- * @author Edgar Daniel Ruiz Patiño
+ * @author Daniel Ruiz Patiño
  * @author Juan Esteban Sánchez García
  * @version 1 (Cycle 1)
  */

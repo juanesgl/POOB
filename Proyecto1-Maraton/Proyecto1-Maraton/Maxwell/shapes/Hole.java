@@ -1,16 +1,24 @@
 import java.util.Random;
 import java.util.List;
 import java.util.Iterator;
+
 /**
  * La clase Hole representa un agujero en la simulación de Maxwell's Demon.
  * Un agujero permite el paso de partículas entre las dos cámaras.
  * Se define por su posición, radio y su estado de visibilidad.
- * @author Edgar Daniel Ruiz Patiño
+ * Atributos:
+ * - `x`: Coordenada X del agujero.
+ * - `y`: Coordenada Y del agujero.
+ * - `radius`: Radio del agujero.
+ * - `shape`: Representación gráfica del agujero.
+ * - `isVisible`: Indica si el agujero es visible en la interfaz gráfica.
+ * @author Daniel Ruiz Patiño
  * @author Juan Esteban Sánchez García
  * @version 1 (Cycle 1)
  */
+
+
 public class Hole {
-    // Atributos
     private int x, y;  
     private int radius; 
     private Circle shape; 
@@ -18,6 +26,7 @@ public class Hole {
 
     /**
      * Constructor de la clase Hole.
+     * Crea un agujero en una posición aleatoria dentro del contenedor, evitando la zona central.
      *
      * @param containerWidth Ancho total del contenedor.
      * @param containerHeight Altura total del contenedor.
@@ -42,7 +51,7 @@ public class Hole {
     }
     
     /**
-     * Hace que el agujero sea visible.
+     * Hace que el agujero sea visible en la interfaz gráfica.
      */
     public void makeVisible() {
         if (!isVisible) {
@@ -52,7 +61,7 @@ public class Hole {
     }
 
     /**
-     * Hace que el agujero sea invisible.
+     * Hace que el agujero sea invisible en la interfaz gráfica.
      */
     public void makeInvisible() {
         if (isVisible) {
@@ -64,7 +73,7 @@ public class Hole {
     /**
      * Obtiene la coordenada X del agujero.
      *
-     * @return Coordenada X.
+     * @return Coordenada X del agujero.
      */
     public int getX() {
         return x;
@@ -73,7 +82,7 @@ public class Hole {
     /**
      * Obtiene la coordenada Y del agujero.
      *
-     * @return Coordenada Y.
+     * @return Coordenada Y del agujero.
      */
     public int getY() {
         return y;
@@ -81,6 +90,8 @@ public class Hole {
 
     /**
      * Verifica si una partícula ha caído en el agujero y la elimina.
+     * Si una partícula está dentro del radio del agujero, se hace invisible y se elimina de la lista.
+     *
      * @param particles Lista de partículas en el contenedor.
      */
     public void absorbs(List<Particle> particles) {

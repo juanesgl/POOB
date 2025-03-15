@@ -6,10 +6,21 @@ import java.util.Random;
  * La clase MaxwellContainer representa el contenedor en la simulación de Maxwell's Demon.
  * Este contenedor almacena partículas, demonios y agujeros.
  * Además, inicia la simulación de movimiento cuando se hace visible.
- * 
- * @author Edgar Daniel Ruiz Patiño
+ * Atributos:
+ * - `width`: Ancho total del contenedor.
+ * - `height`: Altura total del contenedor.
+ * - `particles`: Lista de partículas en el contenedor.
+ * - `holes`: Lista de agujeros en el contenedor.
+ * - `demons`: Lista de demonios en el contenedor.
+ * - `border`: Representación gráfica del borde del contenedor.
+ * - `leftChamber`: Representación gráfica de la cámara izquierda.
+ * - `rightChamber`: Representación gráfica de la cámara derecha.
+ * - `centralWall`: Representación gráfica de la pared central.
+ * - `isVisible`: Indica si el contenedor es visible en la interfaz gráfica.
+ * - `isRunning`: Indica si la simulación está en ejecución.
+ * @author Daniel Ruiz Patiño
  * @author Juan Esteban Sánchez García
- * @version 1
+ * @version 1 (Cycle 1)
  */
 public class MaxwellContainer {
     private int width, height;
@@ -23,8 +34,9 @@ public class MaxwellContainer {
     private boolean isVisible;
     private boolean isRunning;
 
-        /**
+    /**
      * Constructor de MaxwellContainer.
+     * 
      * @param width Ancho de la cámara (el total será el doble).
      * @param height Altura de la cámara.
      */
@@ -59,14 +71,12 @@ public class MaxwellContainer {
         centralWall.moveHorizontal(width - 1);
     }
 
-    
-    
-       /**
+    /**
      * Agrega un demonio al contenedor.
-     * 
+     * El demonio se coloca en el centro del contenedor.
      */
     public void addDemon() {
-        Demon demon=new Demon(this.height/2,this.width/2);
+        Demon demon = new Demon(this.height / 2, this.width / 2);
         demons.add(demon);
         if (isVisible) {
             demon.makeVisible();
@@ -75,31 +85,38 @@ public class MaxwellContainer {
 
     /**
      * Elimina un demonio del contenedor.
-     * Si la lista esta vacia sale mensaje de error
+     * Si la lista está vacía, se muestra un mensaje de error.
      */
     public void deleteDemon() {
-        if(!demons.isEmpty()){
-        Demon lastDemon=demons.get(demons.size()-1);
-        lastDemon.makeInvisible();
-        demons.remove(demons.size()-1);
-        }else{
-        System.out.println("No hay demonios para eliminar");
+        if (!demons.isEmpty()) {
+            Demon lastDemon = demons.get(demons.size() - 1);
+            lastDemon.makeInvisible();
+            demons.remove(demons.size() - 1);
+        } else {
+            System.out.println("No hay demonios para eliminar");
         }
     }
-    
+
     /**
-     * Permite pasar particulas a traves del demon
+     * Permite que las partículas pasen a través del demonio.
+     * Abre la puerta del demonio para permitir el paso de partículas.
      */
-    public void openGate(){
-        Demon lastDemon=demons.get(demons.size()-1);
-        lastDemon.setGateOpen(true);
+    public void openGate() {
+        if (!demons.isEmpty()) {
+            Demon lastDemon = demons.get(demons.size() - 1);
+            lastDemon.setGateOpen(true);
+        }
     }
+
     /**
-     * No permite pasar particulas a traves del demon
+     * No permite que las partículas pasen a través del demonio.
+     * Cierra la puerta del demonio para evitar el paso de partículas.
      */
-    public void closeGate(){
-        Demon lastDemon=demons.get(demons.size()-1);
-        lastDemon.setGateOpen(false);
+    public void closeGate() {
+        if (!demons.isEmpty()) {
+            Demon lastDemon = demons.get(demons.size() - 1);
+            lastDemon.setGateOpen(false);
+        }
     }
 
     /**
@@ -108,125 +125,86 @@ public class MaxwellContainer {
      * (azul en la izquierda y roja en la derecha). También se le asigna una velocidad aleatoria.
      *
      * @param color Color de la partícula a crear. Puede ser "red" o "blue".
-     *              - "red":Se crea en la mitad derecha del contenedor.
-     *              - "blue":Se crea en la mitad izquierda del contenedor.
-     *
-     * - La partícula debe estar dentro de su respectiva mitad.
-     * - Se evita colocarla demasiado cerca de los bordes con un margen de seguridad (`padding`).
-     * - La velocidad en `x` y `y` no puede ser 0, para asegurar movimiento.
-     *
-     * Funcionamiento:
-     * 1. Se genera una posición aleatoria `(pX, pY)` dentro de la región correcta según el color.
-     * 2. Se asigna una velocidad aleatoria `(vx, vy)`, asegurando que ninguna sea 0.
-     * 3. Se crea la partícula y se agrega a la lista de partículas.
-     * 4. Si la simulación es visible (`isVisible`), se hace visible la nueva partícula.
+     *              - "red": Se crea en la mitad derecha del contenedor.
+     *              - "blue": Se crea en la mitad izquierda del contenedor.
      */
-
     public void addParticle(String color) {
-    Random rand = new Random();
-    int pX, pY, vx, vy;
-    int middleX = width / 2; 
-    int padding = 15; // Margen para evitar que se salgan
+        Random rand = new Random();
+        int pX, pY, vx, vy;
+        int middleX = width / 2;
+        int padding = 15; // Margen para evitar que se salgan
 
-    
-    pY = padding + rand.nextInt(height - (2 * padding)); 
+        pY = padding + rand.nextInt(height - (2 * padding));
 
-    
-    if (color.equals("red")) {
-        pX = middleX + padding + rand.nextInt((width / 2) - (2*padding)); 
-    } else if (color.equals("blue")) {
-        pX = padding + rand.nextInt(middleX - (2*padding)); 
-    } else {
-        System.out.println("Color inválido: " + color);
-        return;
+        if (color.equals("red")) {
+            pX = middleX + padding + rand.nextInt((width / 2) - (2 * padding));
+        } else if (color.equals("blue")) {
+            pX = padding + rand.nextInt(middleX - (2 * padding));
+        } else {
+            System.out.println("Color inválido: " + color);
+            return;
+        }
+
+        do {
+            vx = rand.nextInt(7) - 3;
+        } while (vx == 0);
+
+        do {
+            vy = rand.nextInt(7) - 3;
+        } while (vy == 0);
+
+        Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
+        particles.add(particle);
+
+        if (isVisible) {
+            particle.makeVisible();
+        }
     }
 
-    
-    do {
-        vx = rand.nextInt(7) - 3; 
-    } while (vx == 0);
-
-    do {
-        vy = rand.nextInt(7) - 3;
-    } while (vy == 0);
-
-    
-    Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
-    particles.add(particle);
-
-    if (isVisible) {
-        particle.makeVisible();
-    }
-    }
-    
     /**
      * Elimina la última partícula agregada al contenedor.
-     *
-     * Funcionamiento:
-     * 1. Verifica si hay partículas en la lista `particles`.
-     * 2. Si la lista no está vacía:
-     *    - Obtiene la última partícula agregada.
-     *    - La hace invisible antes de eliminarla.
-     *    - La elimina de la lista.
-     * 3. Si la lista está vacía, muestra un mensaje indicando que no hay partículas para eliminar.
-     *
-     * - No hace nada si no hay partículas en la lista.
-     * - Solo elimina la última partícula agregada (orden tipo pila, LIFO).
+     * Si no hay partículas, se muestra un mensaje de error.
      */
     public void removeParticle() {
-        if(!particles.isEmpty()){
-        Particle lastParticle=particles.get(particles.size()-1);
-        lastParticle.makeInvisible();
-        particles.remove(particles.size()-1);
-        }else{
-        System.out.println("No hay particulas para eliminar");
+        if (!particles.isEmpty()) {
+            Particle lastParticle = particles.get(particles.size() - 1);
+            lastParticle.makeInvisible();
+            particles.remove(particles.size() - 1);
+        } else {
+            System.out.println("No hay partículas para eliminar");
         }
-        
     }
 
     /**
      * Agrega un nuevo agujero (Hole) al contenedor en una posición aleatoria.
-     * 
-     * El agujero se genera dentro de los límites del contenedor, evitando la zona 
-     * central donde está la barrera divisoria.  
-     * Si la visualización está activada, el agujero se mostrará inmediatamente después 
-     * de ser agregado.
+     * El agujero se genera dentro de los límites del contenedor, evitando la zona central.
      */
     public void addHole() {
         Hole newHole = new Hole(width, height);
         holes.add(newHole);
-    
+
         if (isVisible) {
             newHole.makeVisible();
         }
     }
 
     /**
-     * Eliminar el ultimo Hole agregado al contenedor.
-     *
-     * Funcionamiento:
-     * 1. Verifica si hay Hole en la lista `holes`.
-     * 2. Si la lista no está vacía:
-     *    - Obtiene el ultimo Hole agregada.
-     *    - Lo hace invisible antes de eliminarlo.
-     *    - Lo elimina de la lista.
-     * 3. Si la lista está vacía, muestra un mensaje indicando que no hay holes para eliminar.
-     *
-     * - No hace nada si no hay holes en la lista.
-     * - Solo elimina el ultimo Hole agregada (orden tipo pila, LIFO).
+     * Elimina el último agujero (Hole) agregado al contenedor.
+     * Si no hay agujeros, se muestra un mensaje de error.
      */
     public void removeHole() {
-        if(!holes.isEmpty()){
-        Hole lastHole=holes.get(holes.size()-1);
-        lastHole.makeInvisible();
-        holes.remove(holes.size()-1);
-        }else{
-        System.out.println("No hay holes para eliminar");
+        if (!holes.isEmpty()) {
+            Hole lastHole = holes.get(holes.size() - 1);
+            lastHole.makeInvisible();
+            holes.remove(holes.size() - 1);
+        } else {
+            System.out.println("No hay agujeros para eliminar");
         }
-        
     }
+
     /**
      * Inicia la simulación.
+     * La simulación se ejecuta en un hilo separado.
      */
     public void start() {
         System.out.println("Simulación iniciada");
@@ -238,11 +216,10 @@ public class MaxwellContainer {
         simulationThread.start();
     }
 
-
     /**
      * Finaliza la simulación.
+     * Detiene el movimiento de las partículas.
      */
-
     public void finish() {
         isRunning = false;
         System.out.println("Simulación terminada");
@@ -250,6 +227,7 @@ public class MaxwellContainer {
 
     /**
      * Obtiene la lista de partículas.
+     * 
      * @return Lista de partículas.
      */
     public List<Particle> particles() {
@@ -258,6 +236,7 @@ public class MaxwellContainer {
 
     /**
      * Obtiene la lista de demonios.
+     * 
      * @return Lista de demonios.
      */
     public List<Demon> demons() {
@@ -266,29 +245,30 @@ public class MaxwellContainer {
 
     /**
      * Obtiene la lista de agujeros.
+     * 
      * @return Lista de agujeros.
      */
     public List<Hole> holes() {
         return holes;
     }
-    
-    
+
     /**
      * Obtiene el ancho total del contenedor.
+     * 
      * @return Ancho total del contenedor.
      */
     public int getWidth() {
         return width;
     }
-    
+
     /**
      * Obtiene la altura total del contenedor.
+     * 
      * @return Altura total del contenedor.
      */
     public int getHeight() {
         return height;
-    }    
-    
+    }
 
     /**
      * Hace visible el contenedor y sus elementos.
@@ -308,7 +288,6 @@ public class MaxwellContainer {
             isVisible = true;
         }
     }
-
 
     /**
      * Hace invisible el contenedor y sus elementos.
@@ -330,8 +309,9 @@ public class MaxwellContainer {
     }
 
     /**
-     * Obtiene el estado de visibilidad.
-     * @return booleano que indica si el contenedor es visible.
+     * Obtiene el estado de visibilidad del contenedor.
+     * 
+     * @return true si el contenedor es visible, false en caso contrario.
      */
     public boolean isVisible() {
         return isVisible;
@@ -344,22 +324,21 @@ public class MaxwellContainer {
      */
     private void runSimulation(int steps) {
         isRunning = true; // La simulación está activa
-        for (int i = 0; i < steps && isRunning; i++) { 
+        for (int i = 0; i < steps && isRunning; i++) {
             for (Particle p : particles) {
-                p.move(width, height,demons);
+                p.move(width, height, demons);
             }
-            
+
             for (Hole hole : holes) {
-            hole.absorbs(particles);
+                hole.absorbs(particles);
             }
-            
+
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        isRunning = false; 
+        isRunning = false;
     }
-
 }

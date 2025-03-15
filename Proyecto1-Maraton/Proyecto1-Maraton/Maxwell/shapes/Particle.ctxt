@@ -1,21 +1,21 @@
 #BlueJ class context
 comment0.target=Particle
-comment0.text=\r\n\ La\ clase\ Particle\ representa\ una\ part\u00EDcula\ en\ la\ simulaci\u00F3n\ de\ Maxwell's\ Demon.\r\n\ Se\ asegura\ que\ las\ part\u00EDculas\ est\u00E9n\ en\ su\ c\u00E1mara\ correcta\ y\ se\ muevan\ dentro\ del\ tablero.\r\n\ \r\n\ @author\ Edgar\ Daniel\ Ruiz\ Pati\u00F1o\r\n\ @author\ Juan\ Esteban\ S\u00E1nchez\ Garc\u00EDa\r\n\ @version\ 1.4\ (Placement\ +\ Movement)\r\n
+comment0.text=\r\n\ La\ clase\ Particle\ representa\ una\ part\u00EDcula\ en\ la\ simulaci\u00F3n\ de\ Maxwell's\ Demon.\r\n\ Cada\ part\u00EDcula\ tiene\ una\ posici\u00F3n,\ velocidad\ y\ representaci\u00F3n\ gr\u00E1fica.\r\n\ Puede\ moverse\ y\ rebotar\ en\ las\ paredes\ del\ contenedor.\r\n\ Atributos\:\r\n\ -\ `pX`\:\ Coordenada\ X\ de\ la\ part\u00EDcula.\r\n\ -\ `pY`\:\ Coordenada\ Y\ de\ la\ part\u00EDcula.\r\n\ -\ `vx`\:\ Velocidad\ en\ el\ eje\ X.\r\n\ -\ `vy`\:\ Velocidad\ en\ el\ eje\ Y.\r\n\ -\ `color`\:\ Color\ de\ la\ part\u00EDcula\ ("red"\ o\ "blue").\r\n\ -\ `isVisible`\:\ Indica\ si\ la\ part\u00EDcula\ es\ visible\ en\ la\ interfaz\ gr\u00E1fica.\r\n\ @author\ Daniel\ Ruiz\ Pati\u00F1o\r\n\ @author\ Juan\ Esteban\ S\u00E1nchez\ Garc\u00EDa\r\n\ @version\ 1\ (Cycle\ 1)\r\n
 comment1.params=pX\ pY\ vx\ vy\ color\ containerWidth\ containerHeight
 comment1.target=Particle(int,\ int,\ int,\ int,\ java.lang.String,\ int,\ int)
 comment1.text=\r\n\ Crea\ una\ nueva\ part\u00EDcula\ asegurando\ que\ est\u00E1\ dentro\ de\ los\ l\u00EDmites\ correctos.\r\n\ \r\n\ @param\ pX\ Posici\u00F3n\ inicial\ en\ X.\r\n\ @param\ pY\ Posici\u00F3n\ inicial\ en\ Y.\r\n\ @param\ vx\ Velocidad\ en\ X.\r\n\ @param\ vy\ Velocidad\ en\ Y.\r\n\ @param\ color\ Color\ de\ la\ part\u00EDcula\ ("red"\ o\ "blue").\r\n\ @param\ containerWidth\ Ancho\ total\ del\ contenedor.\r\n\ @param\ containerHeight\ Alto\ total\ del\ contenedor.\r\n
 comment2.params=containerWidth\ containerHeight\ demons
 comment2.target=void\ move(int,\ int,\ java.util.List)
-comment2.text=\r\n\ Moves\ the\ particle\ within\ the\ container\ while\ ensuring\ no\ invalid\ movement.\r\n\ \r\n\ @param\ containerWidth\ \ width\ del\ contenedor.\r\n\ @param\ containerHeight\ height\ del\ contenedor.\r\n\ @param\ demons\ Es\ la\ lista\ de\ demonios\ que\ existen\r\n
+comment2.text=\r\n\ Mueve\ la\ part\u00EDcula\ dentro\ del\ contenedor,\ asegur\u00E1ndose\ de\ que\ no\ haya\ movimientos\ inv\u00E1lidos.\r\n\ \r\n\ @param\ containerWidth\ Ancho\ del\ contenedor.\r\n\ @param\ containerHeight\ Alto\ del\ contenedor.\r\n\ @param\ demons\ Lista\ de\ demonios\ que\ existen.\r\n
 comment3.params=
 comment3.target=java.lang.String\ getColor()
-comment3.text=\r\n\ Obtiene\ el\ color\ de\ la\ part\u00EDcula.\r\n\ @return\ "red"\ o\ "blue".\r\n
+comment3.text=\r\n\ Obtiene\ el\ color\ de\ la\ part\u00EDcula.\r\n\ \r\n\ @return\ "red"\ o\ "blue".\r\n
 comment4.params=
 comment4.target=int\ getX()
-comment4.text=\r\n\ Obtiene\ la\ posici\u00F3n\ X\ de\ la\ part\u00EDcula.\r\n\ @return\ Coordenada\ X.\r\n
+comment4.text=\r\n\ Obtiene\ la\ posici\u00F3n\ X\ de\ la\ part\u00EDcula.\r\n\ \r\n\ @return\ Coordenada\ X.\r\n
 comment5.params=
 comment5.target=int\ getY()
-comment5.text=\r\n\ Obtiene\ la\ posici\u00F3n\ Y\ de\ la\ part\u00EDcula.\r\n\ @return\ Coordenada\ Y.\r\n
+comment5.text=\r\n\ Obtiene\ la\ posici\u00F3n\ Y\ de\ la\ part\u00EDcula.\r\n\ \r\n\ @return\ Coordenada\ Y.\r\n
 comment6.params=
 comment6.target=void\ makeVisible()
 comment6.text=\r\n\ Hace\ que\ la\ part\u00EDcula\ sea\ visible.\r\n
