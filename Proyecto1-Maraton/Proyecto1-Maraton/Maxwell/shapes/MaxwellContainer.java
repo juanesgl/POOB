@@ -185,26 +185,50 @@ public class MaxwellContainer {
         }
         
     }
-
+    
+    
+    /**
+     * Agrega un nuevo agujero (Hole) al contenedor en una posición aleatoria.
+     * 
+     * El agujero se genera dentro de los límites del contenedor, evitando la zona 
+     * central donde está la barrera divisoria.  
+     * Si la visualización está activada, el agujero se mostrará inmediatamente después 
+     * de ser agregado.
+     */
     public void addHole() {
-        Random rand = new Random();
-        int middleX = width / 2;
-        int holeX, holeY;
-
-        do {
-            holeX = rand.nextInt(width - 20) + 10;
-        } while (holeX >= middleX - 10 && holeX <= middleX + 10);
-
-        holeY = rand.nextInt(height - 20) + 10;
-
-        Hole newHole = new Hole(holeX, holeY);  
+        Hole newHole = new Hole(width, height);
         holes.add(newHole);
-
+    
         if (isVisible) {
             newHole.makeVisible();
         }
-
     }
+
+    /**
+     * Eliminar el ultimo Hole agregado al contenedor.
+     *
+     * Funcionamiento:
+     * 1. Verifica si hay Hole en la lista `holes`.
+     * 2. Si la lista no está vacía:
+     *    - Obtiene el ultimo Hole agregada.
+     *    - Lo hace invisible antes de eliminarlo.
+     *    - Lo elimina de la lista.
+     * 3. Si la lista está vacía, muestra un mensaje indicando que no hay holes para eliminar.
+     *
+     * - No hace nada si no hay holes en la lista.
+     * - Solo elimina el ultimo Hole agregada (orden tipo pila, LIFO).
+     */
+    public void removeHole() {
+        if(!holes.isEmpty()){
+        Hole lastHole=holes.get(holes.size()-1);
+        lastHole.makeInvisible();
+        holes.remove(holes.size()-1);
+        }else{
+        System.out.println("No hay holes para eliminar");
+        }
+        
+    }
+
 
 
 
