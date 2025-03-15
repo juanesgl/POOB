@@ -107,36 +107,43 @@ public class MaxwellContainer {
 
 
     public void addParticle(String color) {
-        Random rand = new Random();
+    Random rand = new Random();
+    int pX, pY, vx, vy;
+    int middleX = width / 2; 
+    int padding = 15; // Margen para evitar que se salgan
 
-        int pX; 
-        int pY = rand.nextInt(height - 10); 
-        int vx, vy;
+    
+    pY = padding + rand.nextInt(height - (2 * padding)); 
 
-        if (color.equalsIgnoreCase("red")) {
-            pX = width / 2 + 10 + rand.nextInt(width / 2 - 20); 
-        } else if (color.equalsIgnoreCase("blue")) {
-            pX = rand.nextInt(width / 2 - 10);
-        } else {
-            System.out.println("Color inválido: " + color);
-            return; 
-        }
-
-        do {
-            vx = rand.nextInt(11) - 5; 
-        } while (vx == 0);
-
-        do {
-            vy = rand.nextInt(11) - 5; 
-        } while (vy == 0);
-
-        Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
-        particles.add(particle);
-
-        if (isVisible) {
-            particle.makeVisible();
-        }
+    
+    if (color.equals("red")) {
+        pX = middleX + padding + rand.nextInt((width / 2) - (2*padding)); 
+    } else if (color.equals("blue")) {
+        pX = padding + rand.nextInt(middleX - (2*padding)); 
+    } else {
+        System.out.println("Color inválido: " + color);
+        return;
     }
+
+    
+    do {
+        vx = rand.nextInt(7) - 3; 
+    } while (vx == 0);
+
+    do {
+        vy = rand.nextInt(7) - 3;
+    } while (vy == 0);
+
+    
+    Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
+    particles.add(particle);
+
+    if (isVisible) {
+        particle.makeVisible();
+    }
+    }
+
+
 
 
 

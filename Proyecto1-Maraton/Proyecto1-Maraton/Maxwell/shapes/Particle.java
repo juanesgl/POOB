@@ -40,7 +40,7 @@ public class Particle extends Circle {
     public Particle(int pX, int pY, int vx, int vy, String color, int containerWidth, int containerHeight) {
         super();//sirve para llamar al constructor de circle
 
-        int middleX = containerWidth / 2; 
+        int middleX = (containerWidth/2) + 5; 
 
         
         if (!color.equals("red") && !color.equals("blue")) {
@@ -50,15 +50,18 @@ public class Particle extends Circle {
 
         
         if ((color.equals("blue") && pX >= middleX) || (color.equals("red") && pX < middleX)) {
-            System.out.println("La particula no va en esa camara");
+            System.out.println("La partícula no va en esa cámara");
             return;
         }
 
+
+
         
-        if (pY < 0 || pY >= containerHeight - 10) {
-            System.out.println("Las particulas no estan dentro del contenedor");
+        if (pY < 5 || pY >= (containerHeight - 10)) {  
+            System.out.println("Las partículas no están dentro del contenedor");
             return;
-        }
+        }   
+
 
         this.pX = pX;
         this.pY = pY;
