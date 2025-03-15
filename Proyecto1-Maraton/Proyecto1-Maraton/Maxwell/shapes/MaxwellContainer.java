@@ -162,8 +162,18 @@ public class MaxwellContainer {
 
 
     /**
-     * Elimina una partícula del contenedor.
-     * @param particle Partícula a eliminar.
+     * Elimina la última partícula agregada al contenedor.
+     *
+     * Funcionamiento:
+     * 1. Verifica si hay partículas en la lista `particles`.
+     * 2. Si la lista no está vacía:
+     *    - Obtiene la última partícula agregada.
+     *    - La hace invisible antes de eliminarla.
+     *    - La elimina de la lista.
+     * 3. Si la lista está vacía, muestra un mensaje indicando que no hay partículas para eliminar.
+     *
+     * - No hace nada si no hay partículas en la lista.
+     * - Solo elimina la última partícula agregada (orden tipo pila, LIFO).
      */
     public void removeParticle() {
         if(!particles.isEmpty()){
