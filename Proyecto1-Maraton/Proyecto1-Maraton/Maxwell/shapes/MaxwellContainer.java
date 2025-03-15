@@ -156,11 +156,7 @@ public class MaxwellContainer {
         particle.makeVisible();
     }
     }
-
-
-
-
-
+    
     /**
      * Elimina la última partícula agregada al contenedor.
      *
