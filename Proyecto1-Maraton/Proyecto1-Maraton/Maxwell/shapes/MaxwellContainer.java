@@ -183,8 +183,7 @@ public class MaxwellContainer {
         }
         
     }
-    
-    
+
     /**
      * Agrega un nuevo agujero (Hole) al contenedor en una posición aleatoria.
      * 
@@ -226,11 +225,6 @@ public class MaxwellContainer {
         }
         
     }
-
-
-
-
-
     /**
      * Inicia la simulación.
      */
