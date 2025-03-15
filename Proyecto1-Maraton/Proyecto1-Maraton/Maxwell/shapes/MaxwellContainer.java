@@ -346,7 +346,7 @@ public class MaxwellContainer {
         isRunning = true; // La simulación está activa
         for (int i = 0; i < steps && isRunning; i++) { 
             for (Particle p : particles) {
-                p.move(width, height);
+                p.move(width, height,demons);
             }
             try {
                 Thread.sleep(10);

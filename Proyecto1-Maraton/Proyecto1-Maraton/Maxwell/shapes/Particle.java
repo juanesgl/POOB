@@ -79,10 +79,11 @@ public class Particle extends Circle {
     /**
      * Moves the particle within the container while ensuring no invalid movement.
      * 
-     * @param containerWidth  The total width of the container.
-     * @param containerHeight The total height of the container.
+     * @param containerWidth  width del contenedor.
+     * @param containerHeight height del contenedor.
+     * @param demons Es la lista de demonios que existen
      */
-    public void move(int containerWidth, int containerHeight) {
+    public void move(int containerWidth, int containerHeight,List<Demon> demons) {
         int middleX = containerWidth / 2; 
         int padding = 5;
         
@@ -93,7 +94,27 @@ public class Particle extends Circle {
         if (nextY <= padding  || nextY >= containerHeight - padding ) {
             vy = -vy;
         }
-    
+        
+        
+        
+        
+        for (Demon demon : demons) {
+        if (Math.abs(pX - middleX) <= 10 && Math.abs(pY - demon.getY()) <= 10 && demon.isGateOpen()) {
+            if (color.equals("blue")) {
+                color = "red";
+                nextX = middleX + padding; 
+            } else if (color.equals("red")) {
+                color = "blue";
+                nextX = middleX - padding; 
+            }
+            this.changeColor(color); 
+            break; 
+        }
+        }
+        
+        
+        
+        
         
         if (color.equals("blue")) {
         if (nextX <= padding) { // Rebote en el borde izquierdo
