@@ -161,14 +161,13 @@ public class MaxwellContainer {
         int middleX = width / 2;
         int holeX, holeY;
 
-        // Asegurar que el agujero no aparece en la pared central
         do {
             holeX = rand.nextInt(width - 20) + 10;
         } while (holeX >= middleX - 10 && holeX <= middleX + 10);
 
         holeY = rand.nextInt(height - 20) + 10;
 
-        Hole newHole = new Hole(holeX, holeY);  // ✅ Se crea automáticamente
+        Hole newHole = new Hole(holeX, holeY);  
         holes.add(newHole);
 
         if (isVisible) {
