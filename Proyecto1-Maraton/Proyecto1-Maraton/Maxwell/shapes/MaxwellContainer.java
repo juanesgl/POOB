@@ -21,6 +21,7 @@ public class MaxwellContainer {
     private Rectangle rightChamber;
     private Rectangle centralWall;
     private boolean isVisible;
+    private boolean isRunning;
 
         /**
      * Constructor de MaxwellContainer.
@@ -34,6 +35,7 @@ public class MaxwellContainer {
         this.holes = new ArrayList<>();
         this.demons = new ArrayList<>();
         this.isVisible = false;
+        this.isRunning = false;
 
         border = new Rectangle();
         border.changeSize(height + 4, this.width + 4);
@@ -246,8 +248,10 @@ public class MaxwellContainer {
     /**
      * Finaliza la simulación.
      */
+
     public void finish() {
-        System.out.println("Simulación finalizada");
+        isRunning = false;
+        System.out.println("Simulación terminada");
     }
 
     /**
@@ -345,16 +349,18 @@ public class MaxwellContainer {
      * @param steps Número de iteraciones antes de detener la simulación.
      */
     private void runSimulation(int steps) {
-        for (int i = 0; i < steps; i++) { // Runs only for "steps" iterations
+        isRunning = true; // La simulación está activa
+        for (int i = 0; i < steps && isRunning; i++) { 
             for (Particle p : particles) {
                 p.move(width, height);
             }
             try {
-                Thread.sleep(10); // Controls animation speed
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        isRunning = false; 
     }
 
 }
