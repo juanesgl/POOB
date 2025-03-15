@@ -348,6 +348,11 @@ public class MaxwellContainer {
             for (Particle p : particles) {
                 p.move(width, height,demons);
             }
+            
+            for (Hole hole : holes) {
+            hole.absorbs(particles);
+            }
+            
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {

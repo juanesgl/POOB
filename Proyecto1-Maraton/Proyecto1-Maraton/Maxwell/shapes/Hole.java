@@ -88,12 +88,11 @@ public class Hole {
         while (iterator.hasNext()) {
             Particle particle = iterator.next();
             double distance = Math.sqrt(Math.pow(particle.getX() - x, 2) + Math.pow(particle.getY() - y, 2));
-
+    
             if (distance <= radius) {
                 particle.makeInvisible();
                 iterator.remove();
             }
         }
-        
     }
 }
