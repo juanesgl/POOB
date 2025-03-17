@@ -23,7 +23,8 @@ import java.util.Random;
  * @version 1 (Cycle 1)
  */
 public class MaxwellContainer {
-    private int width, height;
+    private int width;
+    private int height;
     private List<Particle> particles;
     private List<Hole> holes;
     private List<Demon> demons;
@@ -49,34 +50,34 @@ public class MaxwellContainer {
         this.isVisible = false;
         this.isRunning = false;
 
-        border = new Rectangle();
-        border.changeSize(height + 4, this.width + 4);
-        border.changeColor("black");
-        border.moveHorizontal(0);
-        border.moveVertical(0);
+        this.border = new Rectangle();
+        this.border.changeSize(height + 4, this.width + 4);
+        this.border.changeColor("black");
+        this.border.moveHorizontal(0);
+        this.border.moveVertical(0);
 
-        leftChamber = new Rectangle();
-        leftChamber.changeSize(height, width);
-        leftChamber.changeColor("white");
-        leftChamber.moveHorizontal(0);
+        this.leftChamber = new Rectangle();
+        this.leftChamber.changeSize(height, width);
+        this.leftChamber.changeColor("white");
+        this.leftChamber.moveHorizontal(0);
 
-        rightChamber = new Rectangle();
-        rightChamber.changeSize(height, width);
-        rightChamber.changeColor("white");
-        rightChamber.moveHorizontal(width);
+        this.rightChamber = new Rectangle();
+        this.rightChamber.changeSize(height, width);
+        this.rightChamber.changeColor("white");
+        this.rightChamber.moveHorizontal(width);
 
-        centralWall = new Rectangle();
-        centralWall.changeSize(height, 1);
-        centralWall.changeColor("gray");
-        centralWall.moveHorizontal(width - 1);
+        this.centralWall = new Rectangle();
+        this.centralWall.changeSize(height, 1);
+        this.centralWall.changeColor("gray");
+        this.centralWall.moveHorizontal(width - 1);
     }
 
     /**
      * Agrega un demonio al contenedor.
      * El demonio se coloca en el centro del contenedor.
      */
-    public void addDemon() {
-        Demon demon = new Demon(this.height / 2, this.width / 2);
+    public void addDemon(int d) {
+        Demon demon = new Demon(d, this.width / 2);
         demons.add(demon);
         if (isVisible) {
             demon.makeVisible();
@@ -211,7 +212,7 @@ public class MaxwellContainer {
 
         // Ejecuta la simulación en un hilo separado
         Thread simulationThread = new Thread(() -> {
-            runSimulation(500); // Puedes ajustar el número de pasos
+            runSimulation(500);
         });
         simulationThread.start();
     }
