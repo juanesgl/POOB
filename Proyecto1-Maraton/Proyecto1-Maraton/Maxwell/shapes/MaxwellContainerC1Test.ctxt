@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=MaxwellContainerC1Test
-comment0.text=\r\n\ Pruebas\ unitarias\ para\ MaxwellContainer.\r\n\ Se\ aseguran\ de\ que\ las\ funciones\ principales\ trabajen\ correctamente.\r\n\ @author\ Daniel\ Ruiz\ Pati\u00F1o\r\n\ @author\ Juan\ Esteban\ S\u00E1nchez\ Garc\u00EDa\r\n\ @version\ 1.0\r\n
+comment0.text=\r\n\ Pruebas\ unitarias\ para\ MaxwellContainer.\r\n\ Se\ aseguran\ de\ que\ las\ funciones\ principales\ trabajen\ correctamente.\r\n\ \r\n\ @author\ Daniel\ Ruiz\ Pati\u00F1o\r\n\ @author\ Juan\ Esteban\ S\u00E1nchez\ Garc\u00EDa\r\n\ @version\ 1.1\r\n
 comment1.params=
 comment1.target=void\ accordingRSShouldCreateValidContainer()
 comment10.params=

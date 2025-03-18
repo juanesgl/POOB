@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * La clase MaxwellContainer representa el contenedor en la simulación de Maxwell's Demon.
@@ -34,6 +36,7 @@ public class MaxwellContainer {
     private Rectangle centralWall;
     private boolean isVisible;
     private boolean isRunning;
+    private boolean did;
 
     /**
      * Constructor de MaxwellContainer.
@@ -70,6 +73,8 @@ public class MaxwellContainer {
         this.centralWall.changeSize(height, 1);
         this.centralWall.changeColor("gray");
         this.centralWall.moveHorizontal(width - 1);
+
+        did = true;
     }
      /**
      * Constructor de MaxwellContainer que permite crear múltiples partículas al inicio.
@@ -79,8 +84,10 @@ public class MaxwellContainer {
      * @param r Cantidad de partículas rojas a crear.
      * @param b Cantidad de partículas azules a crear.
      */
-    public MaxwellContainer(int width, int height, int r, int b) {
-        this(width, height); // Llama al constructor original para inicializar el contenedor
+    public MaxwellContainer(int width, int height,int d, int r, int b) {
+        this(width, height);
+
+        this.addDemon(d);
 
         // Crear partículas rojas
         for (int i = 0; i < r; i++) {
@@ -91,6 +98,21 @@ public class MaxwellContainer {
         for (int i = 0; i < b; i++) {
             addParticle("blue");
         }
+    }
+
+    /**
+     * Metodo auxiliar para pruebas unitarias.
+
+     * Este metodo devuelve el valor del atributo `did`, permitiendo verificar
+     * su estado actual durante las pruebas unitarias. Es especialmente útil
+     * para validar el funcionamiento interno de la clase y asegurar que las
+     * condiciones esperadas se cumplan correctamente.
+     *
+     * @return `true` si el atributo `did` es verdadero, indicando que la operación
+     * o estado esperado ha sido alcanzado; de lo contrario, devuelve `false`.
+     */
+    public boolean ok() {
+        return did;
     }
 
     /**
@@ -123,10 +145,19 @@ public class MaxwellContainer {
      * Permite que las partículas pasen a través del demonio.
      * Abre la puerta del demonio para permitir el paso de partículas.
      */
-    public void openGate() {
+    public void openGate(int milliseconds) {
         if (!demons.isEmpty()) {
             Demon lastDemon = demons.get(demons.size() - 1);
             lastDemon.setGateOpen(true);
+
+
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run(){
+                    lastDemon.setGateOpen(false);
+                }
+            } , milliseconds);
         }
     }
 
@@ -356,7 +387,7 @@ public class MaxwellContainer {
             }
 
             try {
-                Thread.sleep(10);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
