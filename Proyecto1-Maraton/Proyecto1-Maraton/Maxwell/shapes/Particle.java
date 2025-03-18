@@ -17,8 +17,10 @@ import javax.swing.JOptionPane; // Import for pop-up messages
  * @version 1 (Cycle 1)
  */
 public class Particle extends Circle {
-    private int pX, pY;
-    private int vx, vy;
+    private int pX;
+		private int pY;
+    private int vx, 
+		private int vy;
     private String color;
     private boolean isVisible;
 
