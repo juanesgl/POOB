@@ -72,32 +72,6 @@ public class MaxwellContainer {
         this.centralWall.moveHorizontal(width - 1);
     }
 
-    public MaxwellContainer(int width, int height, int d, int r, int b, int[][] redParticles, int[][] blueParticles) {
-        this(width, height);
-
-        this.addDemon(d);
-
-        for (int i = 0; i < r; i++) {
-            int px = redParticles[i][0];
-            int py = redParticles[i][1];
-            int vx = redParticles[i][2];
-            int vy = redParticles[i][3];
-
-            this.addParticle("red", px, py, vx, vy);
-        }
-
-        for (int i = 0; i < b; i++) {
-            int px = blueParticles[i][0];
-            int py = blueParticles[i][1];
-            int vx = blueParticles[i][2];
-            int vy = blueParticles[i][3];
-
-            this.addParticle("blue", px, py, vx, vy);
-
-
-        }
-    }
-
     /**
      * Agrega un demonio al contenedor.
      * El demonio se coloca en el centro del contenedor.
@@ -148,38 +122,41 @@ public class MaxwellContainer {
 
     /**
      * Agrega una nueva partícula al contenedor.
-     * La partícula se posiciona dentro de los límites de la cámara correspondiente
-     * según su color y se le asigna una velocidad determinada.
+     * La partícula se posiciona aleatoriamente dentro de los límites de la cámara correspondiente
+     * (azul en la izquierda y roja en la derecha). También se le asigna una velocidad aleatoria.
      *
      * @param color Color de la partícula a crear. Puede ser "red" o "blue".
-     *              - "red": La partícula se crea en la mitad derecha del contenedor.
-     *              - "blue": La partícula se crea en la mitad izquierda del contenedor.
-     * @param px Posición en el eje X de la partícula dentro del contenedor.
-     *           Debe estar dentro de los límites [1, width - 1].
-     * @param py Posición en el eje Y de la partícula dentro del contenedor.
-     *           Debe estar dentro de los límites [1, height - 1].
-     * @param vx Velocidad en el eje X de la partícula. No puede ser 0 si vy también es 0.
-     * @param vy Velocidad en el eje Y de la partícula. No puede ser 0 si vx también es 0.
-     *
-     * @throws IllegalArgumentException Si la posición (px, py) está fuera de los límites
-     *                                  del contenedor o si la velocidad (vx, vy) es (0, 0).
+     *              - "red": Se crea en la mitad derecha del contenedor.
+     *              - "blue": Se crea en la mitad izquierda del contenedor.
      */
-    public void addParticle(String color, int px, int py, int vx, int vy) {
-        // Validar que la posición esté dentro de los límites
-        if (px <= 0 || px >= width || py <= 0 || py >= height) {
-            throw new IllegalArgumentException("Particle position is out of bounds.");
+    public void addParticle(String color) {
+        Random rand = new Random();
+        int pX, pY, vx, vy;
+        int middleX = width / 2;
+        int padding = 15; // Margen para evitar que se salgan
+
+        pY = padding + rand.nextInt(height - (2 * padding));
+
+        if (color.equals("red")) {
+            pX = middleX + padding + rand.nextInt((width / 2) - (2 * padding));
+        } else if (color.equals("blue")) {
+            pX = padding + rand.nextInt(middleX - (2 * padding));
+        } else {
+            System.out.println("Color inválido: " + color);
+            return;
         }
 
-        // Validar que la velocidad no sea (0,0)
-        if (vx == 0 && vy == 0) {
-            throw new IllegalArgumentException("Particle velocity cannot be zero.");
-        }
+        do {
+            vx = rand.nextInt(7) - 3;
+        } while (vx == 0);
 
-        // Crear y agregar la partícula
-        Particle particle = new Particle(px, py, vx, vy, color, width, height);
+        do {
+            vy = rand.nextInt(7) - 3;
+        } while (vy == 0);
+
+        Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
         particles.add(particle);
 
-        // Hacer visible la partícula si la visibilidad está activada
         if (isVisible) {
             particle.makeVisible();
         }
