@@ -36,7 +36,7 @@ public class Particle extends Circle {
     public Particle(int pX, int pY, int vx, int vy, String color, int containerWidth, int containerHeight) {
         super(); // Llama al constructor de Circle
 
-        int middleX = (containerWidth / 2) + 5;
+        int middleX = (containerWidth / 2) ;
 
         if (!color.equals("red") && !color.equals("blue")) {
             System.out.println("Las partículas deben ser rojas o azules");

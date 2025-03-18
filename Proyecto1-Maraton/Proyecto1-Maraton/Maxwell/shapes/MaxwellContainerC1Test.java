@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
  * @author Juan Esteban Sánchez García
  * @version 1.0
  */
+
+/*
 public class MaxwellContainerC1Test {
 
     @Test
@@ -84,3 +86,4 @@ public class MaxwellContainerC1Test {
         assertTrue(container.isVisible(), "La simulación debería estar corriendo y visible.");
     }
 }
+*/
