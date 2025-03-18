@@ -71,6 +71,27 @@ public class MaxwellContainer {
         this.centralWall.changeColor("gray");
         this.centralWall.moveHorizontal(width - 1);
     }
+     /**
+     * Constructor de MaxwellContainer que permite crear múltiples partículas al inicio.
+     * 
+     * @param width Ancho de la cámara (el total será el doble).
+     * @param height Altura de la cámara.
+     * @param r Cantidad de partículas rojas a crear.
+     * @param b Cantidad de partículas azules a crear.
+     */
+    public MaxwellContainer(int width, int height, int r, int b) {
+        this(width, height); // Llama al constructor original para inicializar el contenedor
+
+        // Crear partículas rojas
+        for (int i = 0; i < r; i++) {
+            addParticle("red");
+        }
+
+        // Crear partículas azules
+        for (int i = 0; i < b; i++) {
+            addParticle("blue");
+        }
+    }
 
     /**
      * Agrega un demonio al contenedor.
