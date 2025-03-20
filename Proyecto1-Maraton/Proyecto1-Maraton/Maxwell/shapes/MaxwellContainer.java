@@ -87,7 +87,7 @@ public class MaxwellContainer {
      * @param vy Velocidad en Y.
      */
     public void addParticle(String color, int px, int py, int vx, int vy) {
-        // Validate the particle's position and velocity
+
         if (px <= 0 || px >= width || py <= 0 || py >= height) {
             throw new IllegalArgumentException("Particle position is out of bounds.");
         }
@@ -95,7 +95,6 @@ public class MaxwellContainer {
             throw new IllegalArgumentException("Particle velocity cannot be zero.");
         }
     
-        // Create and add the particle
         Particle particle = new Particle(px, py, vx, vy, color, width, height);
         particles.add(particle);
     
@@ -177,29 +176,25 @@ public class MaxwellContainer {
     }
 
     public MaxwellContainer(int width, int height, int d, int r, int b, List<int[]> particles) {
-    // Call the basic constructor to initialize the container
     this(width, height);
 
-    // Add the demon at the specified position
     this.addDemon(d);
 
-    // Add red particles
     for (int i = 0; i < r; i++) {
         int[] particleData = particles.get(i);
-        int px = particleData[0]; // Initial x position
-        int py = particleData[1]; // Initial y position
-        int vx = particleData[2]; // Velocity in x direction
-        int vy = particleData[3]; // Velocity in y direction
+        int px = particleData[0]; 
+        int py = particleData[1]; 
+        int vx = particleData[2]; 
+        int vy = particleData[3]; 
         this.addParticle("red", px, py, vx, vy);
     }
 
-    // Add blue particles
     for (int i = r; i < r + b; i++) {
         int[] particleData = particles.get(i);
-        int px = particleData[0]; // Initial x position
-        int py = particleData[1]; // Initial y position
-        int vx = particleData[2]; // Velocity in x direction
-        int vy = particleData[3]; // Velocity in y direction
+        int px = particleData[0]; 
+        int py = particleData[1];
+        int vx = particleData[2]; 
+        int vy = particleData[3]; 
         this.addParticle("blue", px, py, vx, vy);
         }
     }
@@ -251,8 +246,6 @@ public class MaxwellContainer {
      */
     public void start() {
         System.out.println("Simulación iniciada");
-
-        // Ejecuta la simulación en un hilo separado
         Thread simulationThread = new Thread(() -> {
             runSimulation(500);
         });
@@ -366,7 +359,7 @@ public class MaxwellContainer {
      * @param steps Número de iteraciones antes de detener la simulación.
      */
     private void runSimulation(int steps) {
-        isRunning = true; // La simulación está activa
+        isRunning = true; 
         for (int i = 0; i < steps && isRunning; i++) {
             for (Particle p : particles) {
                 p.move(width, height, demons);

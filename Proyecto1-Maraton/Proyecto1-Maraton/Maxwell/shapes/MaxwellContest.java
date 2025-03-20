@@ -100,4 +100,8 @@ public class MaxwellContest {
         MaxwellContest contest = new MaxwellContest(w, h, d, r, b, particles);
         contest.solve();
     }
+    
+    public MaxwellContainer getContainer() {
+        return container;
+    }
 }

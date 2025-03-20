@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
  * @author Juan Esteban Sánchez García
  * @version 1.1
  */
-/*
 public class MaxwellContainerC1Test {
 
     @Test
@@ -27,28 +26,30 @@ public class MaxwellContainerC1Test {
     @Test
     public void accordingRSShouldAddRedParticle() {
         MaxwellContainer container = new MaxwellContainer(400, 200);
-        container.addParticle("red");
+        container.addParticle("red", 50, 100, 1, 1);
         assertTrue(container.ok(), "La partícula roja debería agregarse correctamente.");
     }
 
     @Test
     public void accordingRSShouldAddBlueParticle() {
         MaxwellContainer container = new MaxwellContainer(400, 200);
-        container.addParticle("blue");
+        container.addParticle("blue", 250, 100, -1, 1);
         assertTrue(container.ok(), "La partícula azul debería agregarse correctamente.");
     }
 
     @Test
     public void accordingRSShouldNotAddInvalidParticle() {
         MaxwellContainer container = new MaxwellContainer(400, 200);
-        container.addParticle("green");
-        assertFalse(container.ok(), "No debería agregarse una partícula con un color inválido.");
+        assertThrows(IllegalArgumentException.class, () -> {
+            container.addParticle("green", 50, 100, 1, 1);
+        }, "No debería agregarse una partícula con un color inválido.");
+        assertTrue(container.ok(), "El estado del contenedor debería seguir siendo válido.");
     }
 
     @Test
     public void accordingRSShouldRemoveParticle() {
         MaxwellContainer container = new MaxwellContainer(400, 200);
-        container.addParticle("red");
+        container.addParticle("red", 50, 100, 1, 1);
         container.removeParticle();
         assertTrue(container.ok(), "Debería eliminarse la última partícula agregada.");
     }
@@ -78,10 +79,9 @@ public class MaxwellContainerC1Test {
     @Test
     public void accordingRSShouldStartSimulation() {
         MaxwellContainer container = new MaxwellContainer(400, 200);
-        container.addParticle("red");
-        container.addParticle("blue");
+        container.addParticle("red", 50, 100, 1, 1);
+        container.addParticle("blue", 250, 100, -1, 1);
         container.makeVisible();
         assertTrue(container.ok(), "La simulación debería estar corriendo y visible.");
     }
 }
-*/
