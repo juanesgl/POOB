@@ -178,17 +178,15 @@ public class MaxwellContainer {
      * (azul en la izquierda y roja en la derecha). También se le asigna una velocidad aleatoria.
      *
      * @param color Color de la partícula a crear. Puede ser "red" o "blue".
-     *              - "red": Se crea en la mitad derecha del contenedor.
-     *              - "blue": Se crea en la mitad izquierda del contenedor.
      */
     public void addParticle(String color) {
         Random rand = new Random();
         int pX, pY, vx, vy;
         int middleX = width / 2;
         int padding = 15; // Margen para evitar que se salgan
-
+    
         pY = padding + rand.nextInt(height - (2 * padding));
-
+    
         if (color.equals("red")) {
             pX = middleX + padding + rand.nextInt((width / 2) - (2 * padding));
         } else if (color.equals("blue")) {
@@ -197,18 +195,22 @@ public class MaxwellContainer {
             System.out.println("Color inválido: " + color);
             return;
         }
-
+    
         do {
             vx = rand.nextInt(7) - 3;
         } while (vx == 0);
-
+    
         do {
             vy = rand.nextInt(7) - 3;
         } while (vy == 0);
-
+    
+        // Add a small random offset to ensure particles are not perfectly aligned
+        pX += rand.nextInt(5) - 2; // Random offset between -2 and 2
+        pY += rand.nextInt(5) - 2; // Random offset between -2 and 2
+    
         Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
         particles.add(particle);
-
+    
         if (isVisible) {
             particle.makeVisible();
         }
