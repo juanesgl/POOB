@@ -76,27 +76,31 @@ public class MaxwellContainer {
 
         did = true;
     }
-     /**
-     * Constructor de MaxwellContainer que permite crear múltiples partículas al inicio.
-     * 
-     * @param width Ancho de la cámara (el total será el doble).
-     * @param height Altura de la cámara.
-     * @param r Cantidad de partículas rojas a crear.
-     * @param b Cantidad de partículas azules a crear.
+    
+    /**
+     * Agrega una nueva partícula al contenedor con una posición y velocidad específicas.
+     *
+     * @param color Color de la partícula a crear. Puede ser "red" o "blue".
+     * @param px Posición inicial en X.
+     * @param py Posición inicial en Y.
+     * @param vx Velocidad en X.
+     * @param vy Velocidad en Y.
      */
-    public MaxwellContainer(int width, int height,int d, int r, int b) {
-        this(width, height);
-
-        this.addDemon(d);
-
-        // Crear partículas rojas
-        for (int i = 0; i < r; i++) {
-            addParticle("red");
+    public void addParticle(String color, int px, int py, int vx, int vy) {
+        // Validate the particle's position and velocity
+        if (px <= 0 || px >= width || py <= 0 || py >= height) {
+            throw new IllegalArgumentException("Particle position is out of bounds.");
         }
-
-        // Crear partículas azules
-        for (int i = 0; i < b; i++) {
-            addParticle("blue");
+        if (vx == 0 && vy == 0) {
+            throw new IllegalArgumentException("Particle velocity cannot be zero.");
+        }
+    
+        // Create and add the particle
+        Particle particle = new Particle(px, py, vx, vy, color, width, height);
+        particles.add(particle);
+    
+        if (isVisible) {
+            particle.makeVisible();
         }
     }
 
@@ -172,47 +176,31 @@ public class MaxwellContainer {
         }
     }
 
-    /**
-     * Agrega una nueva partícula al contenedor.
-     * La partícula se posiciona aleatoriamente dentro de los límites de la cámara correspondiente
-     * (azul en la izquierda y roja en la derecha). También se le asigna una velocidad aleatoria.
-     *
-     * @param color Color de la partícula a crear. Puede ser "red" o "blue".
-     */
-    public void addParticle(String color) {
-        Random rand = new Random();
-        int pX, pY, vx, vy;
-        int middleX = width / 2;
-        int padding = 15; // Margen para evitar que se salgan
-    
-        pY = padding + rand.nextInt(height - (2 * padding));
-    
-        if (color.equals("red")) {
-            pX = middleX + padding + rand.nextInt((width / 2) - (2 * padding));
-        } else if (color.equals("blue")) {
-            pX = padding + rand.nextInt(middleX - (2 * padding));
-        } else {
-            System.out.println("Color inválido: " + color);
-            return;
-        }
-    
-        do {
-            vx = rand.nextInt(7) - 3;
-        } while (vx == 0);
-    
-        do {
-            vy = rand.nextInt(7) - 3;
-        } while (vy == 0);
-    
-        // Add a small random offset to ensure particles are not perfectly aligned
-        pX += rand.nextInt(5) - 2; // Random offset between -2 and 2
-        pY += rand.nextInt(5) - 2; // Random offset between -2 and 2
-    
-        Particle particle = new Particle(pX, pY, vx, vy, color, width, height);
-        particles.add(particle);
-    
-        if (isVisible) {
-            particle.makeVisible();
+    public MaxwellContainer(int width, int height, int d, int r, int b, List<int[]> particles) {
+    // Call the basic constructor to initialize the container
+    this(width, height);
+
+    // Add the demon at the specified position
+    this.addDemon(d);
+
+    // Add red particles
+    for (int i = 0; i < r; i++) {
+        int[] particleData = particles.get(i);
+        int px = particleData[0]; // Initial x position
+        int py = particleData[1]; // Initial y position
+        int vx = particleData[2]; // Velocity in x direction
+        int vy = particleData[3]; // Velocity in y direction
+        this.addParticle("red", px, py, vx, vy);
+    }
+
+    // Add blue particles
+    for (int i = r; i < r + b; i++) {
+        int[] particleData = particles.get(i);
+        int px = particleData[0]; // Initial x position
+        int py = particleData[1]; // Initial y position
+        int vx = particleData[2]; // Velocity in x direction
+        int vy = particleData[3]; // Velocity in y direction
+        this.addParticle("blue", px, py, vx, vy);
         }
     }
 
