@@ -47,9 +47,10 @@ public class CityGUI extends JFrame{
     }
 
     private void ticTacButtonAction() {
-        theCity.ticTac();
-        photo.repaint();
-    }
+    theCity.ticTac(); // Actualizar la ciudad
+    photo.repaint(); // Repintar la cuadrícula
+    System.out.println("Botón Tic-tac presionado"); // Verificar que el método se está ejecutando
+    }   
 
     public City gettheCity(){
         return theCity;
@@ -59,7 +60,7 @@ public class CityGUI extends JFrame{
         CityGUI cg=new CityGUI();
         cg.setVisible(true);
     }  
-}
+    }
 
 class PhotoCity extends JPanel{
     private CityGUI gui;

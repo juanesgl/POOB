@@ -60,5 +60,9 @@ public abstract class Agent{
     public final boolean isDissatisfied(){
         return (state == Agent.DISSATISFIED) ;
     }
+    /**
+     * Metodo abstracto para que las subclases lo implementen
+     */
+    public abstract void decide();
 
 }
