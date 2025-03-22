@@ -22,4 +22,10 @@ class PersonTest {
         Person p = new Person(city, 1, 1);
         assertNotNull(p.getColor(), "La persona debe tener un color asignado.");
     }
+
+    @Test
+    public void TryPersonTest()
+    {
+    }
 }
+

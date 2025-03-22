@@ -9,7 +9,7 @@ public class City {
 
     public City() {
         locations = new Item[SIZE][SIZE];
-        agents = new ArrayList<>(); // Inicializar la lista de agentes
+        agents = new ArrayList<>(); 
         for (int r = 0; r < SIZE; r++) {
             for (int c = 0; c < SIZE; c++) {
                 locations[r][c] = null;
@@ -29,13 +29,17 @@ public class City {
     public void setItem(int r, int c, Item e) {
         locations[r][c] = e;
         if (e instanceof Agent) {
-            agents.add((Agent) e); // Agregar el agente a la lista
+            agents.add((Agent) e); 
         }
     }
 
     public void someItems() {
-    new Person(this, 10, 10); // Adán
-    new Person(this, 15, 15); // Eva
+    //new Person(this, 10, 10); // Adán
+    //new Person(this, 15, 15); // Eva
+    
+    
+    new Walker(this, 10,20); //messner 
+    new Walker(this, 10,21); //kukuczka
 
 
         //Random rand = new Random();
@@ -75,23 +79,46 @@ public class City {
     }
 
     public void ticTac() {
-        ticTacCount++; // Incrementar el contador de pasos
-        System.out.println("Tic-tac número: " + ticTacCount);
+    ticTacCount++; 
+    System.out.println("Tic-tac número: " + ticTacCount);
 
-        // 1. Actualizar el estado emocional de todos los agentes
-        for (Agent agent : agents) {
-            agent.decide(); // El agente decide su estado emocional
+    List<Agent> agentsCopy = new ArrayList<>(agents);
+    Set<String> reservedPositions = new HashSet<>(); 
+
+   
+    for (Agent agent : agentsCopy) {
+        if (agent instanceof Walker) {
+            ((Walker) agent).decide(); 
         }
+    }
 
-        // 2. Mover agentes insatisfechos
-        List<Agent> agentsToMove = new ArrayList<>(agents); // Copia de la lista para evitar ConcurrentModificationException
-        for (Agent agent : agentsToMove) {
-            if (agent.isDissatisfied()) { // Solo mover agentes insatisfechos
-                System.out.println("Intentando mover agente insatisfecho en (" + ((Person) agent).getRow() + ", " + ((Person) agent).getColumn() + ")");
-                moveAgent((Person) agent); // Mover el agente a una nueva ubicación
+    
+    for (Agent agent : agentsCopy) {
+        if (agent instanceof Walker) {
+            Walker w = (Walker) agent;
+            String key = w.getNextRow() + "," + w.getColumn();
+
+            if (w.canMove() && !reservedPositions.contains(key)) { 
+                reservedPositions.add(key); 
+                w.move();
+            } else {
+                System.out.println("Walker en (" + w.getRow() + "," + w.getColumn() + ") no se movió porque la posición (" + w.getNextRow() + "," + w.getColumn() + ") ya está ocupada.");
             }
         }
     }
+
+    
+    for (Agent agent : agentsCopy) {
+        if (!(agent instanceof Walker) && agent.isDissatisfied()) { 
+            moveAgent((Person) agent);
+        }
+    }
+}
+
+
+
+
+
 
     private void moveAgent(Person agent) {
         Random rand = new Random();
@@ -99,20 +126,16 @@ public class City {
         int attempts = 0;
         boolean moved = false;
 
-        // Intentar mover al agente hasta encontrar una ubicación vacía
-        while (attempts < 100 && !moved) { // Límite de intentos para evitar bucles infinitos
+        while (attempts < 100 && !moved) { 
             newRow = rand.nextInt(SIZE);
             newCol = rand.nextInt(SIZE);
             if (isEmpty(newRow, newCol)) {
-                // Mover el agente a la nueva ubicación
+            
                 int oldRow = agent.getRow();
                 int oldCol = agent.getColumn();
 
-                // Actualizar la ciudad
-                locations[oldRow][oldCol] = null; // Liberar la celda anterior
-                locations[newRow][newCol] = agent; // Ocupar la nueva celda
-
-                // Actualizar la posición del agente
+                locations[oldRow][oldCol] = null; 
+                locations[newRow][newCol] = agent; 
                 agent.setPosition(newRow, newCol);
                 moved = true;
                 System.out.println("Agente movido de (" + oldRow + ", " + oldCol + ") a (" + newRow + ", " + newCol + ")");

@@ -21,5 +21,13 @@ class CityTest {
         assertNotNull(city.getItem(5, 5), "El item en (5,5) no debería ser null.");
         assertEquals(p, city.getItem(5, 5), "El item en (5,5) debería ser la persona creada.");
     }
+
+
+    @Test
+    public void TryCityTest()
+    {
+    }
 }
+
+
 

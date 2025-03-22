@@ -49,4 +49,9 @@ public class Person extends Agent implements Item {
         this.row = row;
         this.column = column;
     }
+    
+    public City getCity() {
+    return this.city;
+    }
+
 }
