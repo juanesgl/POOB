@@ -1,9 +1,15 @@
 #BlueJ package file
 editor.fx.0.height=1096
 editor.fx.0.width=1214
+<<<<<<< HEAD
 editor.fx.0.x=704
 editor.fx.0.y=14
 objectbench.height=109
+=======
+editor.fx.0.x=271
+editor.fx.0.y=5
+objectbench.height=129
+>>>>>>> 2d45b9fd3aecf8a0e93634b3072d8488d3c1041e
 objectbench.width=1133
 package.divider.horizontal=0.6
 package.divider.vertical=0.8835341365461847
@@ -20,7 +26,7 @@ package.showUses=true
 project.charset=UTF-8
 readme.height=60
 readme.name=@README
-readme.width=49
+readme.width=48
 readme.x=10
 readme.y=10
 target1.height=62
