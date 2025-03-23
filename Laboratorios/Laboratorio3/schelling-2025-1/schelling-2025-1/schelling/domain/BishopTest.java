@@ -1,4 +1,4 @@
-package test;
+package domain;
 import static org.junit.Assert.*;
 import domain.*;
 
