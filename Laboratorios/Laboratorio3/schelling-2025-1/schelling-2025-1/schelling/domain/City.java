@@ -42,7 +42,10 @@ public class City {
     //new Walker(this, 10,20); //messner 
     //new Walker(this, 10,21); //kukuczka
     
-    
+    // Ciclo 3: Adicionar semáforos
+    new TrafficLight(this, 0, 0); // Semáforo "alarm" en la esquina superior izquierda (0, 0)
+    new TrafficLight(this, 0, SIZE - 1); // Semáforo "alert" en la esquina superior derecha (0, SIZE-1)
+
     
     /*Ciclo 4 */
     //new Bishop(this, 5,20); //Sánchez
@@ -97,46 +100,42 @@ public class City {
     List<Agent> agentsCopy = new ArrayList<>(agents);
     Set<String> reservedPositions = new HashSet<>(); 
 
-
     // 🔹 PASO 1: Todos deciden hacia dónde moverse
     for (Agent agent : agentsCopy) {
         if (agent instanceof Walker || agent instanceof Bishop || agent instanceof Hori) {
             ((Person) agent).decide();
         }
     }
-    
+
     // 🔹 PASO 2: Mover Walkers evitando colisiones
     for (Agent agent : agentsCopy) {
         if (agent instanceof Walker) {
             Walker w = (Walker) agent;
             String key = w.getNextRow() + "," + w.getColumn();
-    
             if (w.canMove() && !reservedPositions.contains(key)) { 
                 reservedPositions.add(key); 
                 w.move();
             }
         }
     }
-    
+
     // 🔹 PASO 3: Mover Bishops evitando colisiones
     for (Agent agent : agentsCopy) {
         if (agent instanceof Bishop) {
             Bishop b = (Bishop) agent;
             String key = b.getNextRow() + "," + b.getColumn();
-    
             if (b.canMove() && !reservedPositions.contains(key)) { 
                 reservedPositions.add(key); 
                 b.move();
             }
         }
     }
-    
+
     // 🔹 PASO 4: Mover Hori evitando colisiones
     for (Agent agent : agentsCopy) {
         if (agent instanceof Hori) {
             Hori h = (Hori) agent;
             String key = h.getRow() + "," + h.getNextCol();
-    
             if (h.canMove() && !reservedPositions.contains(key)) { 
                 reservedPositions.add(key); 
                 h.move();
@@ -144,7 +143,15 @@ public class City {
         }
     }
 
-
+    // 🔹 PASO 5: Cambiar el estado de los semáforos
+    for (int r = 0; r < SIZE; r++) {
+        for (int c = 0; c < SIZE; c++) {
+            Item item = locations[r][c];
+            if (item != null && !item.isAgent()) { // Si es un semáforo (no es un agente)
+                item.change(); // Cambiar al siguiente estado
+            }
+        }
+    }
 }
 
     private void moveAgent(Person agent) {
