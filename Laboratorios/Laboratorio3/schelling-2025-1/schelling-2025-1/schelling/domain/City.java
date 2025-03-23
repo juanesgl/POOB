@@ -34,12 +34,24 @@ public class City {
     }
 
     public void someItems() {
+    /*Ciclo 1 */
     //new Person(this, 10, 10); // Adán
     //new Person(this, 15, 15); // Eva
     
+    /*Ciclo 2 */
+    //new Walker(this, 10,20); //messner 
+    //new Walker(this, 10,21); //kukuczka
     
-    new Walker(this, 10,20); //messner 
-    new Walker(this, 10,21); //kukuczka
+    
+    
+    /*Ciclo 4 */
+    //new Bishop(this, 5,20); //Sánchez
+    //new Bishop(this, 9,20); //Ruiz
+    
+    /*Ciclo 5 */
+    //new Hori(this, 5, 5); //Sánchez
+    //new Hori(this, 10, 10); //Ruiz
+
 
 
         //Random rand = new Random();
@@ -85,40 +97,55 @@ public class City {
     List<Agent> agentsCopy = new ArrayList<>(agents);
     Set<String> reservedPositions = new HashSet<>(); 
 
-   
+
+    // 🔹 PASO 1: Todos deciden hacia dónde moverse
     for (Agent agent : agentsCopy) {
-        if (agent instanceof Walker) {
-            ((Walker) agent).decide(); 
+        if (agent instanceof Walker || agent instanceof Bishop || agent instanceof Hori) {
+            ((Person) agent).decide();
         }
     }
-
     
+    // 🔹 PASO 2: Mover Walkers evitando colisiones
     for (Agent agent : agentsCopy) {
         if (agent instanceof Walker) {
             Walker w = (Walker) agent;
             String key = w.getNextRow() + "," + w.getColumn();
-
+    
             if (w.canMove() && !reservedPositions.contains(key)) { 
                 reservedPositions.add(key); 
                 w.move();
-            } else {
-                System.out.println("Walker en (" + w.getRow() + "," + w.getColumn() + ") no se movió porque la posición (" + w.getNextRow() + "," + w.getColumn() + ") ya está ocupada.");
+            }
+        }
+    }
+    
+    // 🔹 PASO 3: Mover Bishops evitando colisiones
+    for (Agent agent : agentsCopy) {
+        if (agent instanceof Bishop) {
+            Bishop b = (Bishop) agent;
+            String key = b.getNextRow() + "," + b.getColumn();
+    
+            if (b.canMove() && !reservedPositions.contains(key)) { 
+                reservedPositions.add(key); 
+                b.move();
+            }
+        }
+    }
+    
+    // 🔹 PASO 4: Mover Hori evitando colisiones
+    for (Agent agent : agentsCopy) {
+        if (agent instanceof Hori) {
+            Hori h = (Hori) agent;
+            String key = h.getRow() + "," + h.getNextCol();
+    
+            if (h.canMove() && !reservedPositions.contains(key)) { 
+                reservedPositions.add(key); 
+                h.move();
             }
         }
     }
 
-    
-    for (Agent agent : agentsCopy) {
-        if (!(agent instanceof Walker) && agent.isDissatisfied()) { 
-            moveAgent((Person) agent);
-        }
-    }
+
 }
-
-
-
-
-
 
     private void moveAgent(Person agent) {
         Random rand = new Random();

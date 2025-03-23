@@ -53,5 +53,5 @@ public class Person extends Agent implements Item {
     public City getCity() {
     return this.city;
     }
-
+    
 }

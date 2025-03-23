@@ -1,34 +1,34 @@
 package test;
+import static org.junit.Assert.*;
+import domain.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-import domain.City;
-import domain.Walker;
+import org.junit.Test;
 
-class WalkerTest {
-
+public class WalkerTest {
     @Test
-    void testWalkerMovesNorth() {
+    public void walkerMovesUp() {
         City city = new City();
-        Walker w = new Walker(city, 5, 5);
+        Walker walker = new Walker(city, 5, 5);
+        city.setItem(5, 5, walker);
 
-        w.decide(); 
-        assertEquals(4, w.getRow(), "Walker debería haber subido una fila.");
+        walker.decide();
+        assertEquals(4, walker.getNextRow()); 
+
+        walker.move();
+        assertEquals(4, walker.getRow()); 
     }
 
     @Test
-    void testWalkerChangesState() {
+    public void walkerDoesNotMoveIfBlocked() {
         City city = new City();
-        Walker w = new Walker(city, 5, 5);
-        city.setItem(4, 5, new Walker(city, 4, 5)); 
+        Walker walker = new Walker(city, 5, 5);
+        Walker block = new Walker(city, 4, 5); 
+        city.setItem(5, 5, walker);
+        city.setItem(4, 5, block);
 
-        w.decide();
-        assertTrue(w.isHappy() || w.isDissatisfied(), "Walker debería estar feliz o insatisfecho.");
-    }
+        walker.decide();
+        walker.move();
 
-    @Test
-    public void TryWalkerTest()
-    {
+        assertEquals(5, walker.getRow()); 
     }
 }
-
