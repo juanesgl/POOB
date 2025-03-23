@@ -1,85 +1,89 @@
 package domain;
-<<<<<<< HEAD
-import java.awt.Color;
-/*
-public class TrafficLight extends Agent {
-    private static final Color[] COLORS = {Color.RED, Color.YELLOW, Color.GREEN};
-    private int stateIndex;
-
-    public TrafficLight(City city, int row, int col) {
-        super(city, row, col);
-        this.stateIndex = 0;
-=======
 
 import java.awt.Color;
 
+/**
+ * Representa un semáforo en una ciudad, con un estado cíclico (rojo, amarillo, verde, amarillo).
+ * El semáforo cambia de estado en un ciclo predeterminado, y puede ser utilizado en una ciudad 
+ * para gestionar el flujo del tráfico.
+ * Implementa la interfaz {@link Item} para ser manipulado en el sistema de la ciudad.
+ */
 public class TrafficLight implements Item {
-    private int currentState; // 0: rojo, 1: amarillo, 2: verde, 3: amarillo
-    private final Color[] colors = {Color.RED, Color.YELLOW, Color.GREEN, Color.YELLOW};
-    private City city;
-    private int row, column;
+    private int currentState; 
+    private final Color[] colors = {Color.RED, Color.YELLOW, Color.GREEN, Color.YELLOW}; 
+    private City city; 
+    private int row, column; 
 
+    /**
+     * Constructor para crear un nuevo semáforo en la ciudad en una ubicación específica.
+     * El semáforo comienza con el estado "rojo".
+     *
+     * @param city La ciudad en la que se encuentra el semáforo.
+     * @param row La fila en la que está ubicado el semáforo en la ciudad.
+     * @param column La columna en la que está ubicado el semáforo en la ciudad.
+     */
     public TrafficLight(City city, int row, int column) {
         this.city = city;
         this.row = row;
         this.column = column;
-        this.currentState = 0; // Empieza en rojo
-        this.city.setItem(row, column, this); // Se añade a la ciudad
->>>>>>> 2d45b9fd3aecf8a0e93634b3072d8488d3c1041e
+        this.currentState = 0; 
+        this.city.setItem(row, column, this); 
     }
 
+    /**
+     * Cambia el estado del semáforo al siguiente en el ciclo (rojo -> amarillo -> verde -> amarillo).
+     * Este método se invoca en cada "tic-tac" del semáforo.
+     */
     @Override
     public void decide() {
-<<<<<<< HEAD
-        change();  // 🚦 Cambia el color en cada ciclo
+        currentState = (currentState + 1) % colors.length; 
     }
 
-    public void change() {
-        stateIndex = (stateIndex + 1) % COLORS.length;
-=======
-        currentState = (currentState + 1) % colors.length; // Cambia al siguiente estado
->>>>>>> 2d45b9fd3aecf8a0e93634b3072d8488d3c1041e
-    }
-
+    /**
+     * Devuelve el color actual del semáforo según su estado.
+     *
+     * @return El color actual del semáforo.
+     */
     @Override
     public Color getColor() {
-<<<<<<< HEAD
-        return COLORS[stateIndex];
+        return colors[currentState]; 
     }
 
-    @Override
-    public String toString() {
-        return switch (stateIndex) {
-            case 0 -> "🔴";
-            case 1 -> "🟡";
-            case 2 -> "🟢";
-            default -> "❓";
-        };
-    }
-}
-*/
-=======
-        return colors[currentState]; // Devuelve el color actual
-    }
-
+    /**
+     * Indica si el semáforo está activo. En este caso, siempre está activo.
+     *
+     * @return true, ya que el semáforo siempre está activo.
+     */
     @Override
     public boolean isActive() {
-        return true; // Siempre está activo
+        return true;
     }
 
+    /**
+     * Devuelve la forma del semáforo, que es redonda.
+     *
+     * @return El valor {@link Item#ROUND} que representa la forma redonda del semáforo.
+     */
     @Override
     public int shape() {
-        return Item.ROUND; // Forma redonda
+        return Item.ROUND; 
     }
 
+    /**
+     * Indica si este objeto es un agente. En este caso, no es un agente.
+     *
+     * @return false, indicando que el semáforo no es un agente.
+     */
     @Override
     public boolean isAgent() {
-        return false; // No es un agente
+        return false; 
     }
 
+    /**
+     * Cambia el estado del semáforo en cada "tic-tac", invocando el método {@link #decide()}.
+     */
     @Override
     public void change() {
-        decide(); // Cambia de estado en cada tic-tac
+        decide(); 
     }
 }
->>>>>>> 2d45b9fd3aecf8a0e93634b3072d8488d3c1041e
