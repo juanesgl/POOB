@@ -73,52 +73,41 @@ public class Particle extends Circle {
     public void move(int containerWidth, int containerHeight, List<Demon> demons) {
         int middleX = containerWidth / 2;
         int padding = 5;
-        int chamberWidth = middleX; 
-        
-        // Calcular próxima posición
         int nextX = pX + vx;
         int nextY = pY + vy;
-    
+
         // Rebote en paredes superior e inferior
         if (nextY <= padding || nextY >= containerHeight - padding) {
             vy = -vy;
-            nextY = pY + vy; 
+            nextY = Math.max(padding, Math.min(containerHeight - padding, pY + vy));
         }
-    
-        // Rebote en pared izquierda del contenedor
-        if (nextX <= padding) { 
-            vx = Math.abs(vx); 
-            nextX = padding + 1;
-        }
-        
-        // Rebote en pared derecha del contenedor
-        if (nextX >= containerWidth - padding) { 
-            vx = -Math.abs(vx); 
-            nextX = containerWidth - padding - 1;
-        }
-        
-        // Rebote en la pared central
-        if ((vx > 0 && nextX >= middleX - padding && pX < middleX) || 
-            (vx < 0 && nextX <= middleX + padding && pX > middleX)) {
+
+        // Rebote en paredes laterales
+        if (nextX <= padding || nextX >= containerWidth - padding) {
             vx = -vx;
-            nextX = pX + vx; 
+            nextX = Math.max(padding, Math.min(containerWidth - padding, pX + vx));
+        }
+      // Interacción con la pared central y demonio
+        if ((nextX >= middleX - padding && pX < middleX) || 
+            (nextX <= middleX + padding && pX > middleX)) {
             
-            if (vx > 0 && nextX < middleX + padding) {
-                nextX = middleX + padding;
-            } else if (vx < 0 && nextX > middleX - padding) {
-                nextX = middleX - padding;
+            boolean shouldPass = demons.stream()
+                .anyMatch(d -> d.isGateOpen() && Math.abs(pY - d.getY()) < 10);
+                
+            if (!shouldPass) {
+                vx = -vx;
+                nextX = pX + vx;
             }
         }
-    
-        
+
         pX = nextX;
         pY = nextY;
-    
-        
+
         this.moveHorizontal(vx);
         this.moveVertical(vy);
     }
 
+    
     /**
      * Obtiene el color de la partícula.
      * 
@@ -145,7 +134,14 @@ public class Particle extends Circle {
     public int getY() {
         return pY;
     }
+    
+    public int getVx() {
+        return vx;
+    }
 
+    public int getVy() {
+        return vy;
+    }
     /**
      * Hace que la partícula sea visible.
      */
