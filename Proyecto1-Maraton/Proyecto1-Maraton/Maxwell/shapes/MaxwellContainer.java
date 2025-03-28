@@ -89,10 +89,10 @@ public class MaxwellContainer {
     public void addParticle(String color, int px, int py, int vx, int vy) {
 
         if (px <= 0 || px >= width || py <= 0 || py >= height) {
-            throw new IllegalArgumentException("Particle position is out of bounds.");
+            throw new IllegalArgumentException("La posición de la partícula está fuera de los límites.");
         }
         if (vx == 0 && vy == 0) {
-            throw new IllegalArgumentException("Particle velocity cannot be zero.");
+            throw new IllegalArgumentException("La velocidad de la partícula no puede ser cero.");
         }
     
         Particle particle = new Particle(px, py, vx, vy, color, width, height);
@@ -121,8 +121,12 @@ public class MaxwellContainer {
     /**
      * Agrega un demonio al contenedor.
      * El demonio se coloca en el centro del contenedor.
+     * @param d Posición inicial en Y.
      */
     public void addDemon(int d) {
+        if (d<=0||d>=height){
+            throw new IllegalArgumentException("La posición del demonio está fuera de los límites.");
+        }
         Demon demon = new Demon(d, this.width / 2);
         demons.add(demon);
         if (isVisible) {
@@ -180,23 +184,16 @@ public class MaxwellContainer {
 
     this.addDemon(d);
 
-    for (int i = 0; i < r; i++) {
+    for (int i = 0; i < r + b; i++) {
         int[] particleData = particles.get(i);
         int px = particleData[0]; 
         int py = particleData[1]; 
         int vx = particleData[2]; 
         int vy = particleData[3]; 
-        this.addParticle("red", px, py, vx, vy);
+        // Todas las partículas se crean como rojas primero (las primeras r)
+        String color = (i < r) ? "red" : "blue";
+        this.addParticle(color, px, py, vx, vy);
     }
-
-    for (int i = r; i < r + b; i++) {
-        int[] particleData = particles.get(i);
-        int px = particleData[0]; 
-        int py = particleData[1];
-        int vx = particleData[2]; 
-        int vy = particleData[3]; 
-        this.addParticle("blue", px, py, vx, vy);
-        }
     }
 
     /**
@@ -224,7 +221,7 @@ public class MaxwellContainer {
         if (isVisible) {
             newHole.makeVisible();
         }
-    }
+        }
 
     /**
      * Elimina el último agujero (Hole) agregado al contenedor.

@@ -83,8 +83,8 @@ public class City {
     //new Walker(this, 10,21); //kukuczka
     
     // Ciclo 3: Adicionar semáforos
-    new TrafficLight(this, 0, 0); // Semáforo "alarm" en la esquina superior izquierda (0, 0)
-    new TrafficLight(this, 0, SIZE - 1); // Semáforo "alert" en la esquina superior derecha (0, SIZE-1)
+    //new TrafficLight(this, 0, 0); // Semáforo "alarm" en la esquina superior izquierda (0, 0)
+    //new TrafficLight(this, 0, SIZE - 1); // Semáforo "alert" en la esquina superior derecha (0, SIZE-1)
 
     
     /*Ciclo 4 */
@@ -92,8 +92,8 @@ public class City {
     //new Bishop(this, 9,20); //Ruiz
     
     /*Ciclo 5 */
-    //new Hori(this, 5, 5); //Sánchez
-    //new Hori(this, 10, 10); //Ruiz
+    new Hori(this, 5, 5); //Sánchez
+    new Hori(this, 10, 10); //Ruiz
 
 
 

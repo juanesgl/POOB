@@ -1,5 +1,5 @@
 import java.util.List;
-import javax.swing.JOptionPane; // Import for pop-up messages
+import javax.swing.JOptionPane; 
 
 /**
  * La clase Particle representa una partícula en la simulación de Maxwell's Demon.
@@ -45,11 +45,6 @@ public class Particle extends Circle {
             return;
         }
 
-        if ((color.equals("blue") && pX >= middleX) || (color.equals("red") && pX < middleX)) {
-            System.out.println("La partícula no va en esa cámara");
-            return;
-        }
-
         if (pY < 5 || pY >= (containerHeight - 10)) {
             System.out.println("Las partículas no están dentro del contenedor");
             return;
@@ -78,58 +73,47 @@ public class Particle extends Circle {
     public void move(int containerWidth, int containerHeight, List<Demon> demons) {
         int middleX = containerWidth / 2;
         int padding = 5;
-
+        int chamberWidth = middleX; 
+        
+        // Calcular próxima posición
         int nextX = pX + vx;
         int nextY = pY + vy;
-
-        
+    
+        // Rebote en paredes superior e inferior
         if (nextY <= padding || nextY >= containerHeight - padding) {
             vy = -vy;
+            nextY = pY + vy; 
         }
-
+    
+        // Rebote en pared izquierda del contenedor
+        if (nextX <= padding) { 
+            vx = Math.abs(vx); 
+            nextX = padding + 1;
+        }
         
-        for (Demon demon : demons) {
-            if (Math.abs(pX - middleX) <= 10 && Math.abs(pY - demon.getY()) <= 10 && demon.isGateOpen()) {
-                if (color.equals("blue")) {
-                    color = "red";
-                    nextX = middleX + padding;
-                } else if (color.equals("red")) {
-                    color = "blue";
-                    nextX = middleX - padding;
-                }
-                this.changeColor(color);
-                break;
-            }
+        // Rebote en pared derecha del contenedor
+        if (nextX >= containerWidth - padding) { 
+            vx = -Math.abs(vx); 
+            nextX = containerWidth - padding - 1;
         }
-
         
-        if (color.equals("blue")) {
-            if (nextX <= padding) { 
-                vx = Math.abs(vx); 
-                nextX = padding + 1;
-            }
-            if (nextX >= middleX - padding) { 
-                vx = -Math.abs(vx); 
-                nextX = middleX - padding - 1;
-            }
-        }
-
-        
-        if (color.equals("red")) {
-            if (nextX <= middleX + padding) { 
-                vx = Math.abs(vx); 
-                nextX = middleX + padding + 1;
-            }
-            if (nextX >= containerWidth - padding) { 
-                vx = -Math.abs(vx); 
-                nextX = containerWidth - padding - 1;
+        // Rebote en la pared central
+        if ((vx > 0 && nextX >= middleX - padding && pX < middleX) || 
+            (vx < 0 && nextX <= middleX + padding && pX > middleX)) {
+            vx = -vx;
+            nextX = pX + vx; 
+            
+            if (vx > 0 && nextX < middleX + padding) {
+                nextX = middleX + padding;
+            } else if (vx < 0 && nextX > middleX - padding) {
+                nextX = middleX - padding;
             }
         }
-
+    
         
         pX = nextX;
         pY = nextY;
-
+    
         
         this.moveHorizontal(vx);
         this.moveVertical(vy);
