@@ -84,4 +84,5 @@ public class MaxwellContainerC1Test {
         container.makeVisible();
         assertTrue(container.ok(), "La simulación debería estar corriendo y visible.");
     }
+    
 }
