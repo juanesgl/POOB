@@ -77,6 +77,22 @@ public class MaxwellContainer {
         did = true;
     }
     
+    public MaxwellContainer(int width, int height, int d, int r, int b, List<int[]> particlesData) {
+        this(width, height);
+        
+        if (r + b != particlesData.size()) {
+            throw new IllegalArgumentException("Número de partículas no coincide con r + b");
+        }
+        
+        this.addDemon(d);
+
+        for (int i = 0; i < r + b; i++) {
+            int[] particleData = particlesData.get(i);
+            String color = (i < r) ? "red" : "blue";
+            this.addParticle(color, particleData[0], particleData[1], particleData[2], particleData[3]);
+        }
+    }
+    
     /**
      * Agrega una nueva partícula al contenedor con una posición y velocidad específicas.
      *
@@ -105,7 +121,7 @@ public class MaxwellContainer {
 
     /**
      * Metodo auxiliar para pruebas unitarias.
-
+     * 
      * Este metodo devuelve el valor del atributo `did`, permitiendo verificar
      * su estado actual durante las pruebas unitarias. Es especialmente útil
      * para validar el funcionamiento interno de la clase y asegurar que las
@@ -179,23 +195,6 @@ public class MaxwellContainer {
         }
     }
 
-    public MaxwellContainer(int width, int height, int d, int r, int b, List<int[]> particles) {
-    this(width, height);
-
-    this.addDemon(d);
-
-    for (int i = 0; i < r + b; i++) {
-        int[] particleData = particles.get(i);
-        int px = particleData[0]; 
-        int py = particleData[1]; 
-        int vx = particleData[2]; 
-        int vy = particleData[3]; 
-        // Todas las partículas se crean como rojas primero (las primeras r)
-        String color = (i < r) ? "red" : "blue";
-        this.addParticle(color, px, py, vx, vy);
-    }
-    }
-
     /**
      * Elimina la última partícula agregada al contenedor.
      * Si no hay partículas, se muestra un mensaje de error.
@@ -217,7 +216,6 @@ public class MaxwellContainer {
     public void addHole() {
         Hole newHole = new Hole(width, height);
         holes.add(newHole);
-
         if (isVisible) {
             newHole.makeVisible();
         }
@@ -241,12 +239,22 @@ public class MaxwellContainer {
      * Inicia la simulación.
      * La simulación se ejecuta en un hilo separado.
      */
-    public void start() {
-        System.out.println("Simulación iniciada");
-        Thread simulationThread = new Thread(() -> {
-            runSimulation(500);
-        });
-        simulationThread.start();
+    public void start(int steps, int delayMs) {
+        isRunning = true;
+        new Thread(() -> {
+            for (int i = 0; i < steps && isRunning; i++) {
+                particles.forEach(p -> p.move(width, height, demons));
+                holes.forEach(h -> h.absorbs(particles));
+                
+                try {
+                    Thread.sleep(delayMs);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.out.println("Simulación interrumpida");
+                }
+            }
+            isRunning = false;
+        }).start();
     }
 
     /**
@@ -256,6 +264,14 @@ public class MaxwellContainer {
     public void finish() {
         isRunning = false;
         System.out.println("Simulación terminada");
+    }
+    
+    public boolean isGoal() {
+        int middleX = width / 2;
+        return particles.stream().allMatch(p -> 
+            (p.getColor().equals("red") && p.getX() < middleX) ||
+            (p.getColor().equals("blue") && p.getX() >= middleX)
+        );
     }
 
     /**
@@ -307,17 +323,14 @@ public class MaxwellContainer {
      * Hace visible el contenedor y sus elementos.
      */
     public void makeVisible() {
-        if (!isVisible) {
+            if (!isVisible) {
             border.makeVisible();
             leftChamber.makeVisible();
             rightChamber.makeVisible();
             centralWall.makeVisible();
-            for (Demon d : demons) {
-                d.makeVisible();
-            }
-            for (Particle p : particles) {
-                p.makeVisible();
-            }
+            demons.forEach(Demon::makeVisible);
+            particles.forEach(Particle::makeVisible);
+            holes.forEach(Hole::makeVisible);
             isVisible = true;
         }
     }
@@ -331,15 +344,13 @@ public class MaxwellContainer {
             leftChamber.makeInvisible();
             rightChamber.makeInvisible();
             centralWall.makeInvisible();
-            for (Demon d : demons) {
-                d.makeInvisible();
-            }
-            for (Particle p : particles) {
-                p.makeInvisible();
-            }
+            demons.forEach(Demon::makeInvisible);
+            particles.forEach(Particle::makeInvisible);
+            holes.forEach(Hole::makeInvisible);
             isVisible = false;
         }
     }
+    
 
     /**
      * Obtiene el estado de visibilidad del contenedor.
@@ -350,28 +361,5 @@ public class MaxwellContainer {
         return isVisible;
     }
 
-    /**
-     * Ejecuta la simulación de movimiento de partículas durante un tiempo determinado.
-     * 
-     * @param steps Número de iteraciones antes de detener la simulación.
-     */
-    private void runSimulation(int steps) {
-        isRunning = true; 
-        for (int i = 0; i < steps && isRunning; i++) {
-            for (Particle p : particles) {
-                p.move(width, height, demons);
-            }
-
-            for (Hole hole : holes) {
-                hole.absorbs(particles);
-            }
-
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        isRunning = false;
-    }
+    
 }

@@ -151,4 +151,9 @@ public class Particle extends Circle {
             isVisible = true;
         }
     }
+    
+    
+    public boolean isVisible() {
+        return isVisible;
+    }
 }

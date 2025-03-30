@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.awt.Color;
+import java.util.Timer;
+import java.util.TimerTask;
 /**
  * La clase Demon representa al "demonio" que se encuentra en la pared central del contenedor.
  * Puede abrir y cerrar una puerta para permitir el paso de partículas entre cámaras.
@@ -77,10 +80,15 @@ public class Demon {
      */
     public void setGateOpen(boolean state) {
         this.gateOpen = state;
+        shape.changeColor(state ? "green" : "darkgray");
+        
         if (state) {
-            shape.changeColor("green");  // Verde indica que la puerta está abierta
-        } else {
-            shape.changeColor("black");  // Gris indica que la puerta está cerrada
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    setGateOpen(false);
+                }
+            }, 50);
         }
     }
 

@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class MaxwellContest {
     private MaxwellContainer container;
-
+    private double timeStep;
     /**
      * Constructor de MaxwellContest.
      * @param width  Ancho de cada cámara (el total será 2 * width).
@@ -22,6 +22,7 @@ public class MaxwellContest {
      */
     public MaxwellContest(int width, int height, int d, int r, int b, List<int[]> particles) {
         this.container = new MaxwellContainer(width, height, d, r, b, particles);
+        this.timeStep = 0.01;
     }
 
     /**
@@ -29,39 +30,29 @@ public class MaxwellContest {
      */
     public void solve() {
         double time = 0.0;
-        double deltaTime = 0.01; // Small time step for precision
-        int maxIterations = 1000000; // Arbitrary large limit to prevent infinite loops
-        boolean sorted = false;
-
-        for (int iteration = 0; iteration < maxIterations; iteration++) {
-            // Mover todas las partículas
-            for (Particle p : container.particles()) {
-                p.move(container.getWidth(), container.getHeight(), container.demons());
-            }
-
-            // Verificar si todas las partículas están en su cámara correcta
-            sorted = checkSorted();
-
-            if (sorted) {
+        int maxIterations = 1000000;
+        
+        container.makeVisible();
+        
+        for (int i = 0; i < maxIterations; i++) {
+            container.start(1, 0);
+            
+            if (container.isGoal()) {
                 System.out.printf("%.6f\n", time);
                 return;
             }
-
-            // Controlar la apertura del demonio de forma periódica
-            if (iteration % 100 == 0) {
-                container.openGate(10); // Open the gate for 10 milliseconds
-            }
-
-            time += deltaTime;
+            
+            controlDemon();
+            time += timeStep;
         }
-
+        
         System.out.println("impossible");
     }
-
+    
     /**
-     * Verifica si todas las partículas están en su cámara correcta.
-     * Retorna true si están ordenadas, false en caso contrario.
-     */
+    * Verifica si todas las partículas están en su cámara correcta.
+    * Retorna true si están ordenadas, false en caso contrario.
+    */
     private boolean checkSorted() {
         int middleX = container.getWidth() / 2;
         for (Particle p : container.particles()) {
@@ -72,10 +63,32 @@ public class MaxwellContest {
         }
         return true;
     }
+    
+    
+    private void controlDemon() {
+        int middleX = container.getWidth() / 2;
+        int demonY = container.demons().get(0).getY();
+        double tolerance = 5.0;
+        
+        container.particles().stream()
+            .filter(p -> Math.abs(p.getX() - middleX) < tolerance && 
+                        Math.abs(p.getY() - demonY) < tolerance)
+            .findFirst()
+            .ifPresent(p -> {
+                boolean shouldSwap = (p.getColor().equals("red") && p.getX() > middleX) ||
+                                   (p.getColor().equals("blue") && p.getX() < middleX);
+                if (shouldSwap) {
+                    container.openGate(10);
+                }
+            });
+    }
+    
+    
+  
 
     /**
-     * Método principal para leer la entrada y ejecutar la simulación.
-     */
+    * Método principal para leer la entrada y ejecutar la simulación.
+    */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -95,6 +108,7 @@ public class MaxwellContest {
             int vy = scanner.nextInt(); // Velocidad Y
             particles.add(new int[]{px, py, vx, vy});
         }
+        
 
         // Crear y ejecutar la simulación
         MaxwellContest contest = new MaxwellContest(w, h, d, r, b, particles);
