@@ -1,8 +1,6 @@
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Pruebas unitarias para MaxwellContest.
  * Se aseguran de que la simulación funcione correctamente.
@@ -11,37 +9,43 @@ import java.util.List;
  * @author Juan Esteban Sánchez García
  * @version 2
  */
+
+
+
+
 public class MaxwellContestTest {
 
     @Test
-    public void accordingRSShouldSolveSimulation() {
-        List<int[]> particles = new ArrayList<>();
-        particles.add(new int[]{50, 100, 1, 1}); 
-        particles.add(new int[]{250, 100, -1, 1}); 
+    public void testSolvableSimulation() {
+        // Cámaras pequeñas: altura = 200, ancho por cámara = 100 (contenedor total = 200)
+        // b = 1 (azul) y r = 1 (roja)
+        // Demon en d = 100 (centro vertical)
+        // Para que crucen, la partícula azul (primera) se crea en el lado derecho (x ≥ 100) y se mueve a la izquierda;
+        // la partícula roja (segunda) se crea en el lado izquierdo (x < 100) y se mueve a la derecha.
+        int h = 200, w = 100, d = 100, b = 1, r = 1;
+        int[][] particles = {
+            {150, 120, -5, 5},  // Azul: inicia en x=150 y se mueve a la izquierda
+            {50, 80, 5, 5}      // Roja: inicia en x=50 y se mueve a la derecha
+        };
 
-        MaxwellContest contest = new MaxwellContest(200, 100, 50, 1, 1, particles);
-        //contest.solve();
-        //assertTrue(contest.getContainer().ok(), "La simulación debería resolverse correctamente.");
+        float time = MaxwellContest.Solve(h, w, d, b, r, particles);
+        System.out.println("Solve Success: " + time + " segundos");
+        assertTrue(time > 0, "Se esperaba que se alcanzara el objetivo en un tiempo positivo.");
     }
 
     @Test
-    public void accordingRSShouldHandleImpossibleSimulation() {
-        List<int[]> particles = new ArrayList<>();
-        particles.add(new int[]{50, 100, 1, 1}); 
-        particles.add(new int[]{250, 100, -1, 1}); 
+    public void testInvalidParticlePosition() {
+        // Partícula fuera de los límites: en un contenedor de 200 de ancho (w=100 por cámara),
+        // la coordenada x debe ser menor a 200; usamos x = 200 para provocar la excepción.
+        int h = 200, w = 100, d = 100, b = 1, r = 0;
+        int[][] particles = {
+            {200, 100, 1, 0}  // Posición inválida: x no puede ser igual al ancho total (200)
+        };
 
-        MaxwellContest contest = new MaxwellContest(200, 100, 50, 1, 1, particles);
-        //contest.solve();
-        //assertTrue(contest.getContainer().ok(), "La simulación debería manejarse correctamente.");
-    }
-
-    @Test
-    public void accordingRSShouldHandleInvalidInput() {
-        List<int[]> particles = new ArrayList<>();
-        particles.add(new int[]{-50, -100, 1, 1}); 
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            new MaxwellContest(200, 100, 50, 1, 1, particles);
-        }, "No debería aceptar partículas con posiciones inválidas.");
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> MaxwellContest.Solve(h, w, d, b, r, particles),
+            "Debería lanzar excepción por posición inválida"
+        );
     }
 }

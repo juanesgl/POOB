@@ -19,7 +19,7 @@ public class Demon {
     private int y;
     private Rectangle shape;
     private boolean isVisible;
-    private boolean gateOpen;  
+    private boolean gateOpen=true;  
 
     /**
      * Constructor de la clase Demon.

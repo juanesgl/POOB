@@ -179,7 +179,7 @@ public class MaxwellContainer {
         }
     }
 
-    public MaxwellContainer(int width, int height, int d, int r, int b, List<int[]> particles) {
+    public MaxwellContainer(int width, int height, int d, int b, int r, List<int[]> particles) {
     this(width, height);
 
     this.addDemon(d);
@@ -191,7 +191,7 @@ public class MaxwellContainer {
         int vx = particleData[2]; 
         int vy = particleData[3]; 
         // Todas las partículas se crean como rojas primero (las primeras r)
-        String color = (i < r) ? "red" : "blue";
+        String color = (i < r) ? "blue" : "red";
         this.addParticle(color, px, py, vx, vy);
     }
     }
@@ -365,22 +365,43 @@ public class MaxwellContainer {
      * @param steps Número de iteraciones antes de detener la simulación.
      */
     private void runSimulation(int steps) {
-        isRunning = true; 
-        for (int i = 0; i < steps && isRunning; i++) {
-            for (Particle p : particles) {
-                p.move(width, height, demons);
-            }
-
-            for (Hole hole : holes) {
-                hole.absorbs(particles);
-            }
-
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    isRunning = true; 
+    long startTime = System.currentTimeMillis();  // Tiempo de inicio
+    for (int i = 0; i < steps && isRunning; i++) {
+        // Mover cada partícula
+        for (Particle p : particles) {
+            p.move(width, height, demons);
         }
-        isRunning = false;
+
+        // Procesar los agujeros
+        for (Hole hole : holes) {
+            hole.absorbs(particles);
+        }
+        
+        // Verificar si se ha alcanzado la condición de meta
+        if (isGoal()) {
+            long elapsedTimeMs = System.currentTimeMillis() - startTime;
+            double elapsedTimeSeconds = elapsedTimeMs / 1000.0;
+            System.out.println("¡Objetivo alcanzado en " + elapsedTimeSeconds + " segundos!");
+            finish();
+            return;
+        }
+
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+    // Si se termina el ciclo sin alcanzar el objetivo
+    if (!isGoal()) {
+        long elapsedTimeMs = System.currentTimeMillis() - startTime;
+        double elapsedTimeSeconds = elapsedTimeMs / 1000.0;
+        System.out.println("¡Imposible alcanzar el objetivo en " + elapsedTimeSeconds + " segundos!");
+    }
+    isRunning = false;
+        }
+
+
+
 }

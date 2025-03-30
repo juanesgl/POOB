@@ -137,13 +137,6 @@ public class Particle extends Circle {
 
 
 
-
-
-
-
-
-
-
     public Particle(String color) {
         this.color = color;
     }
