@@ -23,6 +23,8 @@ public class Particle extends Circle {
     private int vy;
     private String color;
     private boolean isVisible;
+    private boolean offsetApplied = false;
+
 
     /**
      * Crea una nueva partícula asegurando que está dentro de los límites correctos.
@@ -71,42 +73,88 @@ public class Particle extends Circle {
      * @param demons Lista de demonios que existen.
      */
     public void move(int containerWidth, int containerHeight, List<Demon> demons) {
-        int middleX = containerWidth / 2;
-        int padding = 5;
-        int nextX = pX + vx;
-        int nextY = pY + vy;
+    final int middleX = containerWidth / 2;
+    final int padding = 5;
+    int nextX = pX + vx;
+    int nextY = pY + vy;
 
-        // Rebote en paredes superior e inferior
-        if (nextY <= padding || nextY >= containerHeight - padding) {
-            vy = -vy;
-            nextY = Math.max(padding, Math.min(containerHeight - padding, pY + vy));
-        }
-
-        // Rebote en paredes laterales
-        if (nextX <= padding || nextX >= containerWidth - padding) {
-            vx = -vx;
-            nextX = Math.max(padding, Math.min(containerWidth - padding, pX + vx));
-        }
-      // Interacción con la pared central y demonio
-        if ((nextX >= middleX - padding && pX < middleX) || 
-            (nextX <= middleX + padding && pX > middleX)) {
-            
-            boolean shouldPass = demons.stream()
-                .anyMatch(d -> d.isGateOpen() && Math.abs(pY - d.getY()) < 10);
-                
-            if (!shouldPass) {
-                vx = -vx;
-                nextX = pX + vx;
-            }
-        }
-
-        pX = nextX;
-        pY = nextY;
-
-        this.moveHorizontal(vx);
-        this.moveVertical(vy);
+    // Rebote en paredes superior e inferior
+    if (nextY <= padding || nextY >= containerHeight - padding) {
+        vy = -vy;
+        nextY = Math.max(padding, Math.min(containerHeight - padding, pY + vy));
     }
 
+    // Rebote en paredes laterales
+    if (nextX <= padding || nextX >= containerWidth - padding) {
+        vx = -vx;
+        nextX = Math.max(padding, Math.min(containerWidth - padding, pX + vx));
+    }
+
+    // Determinar en qué cámara se encuentra la partícula
+    boolean isInLeftChamber = pX < middleX;
+    boolean isInRightChamber = pX > middleX;
+    // Se considera "correcto" si una partícula azul está en la izquierda o roja en la derecha
+    boolean isCorrectSide = (isBlue() && isInLeftChamber) || (isRed() && isInRightChamber);
+
+    // Verificar si la partícula está intentando cruzar la pared central
+    boolean isCrossingMiddle = (pX < middleX && nextX >= middleX - padding) ||
+                               (pX > middleX && nextX <= middleX + padding);
+
+    if (isCrossingMiddle) {
+        boolean canPass = demons.stream()
+            .anyMatch(d -> d.isGateOpen() && Math.abs(pY - d.getY()) <= d.getSize());
+        // Aunque el gate esté abierto, si la partícula está en su lado correcto, se le impide el cruce.
+        if (isCorrectSide) {
+            canPass = false;
+        }
+
+        if (!canPass) {
+            // Revertir la dirección horizontal y recalcular nextX
+            vx = -vx;
+            nextX = pX + vx;
+            // Forzar que la partícula se quede en su lado del centro:
+            if (pX < middleX) {
+                // Si viene de la izquierda, se asegura que no pase a la zona central
+                nextX = Math.min(nextX, middleX - padding);
+            } else {
+                // Si viene de la derecha, se asegura que no pase a la zona central
+                nextX = Math.max(nextX, middleX + padding);
+            }
+        } else {
+            System.out.println("Partícula " + (isBlue() ? "Azul" : "Roja") + " cruzó al otro lado");
+        }
+    }
+
+    // Asegurarse de que la partícula se quede dentro de los límites del contenedor
+    nextX = Math.max(padding, Math.min(containerWidth - padding, nextX));
+
+    pX = nextX;
+    pY = nextY;
+
+    this.moveHorizontal(vx);
+    this.moveVertical(vy);
+    }
+
+
+
+
+
+
+
+
+
+
+    public Particle(String color) {
+        this.color = color;
+    }
+
+    public boolean isBlue() {
+        return "blue".equals(color);
+    }
+
+    public boolean isRed() {
+        return "red".equals(color);
+    }
     
     /**
      * Obtiene el color de la partícula.
@@ -150,10 +198,5 @@ public class Particle extends Circle {
             super.makeVisible();
             isVisible = true;
         }
-    }
-    
-    
-    public boolean isVisible() {
-        return isVisible;
     }
 }
