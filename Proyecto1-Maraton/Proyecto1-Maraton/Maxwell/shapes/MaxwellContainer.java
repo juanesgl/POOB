@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Comparator;
 
 /**
  * La clase MaxwellContainer representa el contenedor en la simulación de Maxwell's Demon.
@@ -264,7 +265,10 @@ public class MaxwellContainer {
      * @return Lista de partículas.
      */
     public List<Particle> particles() {
-        return particles;
+    List<Particle> sorted = new ArrayList<>(particles);
+    sorted.sort(Comparator.comparingInt(Particle::getX)
+                          .thenComparingInt(Particle::getY));
+    return sorted;
     }
 
     /**
@@ -273,7 +277,9 @@ public class MaxwellContainer {
      * @return Lista de demonios.
      */
     public List<Demon> demons() {
-        return demons;
+    List<Demon> sorted = new ArrayList<>(demons);
+    sorted.sort(Comparator.comparingInt(Demon::getY));
+    return sorted;
     }
 
     /**
@@ -282,7 +288,10 @@ public class MaxwellContainer {
      * @return Lista de agujeros.
      */
     public List<Hole> holes() {
-        return holes;
+    List<Hole> sorted = new ArrayList<>(holes);
+    // Suponiendo que Hole tiene un método getX(). Si no, cambia la comparación por la propiedad que desees.
+    sorted.sort(Comparator.comparingInt(Hole::getX));
+    return sorted;
     }
 
     /**
