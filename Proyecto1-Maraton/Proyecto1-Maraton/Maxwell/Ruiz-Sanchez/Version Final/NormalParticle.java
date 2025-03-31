@@ -1,10 +1,41 @@
 import java.util.List;
 
+/**
+ * La clase NormalParticle representa una partícula básica en la simulación de Maxwell's Demon.
+ * Esta partícula sigue un comportamiento clásico de rebote elástico en los bordes del contenedor
+ * y solo puede atravesar la pared central cuando un demonio habilita su puerta.
+ * 
+ * @author Daniel Ruiz Patiño
+ * @author Juan Esteban Sánchez García
+ * @version 1000 (Cycle 3)
+ */
 public class NormalParticle extends Particle {
+    
+    /**
+     * Constructor para crear una partícula normal.
+     * 
+     * @param pX            Posición horizontal inicial (en píxeles).
+     * @param pY            Posición vertical inicial (en píxeles).
+     * @param vx            Velocidad horizontal inicial (píxeles por movimiento).
+     * @param vy            Velocidad vertical inicial (píxeles por movimiento).
+     * @param color         Color de la partícula ("red", "blue", etc.).
+     * @param containerWidth Ancho total del contenedor (para límites de movimiento).
+     * @param containerHeight Altura total del contenedor (para límites de movimiento).
+     */
     public NormalParticle(int pX, int pY, int vx, int vy, String color, int containerWidth, int containerHeight) {
         super(pX, pY, vx, vy, color, containerWidth, containerHeight, "normal");
     }
 
+    /**
+     * Implementa el movimiento de la partícula normal:
+     * 1. Rebota elásticamente en los bordes superior, inferior y laterales.
+     * 2. Verifica si puede atravesar la pared central según el estado de los demonios.
+     * 3. Actualiza su posición según las reglas de movimiento.
+     * 
+     * @param containerWidth  Ancho actual del contenedor.
+     * @param containerHeight Altura actual del contenedor.
+     * @param demons          Lista de demonios activos que controlan las puertas.
+     */
     @Override
     public void move(int containerWidth, int containerHeight, List<Demon> demons) {
         final int middleX = containerWidth / 2;
