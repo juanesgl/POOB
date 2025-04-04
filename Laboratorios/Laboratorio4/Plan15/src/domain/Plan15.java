@@ -22,16 +22,25 @@ public class Plan15{
         addSome();
     }
 
-    private void addSome(){
-        String [][] courses = {{"PRI1", "Proyecto Integrador","9","3"},
-                              {"DDYA", "Diseño de Datos y Algoritmos","4","4"},
-                              {"MPIN", "Matematicas para Informatica","3","4"}};
-        for (String [] c: courses){
-            addCourse(c[0],c[1],c[2],c[3]);
+    private void addSome() {
+        String[][] courses = {
+                {"PRI1", "Proyecto Integrador", "9", "3"},
+                {"DDYA", "Diseño de Datos y Algoritmos", "4", "4"},
+                {"MPIN", "Matematicas para Informatica", "3", "4"},
+                {"DOSW", "Desarrollo y Operaciones Software", "4", "4"}
+        };
+
+        for (String[] course : courses) {
+            addCourse(course[0], course[1], course[2], course[3]);
         }
-        String [][] Core = {{"FCC","Nucleo formacion por comun por campo", "50", "PRI1\nDDYA\nMPIN"}};
-        for (String [] c: Core){
-            addCore(c[0],c[1],c[2],c[3]);
+
+        String[][] cores = {
+                {"FCC", "Nucleo formacion por comun por campo", "50", "PRI1\nDDYA\nMPIN"},
+                {"NFPE", "Nucleo de formación específica", "100", "DOSW"}
+        };
+
+        for (String[] core : cores) {
+            addCore(core[0], core[1], core[2], core[3]);
         }
     }
 
@@ -61,7 +70,7 @@ public class Plan15{
     /**
      * Add a new core
     */
-    public void addCore(String code, String name, String percentage, String theCourses){ 
+    public void addCore(String code, String name, String percentage, String theCourses){
         Core c = new Core(code,name,Integer.parseInt(percentage));
         String [] aCourses= theCourses.split("\n");
         for (String b : aCourses){
@@ -78,7 +87,7 @@ public class Plan15{
     public ArrayList<Unit> select(String prefix){
         ArrayList <Unit> answers=new ArrayList<Unit>();
         prefix=prefix.toUpperCase();
-        for(int i=0;i<=units.size();i++){
+        for(int i=0;i < units.size();i++){
             if(units.get(i).code().toUpperCase().startsWith(prefix)){
                 answers.add(units.get(i));
             }   
