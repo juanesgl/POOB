@@ -223,13 +223,27 @@ public class Plan15GUI extends JFrame{
         textDetails.setText(plan.toString());
     }
     
-    private void  actionAdd(){
-        if (basics.getText().trim().equals("")){
-            plan.addCourse(code.getText(),name.getText(),credits.getText(),inPerson.getText());
-        }else{ 
-            plan.addCore(code.getText(),name.getText(),credits.getText(),basics.getText());
+    private void actionAdd() {
+    try {
+        
+        if (code.getText().trim().isEmpty() || name.getText().trim().isEmpty() || credits.getText().trim().isEmpty()) {
+            throw new Plan15Exception("Todos los campos son obligatorios.");
+        }
+
+        if (basics.getText().trim().isEmpty()) {
+            plan.addCourse(code.getText(), name.getText(), credits.getText(), inPerson.getText());
+        } else { 
+            plan.addCore(code.getText(), name.getText(), credits.getText(), basics.getText());
+        }
+
+        JOptionPane.showMessageDialog(this, "Curso agregado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Plan15Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
+
 
     private void actionSearch(){
         String patronBusqueda=textSearch.getText();
@@ -243,5 +257,5 @@ public class Plan15GUI extends JFrame{
    public static void main(String args[]){
        Plan15GUI gui=new Plan15GUI();
        gui.setVisible(true);
-   }    
+    }    
 }

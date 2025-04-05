@@ -70,7 +70,7 @@ public class Plan15{
     /**
      * Add a new core
     */
-    public void addCore(String code, String name, String percentage, String theCourses){
+    public void addCore(String code, String name, String percentage, String theCourses) {
         Core c = new Core(code,name,Integer.parseInt(percentage));
         String [] aCourses= theCourses.split("\n");
         for (String b : aCourses){
@@ -107,7 +107,7 @@ public class Plan15{
         answer.append(units.size()+ " unidades\n");
         for(Unit p : selected) {
             try{
-                answer.append('>' + p.data());
+                answer.append('>').append(p.data());
                 answer.append("\n");
             }catch(Plan15Exception e){
                 answer.append("**** "+e.getMessage());

@@ -9,19 +9,36 @@ import org.junit.Test;
 
 public class CoreTest{
 
-
-
     @Test
-    public void deberiaAdicionarMateria() throws Plan15Exception {
+    public void shouldAddCourseToPlan15() {
         Plan15 plan15 = new Plan15();
-
-        plan15.addCourse("DOSW", "Desarrollo y Operaciones Software", "4", "4");
-
-        Unit unidad = plan15.consult("DOSW");
-        assertNotNull("La materia DOSW debería existir en el plan", unidad);
-        assertEquals("Desarrollo y Operaciones Software", unidad.name());
-        assertEquals(4, unidad.credits());
+    
+        try {
+            plan15.addCourse("DOSW", "Desarrollo y Operaciones Software", "4", "4");
+            Unit unidad = plan15.consult("DOSW");
+    
+            assertNotNull("La materia DOSW debería existir en el plan", unidad);
+            assertEquals("Desarrollo y Operaciones Software", unidad.name());
+            assertEquals(4, unidad.credits());
+        } catch (Plan15Exception e) {
+            fail("No debería lanzar excepción al adicionar materia válida");
+        }
     }
+    
+    @Test
+    public void shouldListAllUnits() {
+        Plan15 plan = new Plan15();
+    
+        String listado = plan.toString();
+        assertTrue("El listado debe contener PRI1", listado.contains("PRI1"));
+        assertTrue("El listado debe contener DDYA", listado.contains("DDYA"));
+        assertTrue("El listado debe contener MPIN", listado.contains("MPIN"));
+        assertTrue("El listado debe contener DOSW", listado.contains("DOSW"));
+        assertTrue("El listado debe contener FCC", listado.contains("FCC"));
+        assertTrue("El listado debe contener NFPE", listado.contains("NFPE"));
+        assertTrue("Debe indicar 6 unidades en total", listado.startsWith("6 unidades"));
+    }
+
 
 
     @Test
