@@ -8,6 +8,34 @@ import org.junit.Test;
 
 
 public class CoreTest{
+    
+    
+    
+    @Test
+    public void testAddCourseWithInvalidIntegers() {
+        Plan15 plan = new Plan15();
+        try {
+            plan.addCourse("ERR1", "Curso Inválido", "cuatro", "tres");
+            fail("Se esperaba una excepción por valores no enteros.");
+        } catch (Plan15Exception e) {
+            assertTrue(e.getMessage().toLowerCase().contains("números enteros"));
+        }
+    }
+    
+    
+    
+    @Test
+    public void testUnidadNoExiste() {
+        Plan15 p = new Plan15();
+        try {
+            p.addCore("XXX", "nombre", "80", "NOEXISTE");
+            fail("Debió lanzar excepción por curso inexistente");
+        } catch (Plan15Exception e) {
+            assertTrue(e.getMessage().contains("NOEXISTE"));
+        }
+    }
+
+
 
     @Test
     public void shouldAddCourseToPlan15() {

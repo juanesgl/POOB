@@ -17,12 +17,17 @@ public class Plan15{
      * Create a Plan15
      */
     public Plan15(){
-        units = new ArrayList<Unit>();
-        courses = new TreeMap<String,Course>();
+    units = new ArrayList<Unit>();
+    courses = new TreeMap<String,Course>();
+    try {
         addSome();
+    } catch (Plan15Exception e) {
+        System.out.println("Error al agregar cursos por defecto: " + e.getMessage());
     }
+}
 
-    private void addSome() {
+
+    private void addSome() throws Plan15Exception {
         String[][] courses = {
                 {"PRI1", "Proyecto Integrador", "9", "3"},
                 {"DDYA", "Diseño de Datos y Algoritmos", "4", "4"},
@@ -40,9 +45,14 @@ public class Plan15{
         };
 
         for (String[] core : cores) {
+        try {
             addCore(core[0], core[1], core[2], core[3]);
+        } catch (Plan15Exception e) {
+            System.out.println("Error al adicionar núcleo " + core[0] + ": " + e.getMessage());
         }
-    }
+        }
+
+}
 
 
     /**
@@ -61,23 +71,35 @@ public class Plan15{
     /**
      * Add a new course
     */
-    public void addCourse(String code, String name, String credits, String inPerson){ 
-        Course nc=new Course(code,name,Integer.parseInt(credits),Integer.parseInt(inPerson));
+    public void addCourse(String code, String name, String credits, String inPerson) throws Plan15Exception {
+    try {
+        int c = Integer.parseInt(credits);
+        int i = Integer.parseInt(inPerson);
+        Course nc = new Course(code, name, c, i);
         units.add(nc);
-        courses.put(code.toUpperCase(),nc); 
+        courses.put(code.toUpperCase(), nc);
+    } catch (NumberFormatException e) {
+        throw new Plan15Exception("Los créditos y horas presenciales deben ser números enteros.");
     }
+}
+
     
     /**
      * Add a new core
     */
-    public void addCore(String code, String name, String percentage, String theCourses) {
-        Core c = new Core(code,name,Integer.parseInt(percentage));
-        String [] aCourses= theCourses.split("\n");
-        for (String b : aCourses){
-            c.addCourse(courses.get(b.toUpperCase()));
+    public void addCore(String code, String name, String percentage, String theCourses) throws Plan15Exception {
+    Core c = new Core(code, name, Integer.parseInt(percentage));
+    String[] aCourses = theCourses.split("\n");
+    for (String b : aCourses) {
+        Course course = courses.get(b.toUpperCase());
+        if (course == null) {
+            throw new Plan15Exception("El curso básico '" + b + "' no existe.");
         }
-        units.add(c);
+        c.addCourse(course);
     }
+    units.add(c);
+}
+
 
     /**
      * Consults the units that start with a prefix
