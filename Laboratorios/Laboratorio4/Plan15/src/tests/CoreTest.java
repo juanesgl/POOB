@@ -9,8 +9,44 @@ import org.junit.Test;
 
 public class CoreTest{
     
+    @Test
+    public void testAddCourseWithConfirmation() {
+        Plan15 plan = new Plan15();
+        boolean courseAdded = false;
     
+        
+        String confirmResponse = "yes"; 
     
+        if (confirmResponse.equalsIgnoreCase("yes")) {
+            try {
+                plan.addCourse("TEST", "Test Course", "3", "10");
+                courseAdded = true;
+            } catch (Plan15Exception e) {
+                System.out.println("Error al agregar curso: " + e.getMessage());
+            }
+        }
+    
+        assertTrue("El curso debería haberse agregado si el usuario confirmó", courseAdded);
+        assertNotNull("El curso debe estar en el plan después de ser agregado", plan.consult("TEST"));
+    }
+
+    
+    @Test
+    public void testAddCoreWithInvalidPercentage() {
+        Plan15 plan = new Plan15();
+        boolean thrown = false;
+
+        try {
+            // porcentaje inválido: 150 (fuera del rango 0-100)
+            plan.addCore("TEST", "Test Core", "150", "PRI1");
+        } catch (Plan15Exception e) {
+            thrown = true;
+            assertEquals("El porcentaje debe estar entre 0 y 100.", e.getMessage());
+        }
+
+        assertTrue("Se esperaba una excepción por porcentaje fuera de rango", thrown);
+    }
+       
     @Test
     public void testAddCourseWithInvalidIntegers() {
         Plan15 plan = new Plan15();
