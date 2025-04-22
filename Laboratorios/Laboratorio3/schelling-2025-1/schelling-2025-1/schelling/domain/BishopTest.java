@@ -3,9 +3,10 @@ import static org.junit.Assert.*;
 import domain.*;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BishopTest {
-    @Test
+    @org.junit.jupiter.api.Test
     public void bishopMovesDown() {
         City city = new City();
         Bishop bishop = new Bishop(city, 3, 3);
