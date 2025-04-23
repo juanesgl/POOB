@@ -76,4 +76,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+*.html
+*.css
+
 # End of https://www.toptal.com/developers/gitignore/api/java,linux,windows,bluej
