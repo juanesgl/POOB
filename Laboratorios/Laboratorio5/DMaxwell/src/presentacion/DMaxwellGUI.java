@@ -1,14 +1,19 @@
 package presentacion;
 import javax.swing.*;
-import javax.tools.Tool;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import javax.swing.border.EmptyBorder;
+
+
+
 public class DMaxwellGUI extends JFrame{
 
     private JMenuBar menuBar;
     private JMenu menuArchivo;
     private JMenuItem menuItemNuevo, menuItemAbrir, menuItemSalvar, menuItemSalir;
+    private JPanel boardPanel;
+    private JPanel controlPanel;
     public DMaxwellGUI() {
         
         prepareElements();
@@ -29,6 +34,14 @@ public class DMaxwellGUI extends JFrame{
         prepareElementsMenu();
         prepareActionsMenu();
         
+        //CICLO 3
+        setLayout(new BorderLayout()); // <-- aquí defines el layout principal
+
+        prepareElementsBoard();        // <-- creas el tablero
+        prepareElementsControls();     // <-- creas los botones abajo
+    
+        add(boardPanel, BorderLayout.CENTER); // <-- tablero al centro
+        add(controlPanel, BorderLayout.SOUTH); // <-- botones abajo
 
     }
 
@@ -121,6 +134,38 @@ public class DMaxwellGUI extends JFrame{
         menuBar.add(menuConfiguracion);
 
         setJMenuBar(menuBar);
+    }
+
+
+
+    //CICLO 3
+    private void prepareElementsBoard(){
+        boardPanel = new JPanel();
+        boardPanel.setLayout(new GridLayout(1, 2));  
+        
+        
+        JPanel leftPanel = new JPanel();
+        Color colorIzquierdo = new Color(205, 205, 205);
+        leftPanel.setBackground(colorIzquierdo);
+        leftPanel.setBorder(new EmptyBorder(10, 10, 10, 10));  
+        boardPanel.add(leftPanel);
+    
+
+        JPanel rightPanel = new JPanel();
+        Color colorDerecho = new Color(156, 156, 156);
+        rightPanel.setBackground(colorDerecho); 
+        rightPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); 
+        boardPanel.add(rightPanel);
+            
+
+    }
+
+    private void prepareElementsControls() {
+        controlPanel = new JPanel();
+        controlPanel.setPreferredSize(new Dimension(400, 100));  // Establece el tamaño preferido del panel
+        JButton botonPrueba = new JButton("Botón de prueba");
+        controlPanel.add(botonPrueba);
+    
     }
 }
 
