@@ -157,23 +157,31 @@ public class DMaxwellGUI extends JFrame{
         leftPanel = createParticlePanel(new Color(205, 205, 205));
         rightPanel = createParticlePanel(new Color(156, 156, 156));
 
-        JPanel demonPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(Color.BLACK);
-                g.fillRect(0, 0, getWidth(), getHeight());
-                g.setColor(Color.YELLOW);
-                g.drawString("DEMONIO", 5, getHeight() / 2);
-            }
-        };
-        demonPanel.setPreferredSize(new Dimension(20, 400));
+        JPanel demonPanel = new JPanel();
+    demonPanel.setBackground(Color.BLACK);
+    demonPanel.setPreferredSize(new Dimension(20, 20)); // Ancho ajustable
 
-        // Contenedor para ambos paneles
-        JPanel container = new JPanel(new GridLayout(1, 2));
-        container.add(leftPanel);
-        container.add(rightPanel);
-        boardPanel.add(container, BorderLayout.CENTER);
+    // Añadir texto "DEMONIO" centrado
+    JPanel container = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+    container.add(leftPanel);
+    
+    // Demonio (cuadrado pequeño)
+    JLabel demon = new JLabel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, 40, 40); // Tamaño igual al de las partículas
+            g.setColor(Color.YELLOW);
+            g.drawRect(0, 0, 39, 39); // Borde amarillo
+        }
+    };
+    demon.setPreferredSize(new Dimension(40, 40));
+    container.add(demon); // Añade el demonio entre los paneles
+    
+    container.add(rightPanel);
+    boardPanel.add(container, BorderLayout.CENTER);
+        
 
         SwingUtilities.invokeLater(() -> {
             agregarParticulasAleatorias(leftPanel, rightPanel, r, Color.RED);
