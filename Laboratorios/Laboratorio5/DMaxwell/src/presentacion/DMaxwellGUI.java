@@ -14,6 +14,7 @@ public class DMaxwellGUI extends JFrame{
     private JMenuItem menuItemNuevo, menuItemAbrir, menuItemSalvar, menuItemSalir;
     private JPanel boardPanel;
     private JPanel controlPanel;
+    private int r, b;
     public DMaxwellGUI() {
         
         prepareElements();
@@ -156,6 +157,13 @@ public class DMaxwellGUI extends JFrame{
         rightPanel.setBackground(colorDerecho); 
         rightPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); 
         boardPanel.add(rightPanel);
+
+        // Agregar las partículas rojas y azules de tamaño 1x1
+        this.r = 10;
+        this.b = 10;
+        agregarParticulasAleatorias(leftPanel, Color.RED, r);  // Red particles in the left panel
+        agregarParticulasAleatorias(rightPanel, Color.BLUE, b);  // Blue particles in the right panel
+
             
 
     }
@@ -166,6 +174,14 @@ public class DMaxwellGUI extends JFrame{
         JButton botonPrueba = new JButton("Botón de prueba");
         controlPanel.add(botonPrueba);
     
+    }
+
+
+    private void agregarParticulasAleatorias(JPanel panel, Color color, int cantidad) {
+        for (int i = 0; i < cantidad; i++) {
+            Particle part = Particle.generarParticula(panel.getWidth(), panel.getHeight(), color);
+            panel.add(part);
+        }
     }
 }
 
