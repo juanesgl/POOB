@@ -7,8 +7,6 @@ import java.util.Random;
 
 import javax.swing.border.EmptyBorder;
 
-
-
 public class DMaxwellGUI extends JFrame{
 
     private JMenuBar menuBar;
@@ -16,38 +14,35 @@ public class DMaxwellGUI extends JFrame{
     private JMenuItem menuItemNuevo, menuItemAbrir, menuItemSalvar, menuItemSalir;
     private JPanel boardPanel;
     private JPanel controlPanel;
+    private JPanel leftPanel, rightPanel; // Referencias a los paneles para facilitar el reinicio
     private int r, b;
+
     public DMaxwellGUI(int rojas, int azules){
-        
-        this.r = rojas; 
+        this.r = rojas;
         this.b = azules;
         prepareElements();
         prepareActions();
     }
 
     public void prepareElements() {
-
         //CICLO 0
         setTitle("Maxwell Discreto");
         setSize((Toolkit.getDefaultToolkit().getScreenSize().width / 2), (Toolkit.getDefaultToolkit().getScreenSize().height / 2));
         setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 4, (Toolkit.getDefaultToolkit().getScreenSize().height) / 4);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-
         //CICLO 1
-
         prepareElementsMenu();
         prepareActionsMenu();
-        
+
         //CICLO 3
         setLayout(new BorderLayout()); // <-- aquí defines el layout principal
 
         prepareElementsBoard();        // <-- creas el tablero
         prepareElementsControls();     // <-- creas los botones abajo
-    
+
         add(boardPanel, BorderLayout.CENTER); // <-- tablero al centro
         add(controlPanel, BorderLayout.SOUTH); // <-- botones abajo
-
     }
 
     public void prepareActions() {
@@ -58,8 +53,6 @@ public class DMaxwellGUI extends JFrame{
                 exit();
             }
         });
-
-        
     }
 
     public void prepareActionsMenu() {
@@ -68,16 +61,17 @@ public class DMaxwellGUI extends JFrame{
         //CICLO 2
         menuItemAbrir.addActionListener(e -> abrirArchivo());
         menuItemSalvar.addActionListener(e -> guardarArchivo());
-
+        //CICLO 7
+        menuItemNuevo.addActionListener(e -> reiniciar());
     }
-    
+
     //CICLO 1
     public void exit() {
         int confirmation = JOptionPane.showConfirmDialog(
                 this,
                 "¿Estas seguro de que quieres salir?",
                 "Confirmacion de salida",
-                JOptionPane.YES_NO_OPTION    
+                JOptionPane.YES_NO_OPTION
         );
 
         if (confirmation == JOptionPane.YES_OPTION) {
@@ -93,13 +87,12 @@ public class DMaxwellGUI extends JFrame{
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             JOptionPane.showMessageDialog(this, "Funcionalidad en construcción\nArchivo seleccionado: " + file.getAbsolutePath());
-        } else {    
+        } else {
             JOptionPane.showMessageDialog(this, "Operación cancelada.");
         }
     }
 
     public void guardarArchivo(){
-
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showSaveDialog(this);
         if(result == JFileChooser.APPROVE_OPTION){
@@ -141,31 +134,26 @@ public class DMaxwellGUI extends JFrame{
         setJMenuBar(menuBar);
     }
 
-
-
     //CICLO 3
     private void prepareElementsBoard(){
         boardPanel = new JPanel();
         boardPanel.setLayout(new BorderLayout());
-        
+
         // Crear paneles
-        JPanel leftPanel = createParticlePanel(new Color(205, 205, 205));
-        JPanel rightPanel = createParticlePanel(new Color(156, 156, 156));
-        
+        leftPanel = createParticlePanel(new Color(205, 205, 205));
+        rightPanel = createParticlePanel(new Color(156, 156, 156));
+
         // Contenedor para ambos paneles
         JPanel container = new JPanel(new GridLayout(1, 2));
         container.add(leftPanel);
         container.add(rightPanel);
         boardPanel.add(container, BorderLayout.CENTER);
-        
+
         SwingUtilities.invokeLater(() -> {
             agregarParticulasAleatorias(leftPanel, rightPanel, r, Color.RED);
             agregarParticulasAleatorias(leftPanel, rightPanel, b, Color.BLUE);
         });
-            
-
     }
-
 
     private JPanel createParticlePanel(Color backgroundColor) {
         JPanel panel = new JPanel() {
@@ -181,30 +169,27 @@ public class DMaxwellGUI extends JFrame{
         return panel;
     }
 
-    
-
-
     private void agregarParticulasAleatorias(JPanel leftPanel, JPanel rightPanel, int cantidad, Color color) {
         if (cantidad <= 0) return;
-        
+
         final int TAMANO_PARTICULA = 8;
         Random rand = new Random();
-        
+
         for (int i = 0; i < cantidad; i++) {
             JPanel panelDestino = rand.nextBoolean() ? leftPanel : rightPanel;
-            
+
             // Asegurarnos de que el tamaño del panel es válido
             int ancho = panelDestino.getWidth();
             int alto = panelDestino.getHeight();
-            
+
             if (ancho <= TAMANO_PARTICULA || alto <= TAMANO_PARTICULA) {
                 ancho = panelDestino.getPreferredSize().width;
                 alto = panelDestino.getPreferredSize().height;
             }
-            
+
             int x = rand.nextInt(Math.max(1, ancho - TAMANO_PARTICULA));
             int y = rand.nextInt(Math.max(1, alto - TAMANO_PARTICULA));
-            
+
             JLabel particula = new JLabel() {
                 @Override
                 protected void paintComponent(Graphics g) {
@@ -216,7 +201,7 @@ public class DMaxwellGUI extends JFrame{
             particula.setBounds(x, y, TAMANO_PARTICULA, TAMANO_PARTICULA);
             panelDestino.add(particula);
         }
-        
+
         leftPanel.revalidate();
         leftPanel.repaint();
         rightPanel.revalidate();
@@ -226,10 +211,30 @@ public class DMaxwellGUI extends JFrame{
     private void prepareElementsControls() {
         controlPanel = new JPanel();
         controlPanel.setPreferredSize(new Dimension(400, 100));  // Establece el tamaño preferido del panel
+
         JButton botonPrueba = new JButton("Botón de prueba");
         controlPanel.add(botonPrueba);
-    
-    }
-    
-}
 
+        // Añadir botón de reinicio - CICLO 7
+        JButton botonReiniciar = new JButton("Reiniciar");
+        botonReiniciar.addActionListener(e -> reiniciar());
+        controlPanel.add(botonReiniciar);
+    }
+
+    // CICLO 7 - Método para reiniciar la simulación
+    private void reiniciar() {
+        // Limpiar paneles
+        leftPanel.removeAll();
+        rightPanel.removeAll();
+
+        // Agregar nuevas partículas aleatorias
+        agregarParticulasAleatorias(leftPanel, rightPanel, r, Color.RED);
+        agregarParticulasAleatorias(leftPanel, rightPanel, b, Color.BLUE);
+
+        // Repintar paneles
+        leftPanel.revalidate();
+        leftPanel.repaint();
+        rightPanel.revalidate();
+        rightPanel.repaint();
+    }
+}
