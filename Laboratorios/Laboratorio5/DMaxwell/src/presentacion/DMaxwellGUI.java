@@ -16,6 +16,9 @@ public class DMaxwellGUI extends JFrame{
     private JPanel controlPanel;
     private JPanel leftPanel, rightPanel; // Referencias a los paneles para facilitar el reinicio
     private int r, b;
+    private double windowSizeFactor = 0.5; // Factor de tamaño inicial (50% de la pantalla)
+    private JMenu menuConfiguracion;
+    private JMenuItem menuItemPreferencias, menuItemAjustes;
 
     public DMaxwellGUI(int rojas, int azules){
         this.r = rojas;
@@ -27,8 +30,7 @@ public class DMaxwellGUI extends JFrame{
     public void prepareElements() {
         //CICLO 0
         setTitle("Maxwell Discreto");
-        setSize((Toolkit.getDefaultToolkit().getScreenSize().width / 2), (Toolkit.getDefaultToolkit().getScreenSize().height / 2));
-        setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 4, (Toolkit.getDefaultToolkit().getScreenSize().height) / 4);
+        ajustarTamañoVentana();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         //CICLO 1
@@ -43,6 +45,15 @@ public class DMaxwellGUI extends JFrame{
 
         add(boardPanel, BorderLayout.CENTER); // <-- tablero al centro
         add(controlPanel, BorderLayout.SOUTH); // <-- botones abajo
+    }
+
+    // Método para ajustar el tamaño de la ventana según el factor actual
+    private void ajustarTamañoVentana() {
+        int width = (int)(Toolkit.getDefaultToolkit().getScreenSize().width * windowSizeFactor);
+        int height = (int)(Toolkit.getDefaultToolkit().getScreenSize().height * windowSizeFactor);
+        setSize(width, height);
+        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - width) / 2,
+                (Toolkit.getDefaultToolkit().getScreenSize().height - height) / 2);
     }
 
     public void prepareActions() {
@@ -63,6 +74,8 @@ public class DMaxwellGUI extends JFrame{
         menuItemSalvar.addActionListener(e -> guardarArchivo());
         //CICLO 7
         menuItemNuevo.addActionListener(e -> reiniciar());
+        //CICLO 8
+        menuItemAjustes.addActionListener(e -> mostrarDialogoCambiarTamaño());
     }
 
     //CICLO 1
@@ -120,9 +133,9 @@ public class DMaxwellGUI extends JFrame{
         menuArchivo.add(menuItemSalir);
 
         // Menú Configuración
-        JMenu menuConfiguracion = new JMenu("Configuración");
-        JMenuItem menuItemPreferencias = new JMenuItem("Preferencias");
-        JMenuItem menuItemAjustes = new JMenuItem("Ajustes");
+        menuConfiguracion = new JMenu("Configuración");
+        menuItemPreferencias = new JMenuItem("Preferencias");
+        menuItemAjustes = new JMenuItem("Ajustes");
 
         menuConfiguracion.add(menuItemPreferencias);
         menuConfiguracion.add(menuItemAjustes);
@@ -236,5 +249,60 @@ public class DMaxwellGUI extends JFrame{
         leftPanel.repaint();
         rightPanel.revalidate();
         rightPanel.repaint();
+    }
+
+    // CICLO 8 - Método para mostrar el diálogo de cambio de tamaño
+    private void mostrarDialogoCambiarTamaño() {
+        JDialog dialog = new JDialog(this, "Cambiar Tamaño de la Ventana", true);
+        dialog.setLayout(new BorderLayout());
+
+        JPanel form = new JPanel(new GridLayout(1, 2, 10, 10));
+        form.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JLabel labelTamaño = new JLabel("Tamaño de ventana (% de pantalla):");
+
+        String[] opciones = {"25%", "50%", "75%", "100%"};
+        JComboBox<String> comboTamaño = new JComboBox<>(opciones);
+
+        // Seleccionar el valor actual
+        int indiceSeleccionado = (int)(windowSizeFactor * 4) - 1;
+        comboTamaño.setSelectedIndex(Math.max(0, Math.min(3, indiceSeleccionado)));
+
+        form.add(labelTamaño);
+        form.add(comboTamaño);
+
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton cancelButton = new JButton("Cancelar");
+        JButton applyButton = new JButton("Aplicar");
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+        applyButton.addActionListener(e -> {
+            int selectedIndex = comboTamaño.getSelectedIndex();
+            double newFactor = (selectedIndex + 1) * 0.25; // 0.25, 0.5, 0.75 o 1.0
+            cambiarTamañoVentana(newFactor);
+            dialog.dispose();
+        });
+
+        buttons.add(cancelButton);
+        buttons.add(applyButton);
+
+        dialog.add(form, BorderLayout.CENTER);
+        dialog.add(buttons, BorderLayout.SOUTH);
+
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+    // CICLO 8 - Método para cambiar el tamaño de la ventana
+    private void cambiarTamañoVentana(double factor) {
+        // Guardar el nuevo factor
+        this.windowSizeFactor = factor;
+
+        // Ajustar el tamaño de la ventana
+        ajustarTamañoVentana();
+
+        // Reiniciar para redistribuir las partículas en el nuevo espacio
+        reiniciar();
     }
 }
