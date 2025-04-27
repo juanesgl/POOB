@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.Random;
+
 import javax.swing.border.EmptyBorder;
 
 
@@ -15,8 +17,10 @@ public class DMaxwellGUI extends JFrame{
     private JPanel boardPanel;
     private JPanel controlPanel;
     private int r, b;
-    public DMaxwellGUI() {
+    public DMaxwellGUI(int rojas, int azules){
         
+        this.r = rojas; 
+        this.b = azules;
         prepareElements();
         prepareActions();
     }
@@ -142,30 +146,81 @@ public class DMaxwellGUI extends JFrame{
     //CICLO 3
     private void prepareElementsBoard(){
         boardPanel = new JPanel();
-        boardPanel.setLayout(new GridLayout(1, 2));  
+        boardPanel.setLayout(new BorderLayout());
         
+        // Crear paneles
+        JPanel leftPanel = createParticlePanel(new Color(205, 205, 205));
+        JPanel rightPanel = createParticlePanel(new Color(156, 156, 156));
         
-        JPanel leftPanel = new JPanel();
-        Color colorIzquierdo = new Color(205, 205, 205);
-        leftPanel.setBackground(colorIzquierdo);
-        leftPanel.setBorder(new EmptyBorder(10, 10, 10, 10));  
-        boardPanel.add(leftPanel);
-    
-
-        JPanel rightPanel = new JPanel();
-        Color colorDerecho = new Color(156, 156, 156);
-        rightPanel.setBackground(colorDerecho); 
-        rightPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); 
-        boardPanel.add(rightPanel);
-
-        // Agregar las partículas rojas y azules de tamaño 1x1
-        this.r = 10;
-        this.b = 10;
-        agregarParticulasAleatorias(leftPanel, Color.RED, r);  // Red particles in the left panel
-        agregarParticulasAleatorias(rightPanel, Color.BLUE, b);  // Blue particles in the right panel
-
+        // Contenedor para ambos paneles
+        JPanel container = new JPanel(new GridLayout(1, 2));
+        container.add(leftPanel);
+        container.add(rightPanel);
+        boardPanel.add(container, BorderLayout.CENTER);
+        
+        SwingUtilities.invokeLater(() -> {
+            agregarParticulasAleatorias(leftPanel, rightPanel, r, Color.RED);
+            agregarParticulasAleatorias(leftPanel, rightPanel, b, Color.BLUE);
+        });
             
 
+    }
+
+
+    private JPanel createParticlePanel(Color backgroundColor) {
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(backgroundColor);
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        panel.setLayout(null); // Usamos layout absoluto
+        panel.setPreferredSize(new Dimension(300, 400));
+        return panel;
+    }
+
+    
+
+
+    private void agregarParticulasAleatorias(JPanel leftPanel, JPanel rightPanel, int cantidad, Color color) {
+        if (cantidad <= 0) return;
+        
+        final int TAMANO_PARTICULA = 8;
+        Random rand = new Random();
+        
+        for (int i = 0; i < cantidad; i++) {
+            JPanel panelDestino = rand.nextBoolean() ? leftPanel : rightPanel;
+            
+            // Asegurarnos de que el tamaño del panel es válido
+            int ancho = panelDestino.getWidth();
+            int alto = panelDestino.getHeight();
+            
+            if (ancho <= TAMANO_PARTICULA || alto <= TAMANO_PARTICULA) {
+                ancho = panelDestino.getPreferredSize().width;
+                alto = panelDestino.getPreferredSize().height;
+            }
+            
+            int x = rand.nextInt(Math.max(1, ancho - TAMANO_PARTICULA));
+            int y = rand.nextInt(Math.max(1, alto - TAMANO_PARTICULA));
+            
+            JLabel particula = new JLabel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.setColor(color);
+                    g.fillRect(0, 0, TAMANO_PARTICULA, TAMANO_PARTICULA);
+                }
+            };
+            particula.setBounds(x, y, TAMANO_PARTICULA, TAMANO_PARTICULA);
+            panelDestino.add(particula);
+        }
+        
+        leftPanel.revalidate();
+        leftPanel.repaint();
+        rightPanel.revalidate();
+        rightPanel.repaint();
     }
 
     private void prepareElementsControls() {
@@ -175,13 +230,6 @@ public class DMaxwellGUI extends JFrame{
         controlPanel.add(botonPrueba);
     
     }
-
-
-    private void agregarParticulasAleatorias(JPanel panel, Color color, int cantidad) {
-        for (int i = 0; i < cantidad; i++) {
-            Particle part = Particle.generarParticula(panel.getWidth(), panel.getHeight(), color);
-            panel.add(part);
-        }
-    }
+    
 }
 

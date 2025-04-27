@@ -19,9 +19,9 @@ public class Particle extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(color);
-        g.fillRect(0, 0, TAMAÑO, TAMAÑO); // Dibuja un cuadrado (1x1)
+    super.paintComponent(g);
+    g.setColor(color); // Establecer el color de la partícula
+    g.fillRect(0, 0, TAMAÑO, TAMAÑO);  // Dibuja un cuadrado de 1x1 (tamaño de partícula)
     }
 
     public static Particle generarParticula(int panelWidth, int panelHeight, Color color) {
