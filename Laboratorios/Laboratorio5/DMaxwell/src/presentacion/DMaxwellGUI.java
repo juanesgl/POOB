@@ -15,14 +15,15 @@ public class DMaxwellGUI extends JFrame{
     private JPanel boardPanel;
     private JPanel controlPanel;
     private JPanel leftPanel, rightPanel; // Referencias a los paneles para facilitar el reinicio
-    private int r, b;
+    private int r, b,h;
     private double windowSizeFactor = 0.5; // Factor de tamaño inicial (50% de la pantalla)
     private JMenu menuConfiguracion;
     private JMenuItem menuItemPreferencias, menuItemAjustes;
 
-    public DMaxwellGUI(int rojas, int azules){
+    public DMaxwellGUI(int rojas, int azules,int agujeros){
         this.r = rojas;
         this.b = azules;
+        this.h=agujeros;
         prepareElements();
         prepareActions();
     }
@@ -156,6 +157,18 @@ public class DMaxwellGUI extends JFrame{
         leftPanel = createParticlePanel(new Color(205, 205, 205));
         rightPanel = createParticlePanel(new Color(156, 156, 156));
 
+        JPanel demonPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                g.setColor(Color.YELLOW);
+                g.drawString("DEMONIO", 5, getHeight() / 2);
+            }
+        };
+        demonPanel.setPreferredSize(new Dimension(20, 400));
+
         // Contenedor para ambos paneles
         JPanel container = new JPanel(new GridLayout(1, 2));
         container.add(leftPanel);
@@ -165,6 +178,8 @@ public class DMaxwellGUI extends JFrame{
         SwingUtilities.invokeLater(() -> {
             agregarParticulasAleatorias(leftPanel, rightPanel, r, Color.RED);
             agregarParticulasAleatorias(leftPanel, rightPanel, b, Color.BLUE);
+            agregarAgujerosNegros(leftPanel, h / 2);
+            agregarAgujerosNegros(rightPanel, h - (h / 2));
         });
     }
 
@@ -219,6 +234,29 @@ public class DMaxwellGUI extends JFrame{
         leftPanel.repaint();
         rightPanel.revalidate();
         rightPanel.repaint();
+    }
+
+
+    private void agregarAgujerosNegros(JPanel panel, int cantidad) {
+        Random rand = new Random();
+        for (int i = 0; i < cantidad; i++) {
+            JLabel agujero = new JLabel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.setColor(Color.BLACK);
+                    g.fillRect(0, 0, 10, 10);
+                }
+            };
+            agujero.setBounds(
+                rand.nextInt(panel.getWidth() - 10),
+                rand.nextInt(panel.getHeight() - 10),
+                10, 10
+            );
+            panel.add(agujero);
+        }
+        panel.revalidate();
+        panel.repaint();
     }
 
     private void prepareElementsControls() {
