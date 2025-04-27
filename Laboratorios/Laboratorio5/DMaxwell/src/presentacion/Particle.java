@@ -8,7 +8,7 @@ import java.util.Random;
 public class Particle extends JPanel {
     private Color color;
     private int x, y;
-    private static final int TAMAÑO = 1;  // Tamaño de cada partícula o hoyo (1x1)
+    private static final int TAMAÑO = 1; 
 
     public Particle(Color color, int x, int y) {
         this.color = color;
@@ -20,16 +20,18 @@ public class Particle extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    g.setColor(color); // Establecer el color de la partícula
-    g.fillRect(0, 0, TAMAÑO, TAMAÑO);  // Dibuja un cuadrado de 1x1 (tamaño de partícula)
+    g.setColor(color); 
+    g.fillRect(0, 0, TAMAÑO, TAMAÑO);  
     }
 
     public static Particle generarParticula(int panelWidth, int panelHeight, Color color) {
         Random rand = new Random();
-        int x = rand.nextInt(panelWidth); // X aleatorio
-        int y = rand.nextInt(panelHeight); // Y aleatorio
+        int x = rand.nextInt(panelWidth); 
+        int y = rand.nextInt(panelHeight); 
         return new Particle(color, x, y);
     }
+
+    
 
 
 }

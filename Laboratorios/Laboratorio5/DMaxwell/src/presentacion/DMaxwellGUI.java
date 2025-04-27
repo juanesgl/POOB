@@ -14,11 +14,12 @@ public class DMaxwellGUI extends JFrame{
     private JMenuItem menuItemNuevo, menuItemAbrir, menuItemSalvar, menuItemSalir;
     private JPanel boardPanel;
     private JPanel controlPanel;
-    private JPanel leftPanel, rightPanel; // Referencias a los paneles para facilitar el reinicio
+    private JPanel leftPanel, rightPanel; 
     private int r, b,h;
-    private double windowSizeFactor = 0.5; // Factor de tamaño inicial (50% de la pantalla)
+    private double windowSizeFactor = 0.5; 
     private JMenu menuConfiguracion;
     private JMenuItem menuItemPreferencias, menuItemAjustes;
+    private JMenuItem menuItemColores;
 
     public DMaxwellGUI(int rojas, int azules,int agujeros){
         this.r = rojas;
@@ -39,16 +40,16 @@ public class DMaxwellGUI extends JFrame{
         prepareActionsMenu();
 
         //CICLO 3
-        setLayout(new BorderLayout()); // <-- aquí defines el layout principal
+        setLayout(new BorderLayout());
 
-        prepareElementsBoard();        // <-- creas el tablero
-        prepareElementsControls();     // <-- creas los botones abajo
+        prepareElementsBoard();        
+        prepareElementsControls();     
 
-        add(boardPanel, BorderLayout.CENTER); // <-- tablero al centro
-        add(controlPanel, BorderLayout.SOUTH); // <-- botones abajo
+        add(boardPanel, BorderLayout.CENTER); 
+        add(controlPanel, BorderLayout.SOUTH); 
     }
 
-    // Método para ajustar el tamaño de la ventana según el factor actual
+    
     private void ajustarTamañoVentana() {
         int width = (int)(Toolkit.getDefaultToolkit().getScreenSize().width * windowSizeFactor);
         int height = (int)(Toolkit.getDefaultToolkit().getScreenSize().height * windowSizeFactor);
@@ -73,6 +74,10 @@ public class DMaxwellGUI extends JFrame{
         //CICLO 2
         menuItemAbrir.addActionListener(e -> abrirArchivo());
         menuItemSalvar.addActionListener(e -> guardarArchivo());
+
+        //CICLO 4
+        menuItemColores.addActionListener(e -> mostrarDialogoColores());
+
         //CICLO 7
         menuItemNuevo.addActionListener(e -> reiniciar());
         //CICLO 8
@@ -120,12 +125,13 @@ public class DMaxwellGUI extends JFrame{
     private void prepareElementsMenu() { //CICLO 1
         menuBar = new JMenuBar();
 
-        // Menú Archivo
+      
         menuArchivo = new JMenu("Archivo");
         menuItemNuevo = new JMenuItem("Nuevo");
         menuItemAbrir = new JMenuItem("Abrir");
         menuItemSalvar = new JMenuItem("Salvar");
         menuItemSalir = new JMenuItem("Salir");
+        menuItemColores = new JMenuItem("Colores");
 
         menuArchivo.add(menuItemNuevo);
         menuArchivo.add(menuItemAbrir);
@@ -133,15 +139,16 @@ public class DMaxwellGUI extends JFrame{
         menuArchivo.addSeparator();
         menuArchivo.add(menuItemSalir);
 
-        // Menú Configuración
+        
         menuConfiguracion = new JMenu("Configuración");
         menuItemPreferencias = new JMenuItem("Preferencias");
         menuItemAjustes = new JMenuItem("Ajustes");
 
         menuConfiguracion.add(menuItemPreferencias);
+        menuConfiguracion.add(menuItemColores);
         menuConfiguracion.add(menuItemAjustes);
 
-        // Añadir los menús a la barra
+       
         menuBar.add(menuArchivo);
         menuBar.add(menuConfiguracion);
 
@@ -153,31 +160,31 @@ public class DMaxwellGUI extends JFrame{
         boardPanel = new JPanel();
         boardPanel.setLayout(new BorderLayout());
 
-        // Crear paneles
+        
         leftPanel = createParticlePanel(new Color(205, 205, 205));
         rightPanel = createParticlePanel(new Color(156, 156, 156));
 
         JPanel demonPanel = new JPanel();
     demonPanel.setBackground(Color.BLACK);
-    demonPanel.setPreferredSize(new Dimension(20, 20)); // Ancho ajustable
+    demonPanel.setPreferredSize(new Dimension(20, 20)); 
 
-    // Añadir texto "DEMONIO" centrado
+   
     JPanel container = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
     container.add(leftPanel);
     
-    // Demonio (cuadrado pequeño)
+   
     JLabel demon = new JLabel() {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.setColor(Color.BLACK);
-            g.fillRect(0, 0, 40, 40); // Tamaño igual al de las partículas
+            g.fillRect(0, 0, 40, 40); 
             g.setColor(Color.YELLOW);
-            g.drawRect(0, 0, 39, 39); // Borde amarillo
+            g.drawRect(0, 0, 39, 39); 
         }
     };
     demon.setPreferredSize(new Dimension(40, 40));
-    container.add(demon); // Añade el demonio entre los paneles
+    container.add(demon); 
     
     container.add(rightPanel);
     boardPanel.add(container, BorderLayout.CENTER);
@@ -200,7 +207,7 @@ public class DMaxwellGUI extends JFrame{
                 g.fillRect(0, 0, getWidth(), getHeight());
             }
         };
-        panel.setLayout(null); // Usamos layout absoluto
+        panel.setLayout(null); 
         panel.setPreferredSize(new Dimension(300, 400));
         return panel;
     }
@@ -214,7 +221,7 @@ public class DMaxwellGUI extends JFrame{
         for (int i = 0; i < cantidad; i++) {
             JPanel panelDestino = rand.nextBoolean() ? leftPanel : rightPanel;
 
-            // Asegurarnos de que el tamaño del panel es válido
+            
             int ancho = panelDestino.getWidth();
             int alto = panelDestino.getHeight();
 
@@ -230,10 +237,11 @@ public class DMaxwellGUI extends JFrame{
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
-                    g.setColor(color);
+                    g.setColor(getColorFromParticle(this));
                     g.fillRect(0, 0, TAMANO_PARTICULA, TAMANO_PARTICULA);
                 }
             };
+            setColorToParticle(particula, color); 
             particula.setBounds(x, y, TAMANO_PARTICULA, TAMANO_PARTICULA);
             panelDestino.add(particula);
         }
@@ -269,32 +277,111 @@ public class DMaxwellGUI extends JFrame{
 
     private void prepareElementsControls() {
         controlPanel = new JPanel();
-        controlPanel.setPreferredSize(new Dimension(400, 100));  // Establece el tamaño preferido del panel
+        controlPanel.setPreferredSize(new Dimension(400, 100));  
 
         JButton botonPrueba = new JButton("Botón de prueba");
         controlPanel.add(botonPrueba);
 
-        // Añadir botón de reinicio - CICLO 7
+        // CICLO 7
         JButton botonReiniciar = new JButton("Reiniciar");
         botonReiniciar.addActionListener(e -> reiniciar());
         controlPanel.add(botonReiniciar);
     }
 
+
+    //CICLO 4 
+    private void mostrarDialogoColores() {
+        JDialog dialog = new JDialog(this, "Preferencias de Color", true);
+        dialog.setLayout(new GridLayout(4, 1, 10, 10));
+    
+        
+        JButton btnRojas = new JButton("Cambiar color partículas rojas");
+        JButton btnAzules = new JButton("Cambiar color partículas azules");
+        
+        JButton btnCerrar = new JButton("Cerrar");
+    
+       
+        btnRojas.addActionListener(e -> {
+            Color nuevo = JColorChooser.showDialog(dialog, "Color rojas", Color.RED);
+            if (nuevo != null) actualizarColorParticulas(Color.RED, nuevo);
+        });
+    
+        btnAzules.addActionListener(e -> {
+            Color nuevo = JColorChooser.showDialog(dialog, "Color azules", Color.BLUE);
+            if (nuevo != null) actualizarColorParticulas(Color.BLUE, nuevo);
+        });
+    
+      
+    
+        btnCerrar.addActionListener(e -> dialog.dispose());
+    
+        
+        dialog.add(btnRojas);
+        dialog.add(btnAzules);
+        
+        dialog.add(btnCerrar);
+    
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+
+    private void actualizarColorParticulas(Color colorViejo, Color colorNuevo) {
+        
+        for (Component comp : leftPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                JLabel particula = (JLabel) comp;
+                
+                if (getColorFromParticle(particula).equals(colorViejo)) {
+                    setColorToParticle(particula, colorNuevo);
+                }
+            }
+        }
+        
+        for (Component comp : rightPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                JLabel particula = (JLabel) comp;
+                if (getColorFromParticle(particula).equals(colorViejo)) {
+                    setColorToParticle(particula, colorNuevo);
+                }
+            }
+        }
+        leftPanel.repaint();
+        rightPanel.repaint();
+    }
+    
+    
+    private Color getColorFromParticle(JLabel particle) {
+        
+        Color color = (Color) particle.getClientProperty("particleColor");
+        return color != null ? color : Color.BLACK; 
+    }
+    
+    private void setColorToParticle(JLabel particle, Color color) {
+        particle.putClientProperty("particleColor", color);
+        particle.repaint();
+    }
+
     // CICLO 7 - Método para reiniciar la simulación
     private void reiniciar() {
-        // Limpiar paneles
+        
         leftPanel.removeAll();
         rightPanel.removeAll();
 
-        // Agregar nuevas partículas aleatorias
+    
+        SwingUtilities.invokeLater(() -> {
         agregarParticulasAleatorias(leftPanel, rightPanel, r, Color.RED);
         agregarParticulasAleatorias(leftPanel, rightPanel, b, Color.BLUE);
+        agregarAgujerosNegros(leftPanel, h / 2);     
+        agregarAgujerosNegros(rightPanel, h - (h / 2)); 
+    });
 
-        // Repintar paneles
-        leftPanel.revalidate();
-        leftPanel.repaint();
-        rightPanel.revalidate();
-        rightPanel.repaint();
+   
+    leftPanel.revalidate();
+    leftPanel.repaint();
+    rightPanel.revalidate();
+    rightPanel.repaint();
     }
 
     // CICLO 8 - Método para mostrar el diálogo de cambio de tamaño
@@ -310,7 +397,7 @@ public class DMaxwellGUI extends JFrame{
         String[] opciones = {"25%", "50%", "75%", "100%"};
         JComboBox<String> comboTamaño = new JComboBox<>(opciones);
 
-        // Seleccionar el valor actual
+        
         int indiceSeleccionado = (int)(windowSizeFactor * 4) - 1;
         comboTamaño.setSelectedIndex(Math.max(0, Math.min(3, indiceSeleccionado)));
 
@@ -342,13 +429,13 @@ public class DMaxwellGUI extends JFrame{
 
     // CICLO 8 - Método para cambiar el tamaño de la ventana
     private void cambiarTamañoVentana(double factor) {
-        // Guardar el nuevo factor
+        
         this.windowSizeFactor = factor;
 
-        // Ajustar el tamaño de la ventana
+        
         ajustarTamañoVentana();
 
-        // Reiniciar para redistribuir las partículas en el nuevo espacio
+        
         reiniciar();
     }
 }
