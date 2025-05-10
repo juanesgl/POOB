@@ -182,10 +182,17 @@ public class CityGUI extends JFrame {
      * Método controlador para la opción "Nueva Ciudad".
      */
     private void optionNew() {
-        theCity = new City(); // Crea una nueva instancia de City
-        photo.revalidate(); // Revalida el layout del panel
-        photo.repaint(); // Solicita que el panel se vuelva a dibujar
+        theCity = new City(); 
+        remove(photo);
+        photo = new PhotoCity(this);
+        
+        add(photo, BorderLayout.NORTH);
+        
+        revalidate();
+        repaint();
         System.out.println("Opción Nueva Ciudad seleccionada. Se ha creado una nueva ciudad.");
+       
+     
     }
 
     /**

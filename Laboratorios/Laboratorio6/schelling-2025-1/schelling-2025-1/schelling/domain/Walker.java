@@ -1,12 +1,14 @@
 package domain;
 
 import java.awt.Color;
+import java.io.*;
 
 /**
  * Representa un agente que se mueve verticalmente en la ciudad.
  * Su color es verde y decide moverse hacia arriba si el espacio está vacío.
  */
-public class Walker extends Person {
+public class Walker extends Person implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int nextRow; 
 
     /**

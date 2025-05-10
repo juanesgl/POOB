@@ -1,14 +1,17 @@
 package domain;
 
 import java.awt.Color;
+import java.io.*;
 
 /**
  * Representa un agente que se mueve horizontalmente en la ciudad.
  * Su color es naranja y decide moverse a la derecha si el espacio está vacío.
  */
-public class Hori extends Person {
+public class Hori extends Person implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int nextCol; 
-
+    
+    
     /**
      * Crea un agente Hori en la ciudad en una posición específica.
      * El color inicial del Hori es naranja y su estado es indiferente.

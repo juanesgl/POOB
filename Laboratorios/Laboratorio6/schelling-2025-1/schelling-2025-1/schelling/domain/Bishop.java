@@ -1,12 +1,14 @@
 package domain;
 
 import java.awt.Color;
+import java.io.*;
 
 /**
  * Representa un agente que se mueve verticalmente hacia abajo en la ciudad.
  * Su color es magenta y decide moverse hacia abajo si el espacio está vacío.
  */
-public class Bishop extends Person {
+public class Bishop extends Person implements Serializable{
+    private static final long serialVersionUID = 1L;
     private int nextRow; 
 
     /**

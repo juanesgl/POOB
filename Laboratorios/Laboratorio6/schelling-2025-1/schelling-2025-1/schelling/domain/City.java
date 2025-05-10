@@ -1,13 +1,19 @@
 package domain;
-
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.*;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * Representa una ciudad que contiene una cuadrícula donde se colocan agentes y objetos como semáforos.
  * Los agentes pueden moverse y tomar decisiones en cada "tic-tac", y los semáforos cambian su estado en cada ciclo.
  */
-public class City {
+public class City implements Serializable {
+    private static final long serialVersionUID = 1L;
     /** El tamaño de la cuadrícula de la ciudad (por defecto 25x25) */
     static private int SIZE = 25;
 
@@ -259,6 +265,20 @@ public class City {
      * @throws CityException Si la operación no está implementada.
      */
     public void open(File file) throws CityException {
+    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+        City ciudadCargada = (City) ois.readObject();
+        this.locations = ciudadCargada.locations;
+        this.agents = ciudadCargada.agents;
+        this.ticTacCount = ciudadCargada.ticTacCount;
+        System.out.println("Ciudad cargada exitosamente desde: " + file.getAbsolutePath());
+    } catch (IOException | ClassNotFoundException e) {
+        throw new CityException("Error al cargar la ciudad: " + e.getMessage());
+    }
+}
+
+    
+    
+    public void open00(File file) throws CityException{
         throw new CityException(CityException.OPEN_IN_CONSTRUCTION, file.getName());
     }
 
@@ -270,6 +290,16 @@ public class City {
      * @throws CityException Si la operación no está implementada.
      */
     public void save(File file) throws CityException {
+    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+        oos.writeObject(this);
+        System.out.println("Ciudad guardada exitosamente en: " + file.getAbsolutePath());
+    } catch (IOException e) {
+        throw new CityException("Error al guardar la ciudad: " + e.getMessage());
+    }
+}
+
+    
+    public void save00(File file) throws CityException {
         throw new CityException(CityException.SAVE_IN_CONSTRUCTION, file.getName());
     }
 
