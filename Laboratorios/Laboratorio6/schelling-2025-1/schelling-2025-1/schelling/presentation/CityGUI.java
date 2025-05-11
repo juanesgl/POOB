@@ -1,35 +1,27 @@
 package presentation;
 
 import domain.*;
-import javax.swing.JMenuBar;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-/**
- * La clase CityGUI es la interfaz gráfica de usuario (GUI) para la simulación de la ciudad de Schelling.
- * Proporciona una visualización de la ciudad y permite interactuar con ella a través de un botón para actualizar la ciudad.
- */
 public class CityGUI extends JFrame {
 
-    /** El tamaño de un lado de la celda en la cuadrícula. */
+
     public static final int SIDE = 20;
 
-    /** El tamaño de la ciudad. */
+
     public final int SIZE;
 
-    /** El botón para actualizar la ciudad. */
     private JButton ticTacButton;
 
-    /** El panel de control de la interfaz. */
     private JPanel controlPanel;
 
-    /** El panel donde se dibuja la ciudad. */
+
     private PhotoCity photo;
 
-    /** El objeto que representa la ciudad. */
     private City theCity;
 
     private JMenuBar menubar;
@@ -59,7 +51,7 @@ public class CityGUI extends JFrame {
         prepareElements();
         prepareActions();
         prepareElementsMenu();
-        prepareActionsMenu(); // Nuevo método para los listeners del menú
+        prepareActionsMenu(); 
     }
 
     /**
@@ -94,9 +86,9 @@ public class CityGUI extends JFrame {
      * Actualiza la ciudad y repinta la cuadrícula.
      */
     private void ticTacButtonAction() {
-        theCity.ticTac(); // Actualiza la ciudad
-        photo.repaint(); // Repinta la cuadrícula
-        System.out.println("Botón Tic-tac presionado"); // Verifica que el método se está ejecutando
+        theCity.ticTac(); 
+        photo.repaint(); 
+        System.out.println("Botón Tic-tac presionado"); 
     }
 
     /**
@@ -199,18 +191,19 @@ public class CityGUI extends JFrame {
      * Método controlador para la opción "Abrir".
      */
     private void optionOpen() {
-        JFileChooser fileChooser = new JFileChooser();
-        int returnVal = fileChooser.showOpenDialog(CityGUI.this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            try {
-                theCity.open(file);
-                // Aquí iría la lógica para cargar el estado de la ciudad desde el archivo
-                System.out.println("Abriendo archivo: " + file.getName());
-            } catch (CityException ex) {
-                JOptionPane.showMessageDialog(CityGUI.this, ex.getMessage(), "Error al abrir", JOptionPane.ERROR_MESSAGE);
-            }
+    JFileChooser fileChooser = new JFileChooser();
+    int returnVal = fileChooser.showOpenDialog(CityGUI.this);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        try {
+            theCity.open(file);
+            // Actualizar la interfaz gráfica
+            photo.repaint();
+            System.out.println("Abriendo archivo: " + file.getName());
+        } catch (CityException ex) {
+            JOptionPane.showMessageDialog(CityGUI.this, ex.getMessage(), "Error al abrir", JOptionPane.ERROR_MESSAGE);
         }
+    }
     }
 
     /**
@@ -271,8 +264,9 @@ public class CityGUI extends JFrame {
      * Método controlador para la opción "Salir".
      */
     private void optionExit() {
-        System.exit(0);
         System.out.println("Opción Salir seleccionada. La aplicación se cerrará.");
+        System.exit(0);
+        
     }
 }
 
@@ -296,49 +290,59 @@ class PhotoCity extends JPanel {
         setPreferredSize(new Dimension(gui.SIDE * gui.SIZE + 10, gui.SIDE * gui.SIZE + 10));
     }
 
+    
+
     /**
      * Método para pintar la representación gráfica de la ciudad en el panel.
      *
      * @param g El objeto Graphics utilizado para dibujar en el panel.
      */
     public void paintComponent(Graphics g) {
-        City theCity = gui.gettheCity();
-        super.paintComponent(g);
-
-        // Dibuja las líneas de la cuadrícula
-        for (int c = 0; c <= theCity.getSize(); c++) {
-            g.drawLine(c * gui.SIDE, 0, c * gui.SIDE, theCity.getSize() * gui.SIDE);
-        }
-        for (int f = 0; f <= theCity.getSize(); f++) {
-            g.drawLine(0, f * gui.SIDE, theCity.getSize() * gui.SIDE, f * gui.SIDE);
-        }
-
-        // Dibuja los elementos de la ciudad (items y agentes)
+    City theCity = gui.gettheCity();
+    super.paintComponent(g);
+    
+    // Limpiar el fondo
+    g.setColor(Color.WHITE);
+    g.fillRect(0, 0, getWidth(), getHeight());
+    
+    // Dibujar la cuadrícula
+    g.setColor(Color.BLACK);
+    for (int c = 0; c <= theCity.getSize(); c++) {
+        g.drawLine(c * gui.SIDE, 0, c * gui.SIDE, theCity.getSize() * gui.SIDE);
+    }
+    for (int f = 0; f <= theCity.getSize(); f++) {
+        g.drawLine(0, f * gui.SIDE, theCity.getSize() * gui.SIDE, f * gui.SIDE);
+    }
+    
+    // Dibujar los elementos
+    if (theCity != null) {
         for (int f = 0; f < theCity.getSize(); f++) {
             for (int c = 0; c < theCity.getSize(); c++) {
-                if (theCity.getItem(f, c) != null) {
-                    g.setColor(theCity.getItem(f, c).getColor());
-                    if (theCity.getItem(f, c).shape() == Item.SQUARE) {
-                        if (theCity.getItem(f, c).isActive()) {
+                Item item = theCity.getItem(f, c);
+                if (item != null) {
+                    g.setColor(item.getColor());
+                    if (item.shape() == Item.SQUARE) {
+                        if (item.isActive()) {
                             g.fillRoundRect(gui.SIDE * c + 1, gui.SIDE * f + 1, gui.SIDE - 2, gui.SIDE - 2, 2, 2);
                         } else {
                             g.drawRoundRect(gui.SIDE * c + 1, gui.SIDE * f + 1, gui.SIDE - 2, gui.SIDE - 2, 2, 2);
                         }
                     } else {
-                        if (theCity.getItem(f, c).isActive()) {
+                        if (item.isActive()) {
                             g.fillOval(gui.SIDE * c + 1, gui.SIDE * f + 1, gui.SIDE - 2, gui.SIDE - 2);
                         } else {
                             g.drawOval(gui.SIDE * c + 1, gui.SIDE * f + 1, gui.SIDE - 2, gui.SIDE - 2);
                         }
                     }
-                    // Dibuja los agentes dentro de la ciudad
-                    if (theCity.getItem(f, c).isAgent()) {
+                    
+                    if (item.isAgent()) {
+                        Agent agent = (Agent) item;
                         g.setColor(Color.red);
-                        if (((Agent) theCity.getItem(f, c)).isHappy()) {
+                        if (agent.isHappy()) {
                             g.drawString("u", gui.SIDE * c + 6, gui.SIDE * f + 15);
-                        } else if (((Agent) theCity.getItem(f, c)).isIndifferent()) {
+                        } else if (agent.isIndifferent()) {
                             g.drawString("_", gui.SIDE * c + 7, gui.SIDE * f + 10);
-                        } else if (((Agent) theCity.getItem(f, c)).isDissatisfied()) {
+                        } else if (agent.isDissatisfied()) {
                             g.drawString("~", gui.SIDE * c + 6, gui.SIDE * f + 17);
                         }
                     }
@@ -346,4 +350,5 @@ class PhotoCity extends JPanel {
             }
         }
     }
+}
 }

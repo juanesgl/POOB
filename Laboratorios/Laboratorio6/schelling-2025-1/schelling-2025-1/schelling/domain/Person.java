@@ -1,14 +1,15 @@
 package domain;
 
 import java.awt.Color;
+import java.io.Serializable;
 
 /**
  * Representa una persona en la ciudad, que es un agente que puede tomar decisiones
  * basadas en el estado de sus vecinos. La persona puede cambiar su estado a feliz, indiferente
  * o insatisfecha dependiendo de la cantidad de vecinos similares.
  */
-public class Person extends Agent implements Item {
-    private City city; 
+public class Person extends Agent implements Item,Serializable {
+    private transient City city; 
     private int row, column; 
     protected Color color; 
 
@@ -46,6 +47,14 @@ public class Person extends Agent implements Item {
         return column;
     }
 
+    /**
+     * Establece la ciudad en la que se encuentra la persona.
+     *
+     * @param city La ciudad en la que se encuentra la persona.
+     */
+    public void setCity(City city) {
+    this.city = city;
+}
     /**
      * Devuelve el color de la persona.
      *
@@ -101,4 +110,33 @@ public class Person extends Agent implements Item {
     public City getCity() {
         return this.city;
     }
+public void setColor(Color color) {
+    this.color = color;
+}
+
+public void setStateFromString(String state) {
+    switch (state.toUpperCase()) {
+        case "HAPPY":
+            this.state = HAPPY;
+            break;
+        case "INDIFFERENT":
+            this.state = INDIFFERENT;
+            break;
+        case "DISSATISFIED":
+            this.state = DISSATISFIED;
+            break;
+        default:
+            this.state = INDIFFERENT;
+    }
+}
+
+public String getStateString() {
+    switch (state) {
+        case HAPPY: return "HAPPY";
+        case INDIFFERENT: return "INDIFFERENT";
+        case DISSATISFIED: return "DISSATISFIED";
+        default: return "UNKNOWN";
+    }
+}
+
 }
