@@ -76,8 +76,13 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+.idea/
+out/
 *.html
 *.css
+*.js
+
+
 
 # End of https://www.toptal.com/developers/gitignore/api/java,linux,windows,bluej
 POOBkemon/
